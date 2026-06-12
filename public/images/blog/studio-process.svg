@@ -1,0 +1,35 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cosy studio desk with sketchbook, pencils and sticker sheets">
+  <rect width="1200" height="675" fill="#DDE9D5"/>
+  <!-- desk -->
+  <rect x="0" y="430" width="1200" height="245" fill="#DFC093"/>
+  <path d="M0 430h1200" stroke="#C8A876" stroke-width="8"/>
+  <!-- sketchbook -->
+  <rect x="180" y="240" width="380" height="280" rx="16" fill="#FFFDF7" transform="rotate(-4 370 380)"/>
+  <path d="M210 300c30-30 60 10 90-20M212 350c40-20 70 16 100-12M214 400c30-24 66 8 96-16" stroke="#B9AB97" stroke-width="7" stroke-linecap="round" fill="none" transform="rotate(-4 370 380)"/>
+  <!-- pencil sketch of ramen -->
+  <g transform="rotate(-4 440 330)">
+    <path d="M400 330h110a55 55 0 0 1-110 0Z" fill="none" stroke="#9C8E7B" stroke-width="6"/>
+    <path d="M412 320c6-16 16-12 20-26M440 318c5-15 14-11 17-25M468 320c5-14 13-10 16-23" stroke="#9C8E7B" stroke-width="5" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- printed sticker sheet -->
+  <rect x="640" y="200" width="320" height="300" rx="14" fill="#FFFFFF" transform="rotate(5 800 350)"/>
+  <g transform="rotate(5 800 350)">
+    <circle cx="730" cy="280" r="46" fill="#FAD3E0"/>
+    <path d="M707 278h46a23 23 0 0 1-46 0Z" fill="#FFF7EC"/>
+    <circle cx="860" cy="280" r="46" fill="#FBE7A8"/>
+    <path d="M840 280a20 20 0 1 0 40 0 20 20 0 0 0-40 0Z" fill="#F2A65A"/>
+    <circle cx="730" cy="410" r="46" fill="#DDE9D5"/>
+    <path d="M716 422c0-26 8-38 14-46 6 10 12 24 12 46Z" fill="#7BA974"/>
+    <circle cx="860" cy="410" r="46" fill="#BFD8F2"/>
+    <path d="M842 416l10-16 10 16 9-13" stroke="#5B7FA6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+  <!-- pencil cup -->
+  <rect x="1020" y="330" width="110" height="120" rx="14" fill="#FAD3E0"/>
+  <rect x="1040" y="240" width="16" height="100" rx="8" fill="#F0B429" transform="rotate(-6 1048 290)"/>
+  <rect x="1070" y="230" width="16" height="110" rx="8" fill="#B02D63" transform="rotate(4 1078 285)"/>
+  <rect x="1098" y="244" width="16" height="96" rx="8" fill="#48663F" transform="rotate(10 1106 292)"/>
+  <!-- mug -->
+  <rect x="80" y="540" width="120" height="100" rx="16" fill="#FBE7A8"/>
+  <path d="M200 565h26a24 24 0 0 1 0 48h-26" fill="none" stroke="#FBE7A8" stroke-width="14"/>
+  <path d="M110 520c-6-14 8-20 4-34M150 518c-6-14 8-20 4-34" stroke="#B9AB97" stroke-width="7" stroke-linecap="round" fill="none"/>
+</svg>

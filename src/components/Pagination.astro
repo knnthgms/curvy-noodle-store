@@ -1,0 +1,38 @@
+---
+import type { Page } from 'astro';
+
+/** Previous/next pagination for paginated listings (e.g. the blog). */
+interface Props {
+  page: Page<unknown>;
+}
+
+const { page } = Astro.props;
+---
+
+{
+  page.lastPage > 1 && (
+    <nav aria-label="Pagination" class="mt-12 flex items-center justify-center gap-4">
+      {page.url.prev ? (
+        <a href={page.url.prev} class="btn-secondary" rel="prev">
+          ← Newer
+        </a>
+      ) : (
+        <span class="btn-secondary opacity-40" aria-hidden="true">
+          ← Newer
+        </span>
+      )}
+      <p class="font-display font-semibold text-ink-soft">
+        Page {page.currentPage} of {page.lastPage}
+      </p>
+      {page.url.next ? (
+        <a href={page.url.next} class="btn-secondary" rel="next">
+          Older →
+        </a>
+      ) : (
+        <span class="btn-secondary opacity-40" aria-hidden="true">
+          Older →
+        </span>
+      )}
+    </nav>
+  )
+}

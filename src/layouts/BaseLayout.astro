@@ -1,0 +1,96 @@
+---
+import '@fontsource-variable/baloo-2';
+import '@fontsource-variable/nunito';
+import '../styles/global.css';
+import SEO from '@components/SEO.astro';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+import { SITE } from '@config';
+import { organizationSchema, websiteSchema } from '@utils/schema';
+
+/**
+ * Base page shell: head metadata, sticky header, main landmark, footer
+ * and optional analytics (enabled via environment variables).
+ */
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  ogType?: 'website' | 'article' | 'product';
+  canonical?: string;
+  noindex?: boolean;
+  schemas?: Record<string, unknown>[];
+}
+
+const { schemas = [], ...seo } = Astro.props;
+
+// Organization + WebSite schema ship on every page; pages append their own.
+const allSchemas = [organizationSchema(), websiteSchema(), ...schemas];
+
+// Analytics are opt-in: set the env vars (see .env.example) to enable.
+const cfToken = import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN as
+  | string
+  | undefined;
+const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID as string | undefined;
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <meta name="theme-color" content="#fffbf4" />
+    <SEO {...seo} schemas={allSchemas} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-full focus:bg-pink-deep focus:px-4 focus:py-2 focus:text-white"
+    >
+      Skip to main content
+    </a>
+
+    <Header />
+
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+
+    <Footer />
+
+    {/* Cloudflare Web Analytics (privacy-friendly, no cookies) */}
+    {
+      cfToken && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token": "${cfToken}"}`}
+        />
+      )
+    }
+
+    {/* Google Analytics 4 */}
+    {
+      gaId && (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          />
+          <script
+            is:inline
+            set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${gaId}');`}
+          />
+        </>
+      )
+    }
+  </body>
+</html>

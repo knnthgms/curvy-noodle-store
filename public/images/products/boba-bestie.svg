@@ -1,0 +1,26 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Boba Bestie sticker">
+  <rect width="600" height="600" fill="#FDF1F5"/>
+  <circle cx="300" cy="300" r="235" fill="#FAD3E0"/>
+  <!-- straw -->
+  <rect x="318" y="80" width="34" height="220" rx="17" fill="#F5A3BE" transform="rotate(12 335 190)"/>
+  <path d="M330 100l28 6M324 130l28 6M318 160l28 6" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity=".8"/>
+  <!-- cup -->
+  <path d="M195 200h210l-24 250a30 30 0 0 1-30 28H249a30 30 0 0 1-30-28Z" fill="#FFF7EC"/>
+  <path d="M195 200h210l-6 60H201Z" fill="#E8C29A" opacity=".8"/>
+  <path d="M213 320h174l-10 104H223Z" fill="#D9A86C" opacity=".5"/>
+  <rect x="183" y="186" width="234" height="26" rx="13" fill="#F5B8CE"/>
+  <!-- pearls -->
+  <circle cx="245" cy="438" r="16" fill="#5C4633"/>
+  <circle cx="285" cy="448" r="16" fill="#5C4633"/>
+  <circle cx="325" cy="442" r="16" fill="#5C4633"/>
+  <circle cx="358" cy="430" r="14" fill="#5C4633"/>
+  <!-- face -->
+  <circle cx="262" cy="330" r="10" fill="#43382E"/>
+  <circle cx="338" cy="330" r="10" fill="#43382E"/>
+  <path d="M278 360c12 12 32 12 44 0" stroke="#43382E" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <circle cx="234" cy="354" r="11" fill="#F5A3BE"/>
+  <circle cx="366" cy="354" r="11" fill="#F5A3BE"/>
+  <!-- sparkles -->
+  <path d="M150 150l6 18 18 6-18 6-6 18-6-18-18-6 18-6Z" fill="#FFFFFF" opacity=".9"/>
+  <path d="M452 320l5 14 14 5-14 5-5 14-5-14-14-5 14-5Z" fill="#FFFFFF" opacity=".9"/>
+</svg>

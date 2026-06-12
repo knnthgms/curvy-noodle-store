@@ -1,0 +1,26 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Moon Noodle Dreams sticker">
+  <rect width="600" height="600" fill="#EFEAF7"/>
+  <circle cx="300" cy="300" r="235" fill="#4A4368"/>
+  <!-- stars -->
+  <g fill="#FBE7A8">
+    <path d="M170 200l5 14 14 5-14 5-5 14-5-14-14-5 14-5Z"/>
+    <path d="M430 160l4 12 12 4-12 4-4 12-4-12-12-4 12-4Z"/>
+    <path d="M410 420l4 12 12 4-12 4-4 12-4-12-12-4 12-4Z"/>
+    <circle cx="220" cy="430" r="6"/>
+    <circle cx="150" cy="320" r="5"/>
+    <circle cx="460" cy="280" r="5"/>
+    <circle cx="350" cy="130" r="5"/>
+  </g>
+  <!-- crescent moon -->
+  <path d="M340 170a120 120 0 1 0 0 220 132 132 0 0 1 0-220Z" fill="#FBE7A8"/>
+  <!-- face -->
+  <path d="M268 268c7 7 17 7 24 0" stroke="#7C621A" stroke-width="8" stroke-linecap="round" fill="none"/>
+  <circle cx="252" cy="296" r="9" fill="#F5A3BE" opacity=".7"/>
+  <!-- mouth slurping noodle -->
+  <circle cx="298" cy="312" r="10" fill="#7C621A"/>
+  <!-- starlight noodles into bowl -->
+  <path d="M298 312c40 10 70 0 92 26M298 318c36 22 64 18 86 44" stroke="#FBE7A8" stroke-width="11" stroke-linecap="round" fill="none"/>
+  <!-- tiny bowl -->
+  <path d="M352 372h94a47 47 0 0 1-94 0Z" fill="#FAD3E0"/>
+  <path d="M366 396h66" stroke="#B02D63" stroke-width="5" stroke-linecap="round" opacity=".4"/>
+</svg>

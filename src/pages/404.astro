@@ -1,0 +1,30 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Page not found" description="This page slipped off the sticker sheet." noindex>
+  <div class="mx-auto flex max-w-2xl flex-col items-center px-4 py-24 text-center sm:px-6">
+    {/* A sad, slightly unstuck noodle bowl */}
+    <svg width="160" height="160" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M8 24h32a16 16 0 0 1-32 0Z" fill="#FAD3E0"></path>
+      <path
+        d="M12 20c2-6 6-4 8-8M22 19c1-5 5-4 6-9M32 20c2-5 6-3 6-8"
+        stroke="#F0B429"
+        stroke-width="3"
+        stroke-linecap="round"></path>
+      <circle cx="19" cy="30" r="1.8" fill="#43382E"></circle>
+      <circle cx="29" cy="30" r="1.8" fill="#43382E"></circle>
+      <path d="M21.5 36c1.5-1.5 3.5-1.5 5 0" stroke="#43382E" stroke-width="2" stroke-linecap="round"></path>
+    </svg>
+
+    <h1 class="mt-6 font-display text-5xl font-bold">404 — oodles of nothing</h1>
+    <p class="mt-4 text-lg text-ink-soft">
+      This page slipped off the sticker sheet and rolled under the desk.
+      We've looked everywhere (even behind the washi tape).
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-4">
+      <a href="/" class="btn-primary">Back home</a>
+      <a href="/shop" class="btn-secondary">Browse stickers</a>
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,17 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sticker styled on a laptop lid">
+  <rect width="600" height="600" fill="#DDE9D5"/>
+  <!-- laptop lid -->
+  <rect x="110" y="110" width="380" height="300" rx="24" fill="#F4EFE6"/>
+  <rect x="126" y="126" width="348" height="268" rx="16" fill="#FFFDF7"/>
+  <!-- laptop base -->
+  <rect x="70" y="410" width="460" height="34" rx="17" fill="#E0D8C8"/>
+  <rect x="250" y="416" width="100" height="12" rx="6" fill="#C9BEA9"/>
+  <!-- stickers on lid -->
+  <circle cx="225" cy="230" r="52" fill="#FAD3E0" stroke="#FFFFFF" stroke-width="6"/>
+  <path d="M198 228h54a27 27 0 0 1-54 0Z" fill="#FFF7EC"/>
+  <path d="M205 222c4-10 10-7 13-16M222 221c3-10 9-7 11-16M238 222c3-9 9-6 11-14" stroke="#F0B429" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <circle cx="350" cy="300" r="44" fill="#FBE7A8" stroke="#FFFFFF" stroke-width="6"/>
+  <path d="M330 300a20 20 0 1 0 40 0 20 20 0 0 0-40 0Z" fill="#F2A65A"/>
+  <circle cx="408" cy="208" r="34" fill="#BFD8F2" stroke="#FFFFFF" stroke-width="6"/>
+  <path d="M396 212l8-14 8 14 8-12" stroke="#5B7FA6" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

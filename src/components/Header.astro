@@ -1,0 +1,140 @@
+---
+import { NAV_LINKS, SITE } from '@config';
+
+/** Sticky site header with desktop nav and a mobile hamburger menu. */
+const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
+
+const isActive = (href: string): boolean =>
+  href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+---
+
+<header class="sticky top-0 z-40 border-b-2 border-cream-dark bg-cream/90 backdrop-blur">
+  <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <a href="/" class="flex items-center gap-2" aria-label={`${SITE.name} — home`}>
+      {/* Inline logo: a smiling noodle bowl */}
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <path d="M8 24h32a16 16 0 0 1-32 0Z" fill="#FAD3E0"></path>
+        <path d="M8 24h32a16 16 0 0 1-2.2 8H10.2A16 16 0 0 1 8 24Z" fill="#B02D63" opacity=".15"></path>
+        <path
+          d="M12 20c2-6 6-4 8-8M22 19c1-5 5-4 6-9M32 20c2-5 6-3 6-8"
+          stroke="#F0B429"
+          stroke-width="3"
+          stroke-linecap="round"></path>
+        <circle cx="19" cy="30" r="1.8" fill="#43382E"></circle>
+        <circle cx="29" cy="30" r="1.8" fill="#43382E"></circle>
+        <path d="M21.5 34.5c1.5 1.5 3.5 1.5 5 0" stroke="#43382E" stroke-width="2" stroke-linecap="round"></path>
+      </svg>
+      <span class="font-display text-lg font-bold leading-tight sm:text-xl">
+        The Curvy Noodle Shop
+      </span>
+    </a>
+
+    <nav aria-label="Main" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          NAV_LINKS.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                aria-current={isActive(link.href) ? 'page' : undefined}
+                class:list={[
+                  'rounded-full px-4 py-2 font-display font-semibold transition hover:bg-noodle',
+                  isActive(link.href) ? 'bg-pink text-pink-deep' : 'text-ink',
+                ]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      id="menu-toggle"
+      type="button"
+      class="rounded-full p-2 hover:bg-noodle md:hidden"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+    >
+      <span class="sr-only">Toggle menu</span>
+      <svg
+        class="h-6 w-6"
+        data-icon="open"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+      </svg>
+      <svg
+        class="hidden h-6 w-6"
+        data-icon="close"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2.5"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+      >
+        <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t-2 border-cream-dark md:hidden" hidden>
+    <ul class="space-y-1 px-4 py-3">
+      {
+        NAV_LINKS.map((link) => (
+          <li>
+            <a
+              href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
+              class:list={[
+                'block rounded-2xl px-4 py-3 font-display text-lg font-semibold',
+                isActive(link.href) ? 'bg-pink text-pink-deep' : 'hover:bg-noodle',
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+
+  if (toggle && menu) {
+    const icons = toggle.querySelectorAll('svg');
+
+    const setOpen = (open: boolean): void => {
+      toggle.setAttribute('aria-expanded', String(open));
+      menu.hidden = !open;
+      menu.classList.toggle('hidden', !open);
+      icons.forEach((icon) => {
+        const isClose = icon.dataset.icon === 'close';
+        icon.classList.toggle('hidden', isClose !== open);
+      });
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') setOpen(false);
+    });
+  }
+</script>

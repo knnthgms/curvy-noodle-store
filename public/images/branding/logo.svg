@@ -1,0 +1,9 @@
+<svg width="240" height="240" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="The Curvy Noodle Shop logo">
+  <rect width="48" height="48" rx="12" fill="#FFFBF4"/>
+  <path d="M8 24h32a16 16 0 0 1-32 0Z" fill="#FAD3E0"/>
+  <path d="M8 24h32a16 16 0 0 1-2.2 8H10.2A16 16 0 0 1 8 24Z" fill="#B02D63" opacity=".15"/>
+  <path d="M12 20c2-6 6-4 8-8M22 19c1-5 5-4 6-9M32 20c2-5 6-3 6-8" stroke="#F0B429" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="19" cy="30" r="1.8" fill="#43382E"/>
+  <circle cx="29" cy="30" r="1.8" fill="#43382E"/>
+  <path d="M21.5 34.5c1.5 1.5 3.5 1.5 5 0" stroke="#43382E" stroke-width="2" stroke-linecap="round"/>
+</svg>

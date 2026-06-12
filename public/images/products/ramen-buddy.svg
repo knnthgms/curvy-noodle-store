@@ -1,0 +1,20 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Ramen Buddy sticker">
+  <rect width="600" height="600" fill="#FFF3E6"/>
+  <circle cx="300" cy="300" r="230" fill="#FFE3D0"/>
+  <!-- steam -->
+  <path d="M225 160c-10-25 12-35 6-58M300 150c-8-28 14-36 8-62M375 160c-10-25 12-35 6-58" stroke="#C9B8A8" stroke-width="10" stroke-linecap="round" fill="none" opacity=".7"/>
+  <!-- noodles spilling over rim -->
+  <path d="M185 285c10-45 40-30 50-70M245 280c8-42 38-32 44-72M310 278c6-44 36-30 42-70M372 282c10-42 38-28 44-66" stroke="#F0B429" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <!-- bowl -->
+  <path d="M150 290h300a150 150 0 0 1-300 0Z" fill="#FAD3E0"/>
+  <path d="M150 290h300a150 150 0 0 1-12 58H162a150 150 0 0 1-12-58Z" fill="#F5B8CE"/>
+  <path d="M170 360h260" stroke="#B02D63" stroke-width="8" stroke-linecap="round" opacity=".35"/>
+  <!-- face -->
+  <circle cx="262" cy="352" r="11" fill="#43382E"/>
+  <circle cx="338" cy="352" r="11" fill="#43382E"/>
+  <path d="M278 388c14 14 30 14 44 0" stroke="#43382E" stroke-width="10" stroke-linecap="round" fill="none"/>
+  <circle cx="232" cy="378" r="12" fill="#F5A3BE" opacity=".8"/>
+  <circle cx="368" cy="378" r="12" fill="#F5A3BE" opacity=".8"/>
+  <!-- chopsticks -->
+  <path d="M395 120 320 265M430 140 350 270" stroke="#A8784F" stroke-width="12" stroke-linecap="round"/>
+</svg>

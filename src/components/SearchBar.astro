@@ -1,0 +1,36 @@
+---
+/**
+ * Accessible search input. Purely presentational — each page wires its
+ * own filtering logic to the input via the given id.
+ */
+interface Props {
+  id: string;
+  label: string;
+  placeholder?: string;
+}
+
+const { id, label, placeholder = 'Search…' } = Astro.props;
+---
+
+<div class="relative w-full max-w-md">
+  <label for={id} class="sr-only">{label}</label>
+  <svg
+    class="pointer-events-none absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-ink-soft"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2.5"
+    viewBox="0 0 24 24"
+    aria-hidden="true"
+  >
+    <circle cx="11" cy="11" r="7"></circle>
+    <path stroke-linecap="round" d="m20 20-3.5-3.5"></path>
+  </svg>
+  <input
+    type="search"
+    id={id}
+    name={id}
+    placeholder={placeholder}
+    autocomplete="off"
+    class="w-full rounded-full border-2 border-cream-dark bg-white py-3 pl-12 pr-4 text-ink placeholder:text-ink-soft/70 focus:border-pink-deep focus:outline-none"
+  />
+</div>

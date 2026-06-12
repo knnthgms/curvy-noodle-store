@@ -1,0 +1,24 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sleepy Noodle Cat sticker">
+  <rect width="600" height="600" fill="#FFF6EC"/>
+  <circle cx="300" cy="300" r="235" fill="#FBE7A8"/>
+  <!-- curled cat body (spiral) -->
+  <circle cx="300" cy="315" r="150" fill="#F2A65A"/>
+  <path d="M300 315m-150 0a150 150 0 0 1 150-150 115 115 0 0 1 115 115 88 88 0 0 1-88 88 66 66 0 0 1-66-66" fill="none" stroke="#D88B3F" stroke-width="14" stroke-linecap="round"/>
+  <!-- ears -->
+  <path d="M205 200l-18-52 52 22Z" fill="#F2A65A"/>
+  <path d="M289 168l10-50 32 42Z" fill="#F2A65A"/>
+  <path d="M212 192l-10-28 28 12Z" fill="#FAD3E0"/>
+  <path d="M294 162l6-26 16 22Z" fill="#FAD3E0"/>
+  <!-- sleeping face -->
+  <path d="M236 268c8 8 20 8 28 0M296 268c8 8 20 8 28 0" stroke="#43382E" stroke-width="9" stroke-linecap="round" fill="none"/>
+  <path d="M272 300c4 6 12 6 16 0" stroke="#43382E" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <circle cx="222" cy="296" r="11" fill="#F5A3BE" opacity=".8"/>
+  <circle cx="342" cy="296" r="11" fill="#F5A3BE" opacity=".8"/>
+  <!-- paw over nose -->
+  <ellipse cx="282" cy="334" rx="34" ry="20" fill="#F7BC7E"/>
+  <path d="M268 330v12M282 332v12M296 330v12" stroke="#D88B3F" stroke-width="5" stroke-linecap="round"/>
+  <!-- tail wrapping -->
+  <path d="M168 390c40 50 130 60 200 30" stroke="#D88B3F" stroke-width="26" stroke-linecap="round" fill="none"/>
+  <!-- zzz -->
+  <path d="M420 170h36l-36 34h36M468 122h26l-26 24h26" stroke="#43382E" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+</svg>

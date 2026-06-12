@@ -1,0 +1,184 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { SITE } from '@config';
+import { getPublishedPosts, postPath, type Post } from '@utils/collections';
+import { formatDate, isoDate, readingTime } from '@utils/format';
+import { blogPostingSchema, breadcrumbSchema } from '@utils/schema';
+
+export async function getStaticPaths() {
+  const posts = await getPublishedPosts();
+  return posts.map((post, index) => ({
+    params: { slug: post.id },
+    props: {
+      post,
+      // Posts are sorted newest-first, so "previous" = newer, "next" = older.
+      newerPost: posts[index - 1] ?? null,
+      olderPost: posts[index + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newerPost: Post | null;
+  olderPost: Post | null;
+}
+
+const { post, newerPost, olderPost } = Astro.props;
+const { Content, headings } = await render(post);
+const { title, description, date, tags, coverImage, coverImageAlt } = post.data;
+
+const minutes = readingTime(post.body ?? '');
+const path = postPath(post);
+const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: title },
+];
+
+const schemas = [
+  breadcrumbSchema(breadcrumbs),
+  blogPostingSchema({ title, description, date, url: path, image: coverImage }),
+];
+
+// Social share links (simple anchors — zero JavaScript needed).
+const shareUrl = new URL(path, Astro.site).href;
+const shareText = `${title} — ${SITE.name}`;
+const shareLinks = [
+  {
+    label: 'Share on X',
+    href: `https://twitter.com/intent/tweet?url=${encodeURIComponent(shareUrl)}&text=${encodeURIComponent(shareText)}`,
+  },
+  {
+    label: 'Share on Facebook',
+    href: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`,
+  },
+  {
+    label: 'Share on Pinterest',
+    href: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(shareUrl)}&description=${encodeURIComponent(shareText)}`,
+  },
+  {
+    label: 'Share on WhatsApp',
+    href: `https://wa.me/?text=${encodeURIComponent(`${shareText} ${shareUrl}`)}`,
+  },
+];
+---
+
+<BaseLayout title={title} description={description} ogImage={coverImage} ogType="article" schemas={schemas}>
+  <article class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mx-auto mt-6 max-w-3xl text-center">
+      <p class="text-ink-soft">
+        <time datetime={isoDate(date)}>{formatDate(date)}</time>
+        <span aria-hidden="true"> · </span>
+        {minutes} min read
+      </p>
+      <h1 class="mt-3 font-display text-4xl font-bold sm:text-5xl">{title}</h1>
+      <p class="mt-4 text-lg text-ink-soft">{description}</p>
+      {
+        tags.length > 0 && (
+          <ul class="mt-4 flex flex-wrap justify-center gap-2" aria-label="Tags">
+            {tags.map((tag) => (
+              <li class="chip">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    <img
+      src={coverImage}
+      alt={coverImageAlt}
+      width="1200"
+      height="675"
+      decoding="async"
+      class="mx-auto mt-8 aspect-video w-full max-w-3xl rounded-3xl border-2 border-cream-dark bg-white object-cover"
+    />
+
+    <div class="mx-auto mt-10 flex max-w-5xl flex-col gap-10 lg:flex-row">
+      {/* Table of contents */}
+      {
+        toc.length > 0 && (
+          <nav
+            aria-label="Table of contents"
+            class="top-24 shrink-0 self-start rounded-3xl bg-cream-dark/60 p-6 lg:sticky lg:w-64"
+          >
+            <h2 class="font-display text-lg font-bold">In this post</h2>
+            <ol class="mt-3 space-y-2 text-sm">
+              {toc.map((heading) => (
+                <li class:list={[heading.depth === 3 && 'pl-4']}>
+                  <a
+                    href={`#${heading.slug}`}
+                    class="text-ink-soft underline-offset-4 hover:text-pink-deep hover:underline"
+                  >
+                    {heading.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )
+      }
+
+      <div class="min-w-0 flex-1">
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+
+        {/* Share buttons */}
+        <div class="mt-10 rounded-3xl bg-peach/50 p-6">
+          <h2 class="font-display text-lg font-bold">Enjoyed this? Pass it along 💌</h2>
+          <ul class="mt-3 flex flex-wrap gap-3">
+            {
+              shareLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-block rounded-full border-2 border-ink/20 bg-white px-4 py-2 text-sm font-semibold transition hover:border-pink-deep hover:text-pink-deep"
+                  >
+                    {link.label.replace('Share on ', '')}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    {/* Previous / next navigation */}
+    <nav aria-label="More posts" class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        newerPost ? (
+          <a
+            href={postPath(newerPost)}
+            class="rounded-3xl border-2 border-cream-dark bg-white p-5 transition hover:border-pink-deep"
+          >
+            <span class="text-sm text-ink-soft">← Newer post</span>
+            <span class="mt-1 block font-display font-bold">{newerPost.data.title}</span>
+          </a>
+        ) : (
+          <span aria-hidden="true" />
+        )
+      }
+      {
+        olderPost && (
+          <a
+            href={postPath(olderPost)}
+            class="rounded-3xl border-2 border-cream-dark bg-white p-5 text-right transition hover:border-pink-deep"
+          >
+            <span class="text-sm text-ink-soft">Older post →</span>
+            <span class="mt-1 block font-display font-bold">{olderPost.data.title}</span>
+          </a>
+        )
+      }
+    </nav>
+  </article>
+</BaseLayout>

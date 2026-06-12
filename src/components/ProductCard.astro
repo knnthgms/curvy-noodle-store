@@ -1,0 +1,51 @@
+---
+import { categoryLabel } from '@config';
+import { formatPrice } from '@utils/format';
+import { productPath, type Product } from '@utils/collections';
+
+/**
+ * Product grid card. The data-* attributes power the client-side
+ * search and category filtering on the shop page.
+ */
+interface Props {
+  product: Product;
+  /** Eagerly load the image (for above-the-fold cards). */
+  eager?: boolean;
+}
+
+const { product, eager = false } = Astro.props;
+const { title, price, category, tags, image, imageAlt } = product.data;
+const href = productPath(product);
+const searchText = [title, ...tags, categoryLabel(category)].join(' ').toLowerCase();
+---
+
+<article
+  class="group relative flex flex-col overflow-hidden rounded-3xl border-2 border-cream-dark bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
+  data-product-card
+  data-category={category}
+  data-search={searchText}
+>
+  <img
+    src={image}
+    alt={imageAlt}
+    width="600"
+    height="600"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    class="aspect-square w-full bg-cream object-cover transition group-hover:scale-105"
+  />
+  <div class="flex flex-1 flex-col gap-2 p-5">
+    <span class="chip self-start">{categoryLabel(category)}</span>
+    <h3 class="font-display text-xl font-bold">
+      <a href={href} class="after:absolute after:inset-0">
+        {title}
+      </a>
+    </h3>
+    <div class="mt-auto flex items-center justify-between">
+      <p class="font-display text-lg font-bold text-pink-deep">{formatPrice(price)}</p>
+      <span class="font-semibold text-ink-soft underline-offset-4 group-hover:text-pink-deep group-hover:underline" aria-hidden="true">
+        View details →
+      </span>
+    </div>
+  </div>
+</article>

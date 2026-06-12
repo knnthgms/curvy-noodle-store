@@ -1,0 +1,35 @@
+---
+import { whatsappChatLink, whatsappOrderLink } from '@utils/whatsapp';
+
+/**
+ * WhatsApp call-to-action. Pass `productName` to pre-fill an order
+ * message for that product; omit it for a generic chat link.
+ */
+interface Props {
+  productName?: string;
+  label?: string;
+  /** "lg" renders a full-width, prominent button for product pages. */
+  size?: 'md' | 'lg';
+}
+
+const { productName, label, size = 'md' } = Astro.props;
+const href = productName ? whatsappOrderLink(productName) : whatsappChatLink();
+const text = label ?? (productName ? 'Order on WhatsApp' : 'Chat on WhatsApp');
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={[
+    'inline-flex items-center justify-center gap-3 rounded-full bg-whatsapp font-display font-bold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md',
+    size === 'lg' ? 'w-full px-8 py-4 text-lg sm:w-auto' : 'px-6 py-3',
+  ]}
+>
+  <svg viewBox="0 0 24 24" class:list={[size === 'lg' ? 'h-6 w-6' : 'h-5 w-5']} fill="currentColor" aria-hidden="true">
+    <path
+      d="M12 2a9.94 9.94 0 0 0-8.59 14.96L2 22l5.18-1.36A9.96 9.96 0 1 0 12 2Zm0 18.13a8.1 8.1 0 0 1-4.13-1.13l-.3-.18-3.07.8.82-3-.2-.3a8.13 8.13 0 1 1 6.88 3.81Zm4.46-6.08c-.24-.12-1.44-.71-1.66-.8-.22-.08-.39-.12-.55.13-.16.24-.63.79-.77.95-.14.16-.28.18-.53.06a6.66 6.66 0 0 1-3.31-2.89c-.25-.43.25-.4.71-1.33.08-.16.04-.3-.02-.42-.06-.12-.55-1.32-.75-1.81-.2-.48-.4-.4-.55-.41h-.47c-.16 0-.43.06-.65.3-.22.24-.85.83-.85 2.03s.87 2.36 1 2.52c.12.16 1.72 2.62 4.16 3.68.58.25 1.04.4 1.39.51.59.19 1.12.16 1.54.1.47-.07 1.44-.59 1.65-1.16.2-.57.2-1.06.14-1.16-.06-.1-.22-.16-.46-.28Z"
+    ></path>
+  </svg>
+  {text}
+</a>

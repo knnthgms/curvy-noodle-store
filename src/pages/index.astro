@@ -1,0 +1,63 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/Hero.astro';
+import ProductCard from '@components/ProductCard.astro';
+import BlogCard from '@components/BlogCard.astro';
+import NewsletterSignup from '@components/NewsletterSignup.astro';
+import { getProducts, getPublishedPosts } from '@utils/collections';
+import { SITE } from '@config';
+
+const products = await getProducts();
+const featured = products.filter((p) => p.data.featured).slice(0, 4);
+const latestPosts = (await getPublishedPosts()).slice(0, 3);
+---
+
+<BaseLayout description={SITE.description}>
+  <Hero />
+
+  {/* Featured stickers */}
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="featured-heading">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 id="featured-heading" class="font-display text-3xl font-bold">Featured stickers ✨</h2>
+      <a href="/shop" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
+        See the whole shop →
+      </a>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {featured.map((product, index) => <ProductCard product={product} eager={index < 2} />)}
+    </div>
+  </section>
+
+  {/* About preview */}
+  <section class="bg-peach/50" aria-labelledby="about-heading">
+    <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 id="about-heading" class="font-display text-3xl font-bold">A tiny shop with big noodle energy</h2>
+        <p class="mt-4 text-lg text-ink-soft">
+          The Curvy Noodle Shop started at a kitchen table with one wobbly
+          drawing of a ramen bowl. Today every sticker is still drawn by
+          hand, printed in small batches, and packed with a doodle on the
+          envelope — because little things should feel special.
+        </p>
+        <a href="/about" class="btn-secondary mt-6">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  {/* Latest blog posts */}
+  <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="blog-heading">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <h2 id="blog-heading" class="font-display text-3xl font-bold">Fresh from the blog 📓</h2>
+      <a href="/blog" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
+        All posts →
+      </a>
+    </div>
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {latestPosts.map((post) => <BlogCard post={post} />)}
+    </div>
+  </section>
+
+  <div class="py-12">
+    <NewsletterSignup />
+  </div>
+</BaseLayout>

@@ -1,0 +1,31 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Happy Dumpling Trio sticker">
+  <rect width="600" height="600" fill="#F2F7ED"/>
+  <circle cx="300" cy="310" r="235" fill="#DDE9D5"/>
+  <!-- steamer -->
+  <ellipse cx="300" cy="420" rx="215" ry="55" fill="#C8A876"/>
+  <rect x="85" y="350" width="430" height="70" rx="30" fill="#DFC093"/>
+  <path d="M110 385h380" stroke="#B08D58" stroke-width="6" stroke-linecap="round" opacity=".6"/>
+  <!-- dumplings -->
+  <g>
+    <path d="M120 355c0-55 42-95 90-95s90 40 90 95Z" fill="#FFF7EC"/>
+    <path d="M165 270c8-14 20-22 30-24M210 258c10 0 22 6 30 16" stroke="#E8D5BC" stroke-width="8" stroke-linecap="round" fill="none"/>
+    <path d="M180 318c4 5 12 5 16 0M225 318c4 5 12 5 16 0" stroke="#43382E" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M198 332c5 5 14 5 19 0" stroke="#43382E" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+  <g>
+    <path d="M210 355c0-60 44-102 90-102s90 42 90 102Z" fill="#FFF1E4" transform="translate(0,-40)"/>
+    <circle cx="272" cy="270" r="8" fill="#43382E"/>
+    <circle cx="328" cy="270" r="8" fill="#43382E"/>
+    <path d="M284 292c8 8 24 8 32 0" stroke="#43382E" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <circle cx="250" cy="288" r="10" fill="#F5A3BE" opacity=".7"/>
+    <circle cx="350" cy="288" r="10" fill="#F5A3BE" opacity=".7"/>
+  </g>
+  <g>
+    <path d="M300 355c0-55 42-95 90-95s90 40 90 95Z" fill="#FFF7EC"/>
+    <circle cx="362" cy="316" r="8" fill="#43382E"/>
+    <path d="M398 308c4-6 12-6 16 0" stroke="#43382E" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <path d="M372 336c8 6 20 6 28-2" stroke="#43382E" stroke-width="6" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- steam -->
+  <path d="M210 190c-8-20 10-28 4-48M390 185c-8-20 10-28 4-48" stroke="#B9C9AE" stroke-width="9" stroke-linecap="round" fill="none"/>
+</svg>

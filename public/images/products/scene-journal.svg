@@ -1,0 +1,21 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sticker styled on an open journal">
+  <rect width="600" height="600" fill="#FFE3D0"/>
+  <!-- open journal -->
+  <rect x="80" y="130" width="440" height="340" rx="18" fill="#E8D5BC"/>
+  <rect x="95" y="145" width="200" height="310" rx="10" fill="#FFFDF7"/>
+  <rect x="305" y="145" width="200" height="310" rx="10" fill="#FFF9EE"/>
+  <path d="M300 145v310" stroke="#D9C4A6" stroke-width="6"/>
+  <!-- writing lines -->
+  <g stroke="#D9CDBE" stroke-width="5" stroke-linecap="round">
+    <path d="M115 190h160M115 220h160M115 250h130M115 280h160M115 310h150M115 340h160M115 370h120"/>
+    <path d="M325 250h160M325 280h140M325 310h160M325 340h110"/>
+  </g>
+  <!-- washi tape -->
+  <rect x="318" y="150" width="174" height="34" rx="4" fill="#FAD3E0" opacity=".85" transform="rotate(-2 405 167)"/>
+  <!-- sticker on page -->
+  <circle cx="405" cy="400" r="58" fill="#FAD3E0" stroke="#FFFFFF" stroke-width="7"/>
+  <path d="M375 398h60a30 30 0 0 1-60 0Z" fill="#FFF7EC"/>
+  <path d="M382 392c4-12 12-8 16-18M402 390c3-11 10-8 12-18M420 392c4-10 11-7 13-16" stroke="#F0B429" stroke-width="6" stroke-linecap="round" fill="none"/>
+  <!-- pen -->
+  <rect x="150" y="480" width="220" height="22" rx="11" fill="#B02D63" transform="rotate(-8 260 491)"/>
+</svg>

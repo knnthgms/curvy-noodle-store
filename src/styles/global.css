@@ -1,0 +1,107 @@
+@import 'tailwindcss';
+@plugin '@tailwindcss/typography';
+
+/*
+ * Brand design tokens.
+ * Soft pastel palette: cream, peach, sage, warm pink and noodle-yellow.
+ * The `-deep` variants are darkened for WCAG AA contrast when used as
+ * text or button backgrounds on light surfaces.
+ */
+@theme {
+  --font-display: 'Baloo 2 Variable', ui-rounded, 'Hiragino Maru Gothic ProN',
+    system-ui, sans-serif;
+  --font-sans: 'Nunito Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --color-cream: #fffbf4;
+  --color-cream-dark: #f8efde;
+
+  --color-peach: #ffe3d0;
+  --color-peach-deep: #a8512e;
+
+  --color-sage: #dde9d5;
+  --color-sage-deep: #48663f;
+
+  --color-pink: #fad3e0;
+  --color-pink-deep: #b02d63;
+
+  --color-noodle: #fbe7a8;
+  --color-noodle-deep: #7c621a;
+
+  --color-ink: #43382e;
+  --color-ink-soft: #6b5c4e;
+
+  /* WhatsApp brand green, darkened for white-text contrast. */
+  --color-whatsapp: #0e7a43;
+}
+
+/* Base element styles */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-cream font-sans text-ink antialiased;
+  }
+
+  /* Visible, consistent focus ring for keyboard navigation. */
+  :focus-visible {
+    outline: 3px solid var(--color-pink-deep);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background-color: var(--color-noodle);
+    color: var(--color-ink);
+  }
+}
+
+@layer components {
+  /* Primary call-to-action button */
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-pink-deep px-6 py-3 font-display font-semibold text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-md;
+  }
+
+  /* Secondary (outline) button */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border-2 border-ink px-6 py-3 font-display font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-noodle;
+  }
+
+  /* Small rounded tag/chip */
+  .chip {
+    @apply inline-flex items-center rounded-full bg-sage px-3 py-1 text-sm font-semibold text-sage-deep;
+  }
+}
+
+/* Long-form article styling tuned to the brand palette. */
+.prose {
+  --tw-prose-body: var(--color-ink);
+  --tw-prose-headings: var(--color-ink);
+  --tw-prose-links: var(--color-pink-deep);
+  --tw-prose-bold: var(--color-ink);
+  --tw-prose-quotes: var(--color-ink-soft);
+  --tw-prose-quote-borders: var(--color-pink);
+  --tw-prose-bullets: var(--color-pink-deep);
+  --tw-prose-counters: var(--color-pink-deep);
+  --tw-prose-hr: var(--color-cream-dark);
+  --tw-prose-code: var(--color-peach-deep);
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+}

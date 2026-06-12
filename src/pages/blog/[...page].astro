@@ -1,0 +1,155 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import BlogCard from '@components/BlogCard.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Pagination from '@components/Pagination.astro';
+import SearchBar from '@components/SearchBar.astro';
+import { getPublishedPosts, type Post } from '@utils/collections';
+import { breadcrumbSchema } from '@utils/schema';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getPublishedPosts();
+  return paginate(posts, { pageSize: 6 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Post>;
+}
+
+const { page } = Astro.props;
+
+// Tags across all published posts (for the tag filter chips).
+const allPosts = await getPublishedPosts();
+const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Blog' }];
+---
+
+<BaseLayout
+  title="Blog"
+  description="Journaling ideas, sticker styling tips and behind-the-scenes peeks from The Curvy Noodle Shop studio."
+  schemas={[breadcrumbSchema(breadcrumbs)]}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1 class="mt-4 font-display text-4xl font-bold">The noodle blog 📓</h1>
+    <p class="mt-2 max-w-2xl text-lg text-ink-soft">
+      Journaling ideas, sticker styling tips and peeks behind the studio curtain.
+    </p>
+
+    <div class="mt-8 flex flex-col gap-4">
+      <SearchBar id="blog-search" label="Search blog posts" placeholder="Search posts…" />
+      {
+        allTags.length > 0 && (
+          <div role="group" aria-label="Filter by tag" class="flex flex-wrap items-center gap-2">
+            <span class="text-sm font-semibold text-ink-soft">Tags:</span>
+            {allTags.map((tag) => (
+              <button type="button" class="tag-btn chip cursor-pointer hover:bg-noodle" data-tag={tag}>
+                {tag}
+              </button>
+            ))}
+          </div>
+        )
+      }
+    </div>
+
+    {/* Live search results (replaces the paginated grid while searching) */}
+    <div id="search-results" class="mt-8 hidden" aria-live="polite">
+      <h2 class="font-display text-2xl font-bold">Search results</h2>
+      <ul id="search-results-list" class="mt-4 space-y-4"></ul>
+      <p id="search-empty" class="hidden text-lg text-ink-soft">
+        Nothing found — try a different word! 🔍
+      </p>
+    </div>
+
+    <div id="post-grid" class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {page.data.map((post) => <BlogCard post={post} />)}
+    </div>
+
+    <Pagination page={page} />
+  </div>
+</BaseLayout>
+
+<script>
+  // Static local search: fetches the prebuilt /search.json index once,
+  // then filters posts by title, description and tags as you type.
+  interface SearchItem {
+    type: 'product' | 'post';
+    title: string;
+    description: string;
+    url: string;
+    tags: string[];
+  }
+
+  const input = document.getElementById('blog-search') as HTMLInputElement | null;
+  const tagButtons = document.querySelectorAll<HTMLButtonElement>('.tag-btn');
+  const resultsPanel = document.getElementById('search-results');
+  const resultsList = document.getElementById('search-results-list');
+  const emptyMessage = document.getElementById('search-empty');
+  const postGrid = document.getElementById('post-grid');
+  const pagination = document.querySelector('nav[aria-label="Pagination"]');
+
+  let index: SearchItem[] | null = null;
+
+  const loadIndex = async (): Promise<SearchItem[]> => {
+    if (!index) {
+      const response = await fetch('/search.json');
+      const items = (await response.json()) as SearchItem[];
+      index = items.filter((item) => item.type === 'post');
+    }
+    return index;
+  };
+
+  const renderResults = (items: SearchItem[]): void => {
+    if (!resultsList) return;
+    resultsList.innerHTML = '';
+    for (const item of items) {
+      const li = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = item.url;
+      link.className =
+        'block rounded-3xl border-2 border-cream-dark bg-white p-5 transition hover:border-pink-deep';
+      const heading = document.createElement('p');
+      heading.className = 'font-display text-xl font-bold';
+      heading.textContent = item.title;
+      const blurb = document.createElement('p');
+      blurb.className = 'mt-1 text-ink-soft';
+      blurb.textContent = item.description;
+      link.append(heading, blurb);
+      li.appendChild(link);
+      resultsList.appendChild(li);
+    }
+  };
+
+  const search = async (query: string): Promise<void> => {
+    const trimmed = query.trim().toLowerCase();
+    const searching = trimmed.length > 0;
+
+    resultsPanel?.classList.toggle('hidden', !searching);
+    postGrid?.classList.toggle('hidden', searching);
+    pagination?.classList.toggle('hidden', searching);
+    if (!searching) return;
+
+    const items = await loadIndex();
+    const matches = items.filter((item) =>
+      [item.title, item.description, ...item.tags].join(' ').toLowerCase().includes(trimmed),
+    );
+    renderResults(matches);
+    emptyMessage?.classList.toggle('hidden', matches.length > 0);
+  };
+
+  input?.addEventListener('input', () => void search(input.value));
+
+  // Tag chips reuse the search box, so filtering works across all pages.
+  tagButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      if (input) {
+        input.value = button.dataset.tag ?? '';
+        void search(input.value);
+        input.focus();
+      }
+    });
+  });
+</script>

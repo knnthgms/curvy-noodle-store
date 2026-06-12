@@ -1,0 +1,34 @@
+---
+import type { BreadcrumbItem } from '@utils/schema';
+
+/**
+ * Breadcrumb trail. Pair with `breadcrumbSchema()` from @utils/schema
+ * to emit the matching BreadcrumbList structured data.
+ */
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Breadcrumb" class="text-sm text-ink-soft">
+  <ol class="flex flex-wrap items-center gap-1">
+    {
+      items.map((item, index) => (
+        <li class="flex items-center gap-1">
+          {index > 0 && <span aria-hidden="true">/</span>}
+          {item.href ? (
+            <a href={item.href} class="underline-offset-4 hover:text-pink-deep hover:underline">
+              {item.label}
+            </a>
+          ) : (
+            <span aria-current="page" class="font-semibold text-ink">
+              {item.label}
+            </span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>

@@ -1,0 +1,23 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Laptop lid decorated with an arrangement of pastel stickers">
+  <rect width="1200" height="675" fill="#FAD3E0"/>
+  <circle cx="120" cy="580" r="180" fill="#FBE7A8" opacity=".6"/>
+  <circle cx="1100" cy="90" r="160" fill="#DDE9D5" opacity=".7"/>
+  <!-- laptop -->
+  <rect x="300" y="100" width="600" height="420" rx="28" fill="#F4EFE6"/>
+  <rect x="322" y="122" width="556" height="376" rx="18" fill="#FFFDF7"/>
+  <rect x="240" y="520" width="720" height="44" rx="22" fill="#E0D8C8"/>
+  <rect x="520" y="528" width="160" height="14" rx="7" fill="#C9BEA9"/>
+  <!-- sticker triangle arrangement -->
+  <circle cx="480" cy="250" r="70" fill="#FAD3E0" stroke="#FFFFFF" stroke-width="9"/>
+  <path d="M444 248h72a36 36 0 0 1-72 0Z" fill="#FFF7EC"/>
+  <path d="M453 238c5-14 14-10 18-24M478 236c4-13 12-9 15-23M500 238c4-12 12-8 15-21" stroke="#F0B429" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <circle cx="466" cy="262" r="5" fill="#43382E"/>
+  <circle cx="496" cy="262" r="5" fill="#43382E"/>
+  <circle cx="710" cy="300" r="58" fill="#FBE7A8" stroke="#FFFFFF" stroke-width="8"/>
+  <path d="M684 300a26 26 0 1 0 52 0 26 26 0 0 0-52 0Z" fill="#F2A65A"/>
+  <path d="M698 296c3 4 8 4 11 0M716 296c3 4 8 4 11 0" stroke="#43382E" stroke-width="4" stroke-linecap="round" fill="none"/>
+  <circle cx="580" cy="420" r="50" fill="#DDE9D5" stroke="#FFFFFF" stroke-width="8"/>
+  <path d="M562 436c0-30 10-44 18-54 8 12 16 28 16 54Z" fill="#7BA974"/>
+  <!-- sparkle -->
+  <path d="M810 180l7 18 18 7-18 7-7 18-7-18-18-7 18-7Z" fill="#FFFFFF"/>
+</svg>

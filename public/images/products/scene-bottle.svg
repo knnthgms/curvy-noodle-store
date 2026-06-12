@@ -1,0 +1,17 @@
+<svg viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Sticker styled on a water bottle">
+  <rect width="600" height="600" fill="#FBE7A8"/>
+  <!-- bottle -->
+  <rect x="240" y="60" width="120" height="50" rx="16" fill="#48663F"/>
+  <path d="M225 130c0-22 30-30 75-30s75 8 75 30v330a40 40 0 0 1-40 40h-70a40 40 0 0 1-40-40Z" fill="#8FAE8B"/>
+  <path d="M243 150v300" stroke="#FFFFFF" stroke-width="10" stroke-linecap="round" opacity=".35"/>
+  <!-- sticker on bottle -->
+  <circle cx="300" cy="300" r="74" fill="#FAD3E0" stroke="#FFFFFF" stroke-width="8"/>
+  <path d="M262 298h76a38 38 0 0 1-76 0Z" fill="#FFF7EC"/>
+  <path d="M272 290c5-13 13-9 17-22M298 288c4-13 12-9 15-22M322 290c4-12 11-8 14-20" stroke="#F0B429" stroke-width="7" stroke-linecap="round" fill="none"/>
+  <circle cx="285" cy="316" r="5" fill="#43382E"/>
+  <circle cx="315" cy="316" r="5" fill="#43382E"/>
+  <path d="M292 328c5 5 12 5 17 0" stroke="#43382E" stroke-width="5" stroke-linecap="round" fill="none"/>
+  <!-- sparkles -->
+  <path d="M150 180l6 16 16 6-16 6-6 16-6-16-16-6 16-6Z" fill="#FFFFFF" opacity=".8"/>
+  <path d="M460 380l5 13 13 5-13 5-5 13-5-13-13-5 13-5Z" fill="#FFFFFF" opacity=".8"/>
+</svg>
