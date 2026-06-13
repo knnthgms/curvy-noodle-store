@@ -42,13 +42,13 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
             <img
               src={category.image}
               alt={`${category.label} sticker collection`}
-              width="800"
-              height="450"
+              width="600"
+              height="600"
               loading="lazy"
               decoding="async"
-              class="aspect-video w-full bg-cream object-cover"
+              class="aspect-square w-full bg-cream object-cover transition group-hover:scale-105"
             />
-            <span class="px-3 py-4">{category.label}</span>
+            <span class="border-t-2 border-cream-dark px-3 py-4">{category.label}</span>
           </a>
         ))
       }
