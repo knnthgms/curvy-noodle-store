@@ -1,0 +1,45 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A row of checked-off days showing a five-day streak">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- card -->
+  <rect x="400" y="190" width="400" height="300" rx="24" fill="#FFFFFF" stroke="#F8EFDE" stroke-width="5"/>
+  <rect x="436" y="224" width="180" height="22" rx="11" fill="#FAD3E0"/>
+  <!-- 5 checked boxes -->
+  <g>
+    <rect x="436" y="300" width="56" height="56" rx="14" fill="#DDE9D5"/>
+    <rect x="502" y="300" width="56" height="56" rx="14" fill="#DDE9D5"/>
+    <rect x="568" y="300" width="56" height="56" rx="14" fill="#DDE9D5"/>
+    <rect x="634" y="300" width="56" height="56" rx="14" fill="#DDE9D5"/>
+    <rect x="700" y="300" width="56" height="56" rx="14" fill="#DDE9D5"/>
+  </g>
+  <g stroke="#48663F" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M448 328 l8 10 16 -20"/>
+    <path d="M514 328 l8 10 16 -20"/>
+    <path d="M580 328 l8 10 16 -20"/>
+    <path d="M646 328 l8 10 16 -20"/>
+    <path d="M712 328 l8 10 16 -20"/>
+  </g>
+  <g stroke="#ECE0CF" stroke-width="8" stroke-linecap="round">
+    <path d="M436 400h320M436 432h220"/>
+  </g>
+  <!-- big "5" badge -->
+  <circle cx="772" cy="218" r="50" fill="#B02D63"/>
+  <text x="772" y="238" text-anchor="middle" font-family="Verdana, Geneva, sans-serif" font-size="56" font-weight="bold" fill="#FFFFFF">5</text>
+
+  <path d="M150 520 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

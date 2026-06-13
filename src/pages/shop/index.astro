@@ -8,21 +8,21 @@ import { getProducts } from '@utils/collections';
 import { breadcrumbSchema } from '@utils/schema';
 
 const products = await getProducts();
-const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Shop' }];
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
 ---
 
 <BaseLayout
-  title="Shop Planner Stickers"
+  title="Planner Stickers Store"
   description="Browse all Curvy Noodle planner stickers — handmade emotion trackers, daily activity sheets and bundles for bullet journals and daily planners. Order over WhatsApp."
   schemas={[breadcrumbSchema(breadcrumbs)]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
 
-    <h1 class="mt-4 font-display text-4xl font-bold">Shop planner stickers 🛒</h1>
+    <h1 class="mt-4 font-display text-4xl font-bold">The sticker store 🛒</h1>
     <p class="mt-2 max-w-2xl text-lg text-ink-soft">
-      Every sheet is hand-illustrated and handmade in India on premium matte
-      paper. Found a favourite? Tap it and order straight over WhatsApp —
+      Every sheet is hand-illustrated and handmade by me in India on premium
+      matte paper. Found a favourite? Tap it and order straight over WhatsApp —
       free shipping on orders above ₹500.
     </p>
 

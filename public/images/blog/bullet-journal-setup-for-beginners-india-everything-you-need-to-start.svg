@@ -1,0 +1,38 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="An open dot-grid bullet journal spread with an index and layout boxes">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+    <pattern id="pagedots" width="26" height="26" patternUnits="userSpaceOnUse">
+      <circle cx="3" cy="3" r="1.7" fill="#C9BBA6"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- open spread -->
+  <rect x="360" y="165" width="480" height="350" rx="18" fill="#FFFFFF" stroke="#F8EFDE" stroke-width="5"/>
+  <rect x="372" y="178" width="456" height="324" fill="url(#pagedots)"/>
+  <line x1="600" y1="170" x2="600" y2="510" stroke="#EFE3D0" stroke-width="4"/>
+  <!-- left page: index tab + lines -->
+  <rect x="392" y="196" width="120" height="30" rx="8" fill="#FBE7A8"/>
+  <g stroke="#D7C9B4" stroke-width="7" stroke-linecap="round">
+    <path d="M392 258h170M392 292h140M392 326h170M392 360h110M392 394h150"/>
+  </g>
+  <!-- right page: layout boxes -->
+  <rect x="624" y="200" width="184" height="70" rx="12" fill="none" stroke="#E79BBA" stroke-width="4"/>
+  <rect x="624" y="288" width="86" height="90" rx="12" fill="none" stroke="#A9C39B" stroke-width="4"/>
+  <rect x="722" y="288" width="86" height="90" rx="12" fill="none" stroke="#E3B48F" stroke-width="4"/>
+  <rect x="624" y="396" width="184" height="44" rx="12" fill="none" stroke="#C9BBA6" stroke-width="4"/>
+
+  <path d="M150 520 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

@@ -21,7 +21,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
     <div class="flex flex-wrap items-end justify-between gap-4">
       <h2 id="featured-heading" class="font-display text-3xl font-bold">Featured stickers ✨</h2>
       <a href="/shop" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
-        See the whole shop →
+        Browse the whole store →
       </a>
     </div>
     <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
@@ -31,16 +31,24 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
 
   {/* Browse by collection */}
   <section class="mx-auto max-w-6xl px-4 pb-12 sm:px-6" aria-labelledby="collections-heading">
-    <h2 id="collections-heading" class="font-display text-3xl font-bold">Browse by collection 🗂️</h2>
+    <h2 id="collections-heading" class="font-display text-3xl font-bold">Browse by collection</h2>
     <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
       {
         CATEGORIES.map((category) => (
           <a
             href={`/collections/${category.slug}/`}
-            class="flex flex-col items-center gap-2 rounded-3xl border-2 border-cream-dark bg-white px-4 py-6 text-center font-display font-semibold transition hover:-translate-y-1 hover:border-pink-deep hover:shadow-md"
+            class="group flex flex-col overflow-hidden rounded-3xl border-2 border-cream-dark bg-white text-center font-display font-semibold transition hover:-translate-y-1 hover:border-pink-deep hover:shadow-md"
           >
-            <span class="text-3xl" aria-hidden="true">{category.emoji}</span>
-            {category.label}
+            <img
+              src={category.image}
+              alt={`${category.label} sticker collection`}
+              width="800"
+              height="450"
+              loading="lazy"
+              decoding="async"
+              class="aspect-video w-full bg-cream object-cover"
+            />
+            <span class="px-3 py-4">{category.label}</span>
           </a>
         ))
       }
@@ -48,7 +56,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
   </section>
 
   {/* About preview */}
-  <section class="bg-peach/50" aria-labelledby="about-heading">
+  <section class="bg-blush/50" aria-labelledby="about-heading">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div class="mx-auto max-w-2xl text-center">
         <h2 id="about-heading" class="font-display text-3xl font-bold">Hi, I'm Curvy Noodle 🍜</h2>
@@ -59,7 +67,8 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
           orders are packaged personally, with care, from my little corner
           of India.
         </p>
-        <a href="/about" class="btn-secondary mt-6">Read our story</a>
+        <p class="mt-4 font-hand text-3xl text-pink-deep">It's just me here — thanks for stopping by! 🌸</p>
+        <a href="/about" class="btn-secondary mt-6">Read my story</a>
       </div>
     </div>
   </section>

@@ -151,6 +151,57 @@ export const SOCIAL_PROOF = {
 
 ---
 
+## 🎨 Changing the look (colours & fonts)
+
+### Switch the colour theme
+
+The site ships with **4 ready-made themes**. To change the whole site's colours,
+open `src/config.ts` and set `theme` to one of:
+
+- `cream` — the default warm pastel look
+- `rosebud` — your rose pink (rgb 217 138 138) front and centre
+- `sage` — calm and leafy
+- `lavender` — dreamy and purple
+
+```ts
+theme: 'rosebud',
+```
+
+Save, and every page retones. That's it.
+
+### Mix and match colours
+
+All the themes (and a few extra colours) live in `src/styles/global.css`, near
+the top. You can:
+
+- **Tweak a theme** — change any colour value inside a `[data-theme='…']` block.
+- **Use an extra colour anywhere** — `rose`, `lavender`, `sky` and `mint` are
+  always available as `bg-rose`, `text-rose-deep`, `border-mint`, etc. Add the
+  class to any section. For example, to make the newsletter box use your rose:
+  find `bg-noodle` in `src/components/NewsletterSignup.astro` and change it to
+  `bg-rose`.
+
+Each colour comes in two shades: the plain name (a light surface, e.g.
+`bg-rose`) and `-deep` (a darker version for text/buttons, e.g.
+`text-rose-deep`). Keep light backgrounds with `-deep` text so everything stays
+readable.
+
+### Change the fonts
+
+Fonts are set in `src/styles/global.css` (the `@theme` block) and loaded in
+`src/layouts/BaseLayout.astro`. The current trio:
+
+- **Lilita One** — headings (chunky and playful)
+- **Noto Sans** — body text
+- **Caveat** — handwritten accent (use the `font-hand` class)
+
+To try another font you liked (e.g. Playfair Display, Alfa Slab One, Noto
+Serif): run `npm i @fontsource/<font-name>`, add an `import` line in
+`BaseLayout.astro` next to the others, then change the matching
+`--font-display` / `--font-sans` value in `global.css`.
+
+---
+
 ## 📨 Wiring up the contact form
 
 The contact form works without any coding once you connect a free form service.

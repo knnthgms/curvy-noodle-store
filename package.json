@@ -13,8 +13,9 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.4.0",
-    "@fontsource-variable/baloo-2": "^5.2.0",
-    "@fontsource-variable/nunito": "^5.2.0",
+    "@fontsource-variable/caveat": "^5.2.8",
+    "@fontsource-variable/noto-sans": "^5.2.10",
+    "@fontsource/lilita-one": "^5.2.8",
     "astro": "^5.13.0"
   },
   "devDependencies": {

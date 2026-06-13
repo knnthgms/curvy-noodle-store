@@ -1,0 +1,47 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A bright idea and three simple checkboxes for an ADHD-friendly system">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- card -->
+  <rect x="395" y="175" width="410" height="320" rx="24" fill="#FFFFFF" stroke="#F8EFDE" stroke-width="5"/>
+  <!-- lightbulb idea -->
+  <g>
+    <circle cx="500" cy="300" r="62" fill="#FBE7A8"/>
+    <circle cx="500" cy="300" r="62" fill="none" stroke="#E9D08A" stroke-width="4"/>
+    <rect x="480" y="356" width="40" height="20" rx="6" fill="#E9D08A"/>
+    <rect x="486" y="376" width="28" height="12" rx="5" fill="#C9AE63"/>
+    <path d="M500 270v36M484 286l16 12 16-18" stroke="#7C621A" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    <!-- idea sparkles -->
+    <path d="M576 250 l5 14 14 5 -14 5 -5 14 -5 -14 -14 -5 14 -5 Z" fill="#FAD3E0"/>
+    <path d="M430 232 l4 11 11 4 -11 4 -4 11 -4 -11 -11 -4 11 -4 Z" fill="#DDE9D5"/>
+  </g>
+  <!-- three simple checkboxes -->
+  <g>
+    <rect x="612" y="232" width="44" height="44" rx="12" fill="#DDE9D5"/>
+    <rect x="612" y="298" width="44" height="44" rx="12" fill="#DDE9D5"/>
+    <rect x="612" y="364" width="44" height="44" rx="12" fill="#FFFFFF" stroke="#E1D4C0" stroke-width="3"/>
+  </g>
+  <g stroke="#48663F" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M623 254 l8 9 14 -17"/>
+    <path d="M623 320 l8 9 14 -17"/>
+  </g>
+  <g stroke="#EADDCB" stroke-width="7" stroke-linecap="round">
+    <path d="M672 254h96M672 320h96M672 386h70"/>
+  </g>
+
+  <path d="M150 540 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

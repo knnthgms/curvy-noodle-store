@@ -1,0 +1,47 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Planner and tracker stickers — a planner page with a habit grid">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- planner page -->
+  <rect x="430" y="155" width="340" height="375" rx="22" fill="#FFFFFF" stroke="#F8EFDE" stroke-width="5"/>
+  <rect x="430" y="155" width="58" height="375" rx="22" fill="#FBE7A8" opacity="0.5"/>
+  <line x1="492" y1="155" x2="492" y2="530" stroke="#F0E2CC" stroke-width="3"/>
+  <rect x="522" y="190" width="170" height="22" rx="11" fill="#FAD3E0"/>
+  <g stroke="#ECE0CF" stroke-width="8" stroke-linecap="round">
+    <path d="M522 250h200M522 286h150"/>
+  </g>
+  <!-- habit grid -->
+  <g>
+    <circle cx="540" cy="360" r="19" fill="#DDE9D5"/>
+    <circle cx="596" cy="360" r="19" fill="#DDE9D5"/>
+    <circle cx="652" cy="360" r="19" fill="#FFFFFF" stroke="#E1D4C0" stroke-width="3"/>
+    <circle cx="708" cy="360" r="19" fill="#DDE9D5"/>
+    <circle cx="540" cy="420" r="19" fill="#FFFFFF" stroke="#E1D4C0" stroke-width="3"/>
+    <circle cx="596" cy="420" r="19" fill="#DDE9D5"/>
+    <circle cx="652" cy="420" r="19" fill="#DDE9D5"/>
+    <circle cx="708" cy="420" r="19" fill="#FFFFFF" stroke="#E1D4C0" stroke-width="3"/>
+  </g>
+  <g stroke="#48663F" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M531 360 l6 7 12 -14"/>
+    <path d="M587 360 l6 7 12 -14"/>
+    <path d="M699 360 l6 7 12 -14"/>
+    <path d="M587 420 l6 7 12 -14"/>
+    <path d="M643 420 l6 7 12 -14"/>
+  </g>
+
+  <path d="M150 520 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

@@ -15,7 +15,7 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 
 <BaseLayout
   title="Contact"
-  description="Questions about an order or a custom sticker idea? Reach Curvy Noodle on Instagram (@curvy_noodle), WhatsApp or email — we reply within 24–48 hours."
+  description="Questions about an order or a custom sticker idea? Reach Curvy Noodle on Instagram (@curvy_noodle), WhatsApp or email — I reply within 24–48 hours."
   schemas={[breadcrumbSchema(breadcrumbs)]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -24,8 +24,8 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     <h1 class="mt-4 font-display text-4xl font-bold">Say hello 💬</h1>
     <p class="mt-2 max-w-2xl text-lg text-ink-soft">
       Questions about an order, a custom sticker idea, or just want to share
-      your planner spread? We'd love to hear from you — we usually reply
-      within 24–48 hours.
+      your planner spread? I'd love to hear from you — it's just me here, and
+      I usually reply within 24–48 hours.
     </p>
 
     <div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
@@ -96,7 +96,7 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
             !web3formsKey && (
               <p class="text-sm text-ink-soft">
                 This form isn't connected to an inbox yet — for now, Instagram or
-                WhatsApp is the fastest way to reach us. (See the README to switch
+                WhatsApp is the fastest way to reach me. (See the README to switch
                 it on.)
               </p>
             )
@@ -106,10 +106,10 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 
       {/* Other channels */}
       <div class="space-y-6">
-        <div class="rounded-3xl bg-peach p-6 sm:p-8">
-          <h2 class="font-display text-2xl font-bold text-peach-deep">Instagram (preferred!)</h2>
-          <p class="mt-2 text-peach-deep">
-            DMs are the fastest way to reach us — plus sneak peeks, planner
+        <div class="rounded-3xl bg-blush p-6 sm:p-8">
+          <h2 class="font-display text-2xl font-bold text-blush-deep">Instagram (preferred!)</h2>
+          <p class="mt-2 text-blush-deep">
+            DMs are the fastest way to reach me — plus sneak peeks, planner
             spreads and new sheet announcements.
           </p>
           <a
@@ -122,10 +122,11 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
           </a>
         </div>
 
-        <div class="rounded-3xl bg-sage p-6 sm:p-8">
-          <h2 class="font-display text-2xl font-bold text-sage-deep">WhatsApp</h2>
-          <p class="mt-2 text-sage-deep">
-            Orders, questions, custom requests — message us any time.
+        <div class="rounded-3xl bg-sky p-6 sm:p-8">
+          <h2 class="font-display text-2xl font-bold text-sky-deep">WhatsApp</h2>
+          <p class="mt-2 text-sky-deep">
+            Orders, questions, custom requests — message me any time at
+            <a href={`tel:${SITE.whatsappNumber}`} class="font-semibold underline underline-offset-4">{SITE.phone}</a>.
           </p>
           <div class="mt-4">
             <WhatsAppButton />
@@ -161,7 +162,7 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 
     if (!isConnected) {
       status.textContent =
-        'The form isn’t connected yet — please DM us on Instagram or WhatsApp instead! 💚';
+        'The form isn’t connected yet — please DM me on Instagram or WhatsApp instead! 💚';
       return;
     }
 
@@ -183,11 +184,11 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
         status.textContent = 'Thank you! Your message is on its way. 🍜';
       } else {
         status.textContent =
-          'Something went wrong — please email or message us on WhatsApp instead.';
+          'Something went wrong — please email or message me on WhatsApp instead.';
       }
     } catch {
       status.textContent =
-        'Network hiccup — please email or message us on WhatsApp instead.';
+        'Network hiccup — please email or message me on WhatsApp instead.';
     }
   });
 </script>

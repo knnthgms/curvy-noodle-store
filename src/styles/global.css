@@ -2,36 +2,138 @@
 @plugin '@tailwindcss/typography';
 
 /*
- * Brand design tokens.
- * Soft pastel palette: cream, peach, sage, warm pink and noodle-yellow.
- * The `-deep` variants are darkened for WCAG AA contrast when used as
- * text or button backgrounds on light surfaces.
+ * Keep the extra palette utilities (bg-rose, text-lavender-deep, …) generated
+ * even before you use them in markup, so they're ready to drop onto any
+ * element. Tailwind v4 otherwise tree-shakes unused colours.
+ */
+@source inline("{bg-,text-,border-}{rose,lavender,mint}{,-deep}");
+
+/*
+ * ============================================================
+ *  FONTS
+ *  Loaded in src/layouts/BaseLayout.astro via @fontsource.
+ *  - display: Lilita One  → chunky, rounded, playful headings
+ *  - sans:    Noto Sans   → clean, highly readable body text
+ *  - hand:    Caveat      → handwritten accent (signatures, notes)
+ *
+ *  You also liked Playfair Display, Alfa Slab One and Noto Serif.
+ *  To try one, `npm i @fontsource/<name>`, import it in BaseLayout,
+ *  and swap the family below (e.g. --font-display: 'Playfair Display').
+ * ============================================================
  */
 @theme {
-  --font-display: 'Baloo 2 Variable', ui-rounded, 'Hiragino Maru Gothic ProN',
+  --font-display: 'Lilita One', ui-rounded, 'Hiragino Maru Gothic ProN',
     system-ui, sans-serif;
-  --font-sans: 'Nunito Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-sans: 'Noto Sans Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-hand: 'Caveat Variable', ui-rounded, cursive;
 
-  --color-cream: #fffbf4;
-  --color-cream-dark: #f8efde;
+  /*
+   * ----------------------------------------------------------
+   *  DEFAULT THEME — "Cream"
+   *
+   *  Colours are grouped by ROLE. Each accent comes in two shades:
+   *  the plain name = a light SURFACE; `-deep` = a darker partner
+   *  for text / icons on that surface. Switch the whole palette via
+   *  SITE.theme in src/config.ts (presets are further down).
+   * ----------------------------------------------------------
+   */
 
-  --color-peach: #ffe3d0;
-  --color-peach-deep: #a8512e;
+  /* Surfaces */
+  --color-cream: #fffbf4; /* page background */
+  --color-cream-dark: #f8efde; /* cards, borders, subtle fills */
 
-  --color-sage: #dde9d5;
-  --color-sage-deep: #48663f;
+  /* Brand pink — pink-deep is the primary / CTA colour */
+  --color-pink: #fabdbd; /* soft brand pink (active nav, blobs) */
+  --color-pink-deep: #e7a1b1; /* primary: buttons, links, announcement */
 
-  --color-pink: #fad3e0;
-  --color-pink-deep: #b02d63;
+  /* Accent: blush (your #ffdede — used for soft section backgrounds) */
+  --color-blush: #ffdede;
+  --color-blush-deep: #a8512e;
 
+  /* Accent: sky (cool blue — tags / chips, calm sections) */
+  --color-sky: #cfe7f0;
+  --color-sky-deep: #2f6079;
+
+  /* Accent: noodle (sunny yellow — highlights, hovers) */
   --color-noodle: #fbe7a8;
   --color-noodle-deep: #7c621a;
 
+  /* Text */
   --color-ink: #43382e;
   --color-ink-soft: #6b5c4e;
 
-  /* WhatsApp brand green, darkened for white-text contrast. */
+  /* WhatsApp brand green (constant across themes), white-text safe. */
   --color-whatsapp: #0e7a43;
+
+  /*
+   * ----------------------------------------------------------
+   *  EXTRA PALETTE — always available as utilities, e.g.
+   *  `bg-rose`, `text-lavender-deep`, `bg-mint`…
+   *  Mix these into any section background you like.
+   * ----------------------------------------------------------
+   */
+  --color-rose: #d98a8a; /* rgb(217 138 138) */
+  --color-rose-deep: #8a3a3a;
+  --color-lavender: #e0d6f3;
+  --color-lavender-deep: #5b4b8a;
+  --color-mint: #cfe9d8;
+  --color-mint-deep: #2f6b4a;
+}
+
+/*
+ * ============================================================
+ *  THEME PRESETS
+ *  Set the active theme in src/config.ts (`SITE.theme`) — it
+ *  renders as <html data-theme="…">. Options: cream (default),
+ *  rosebud, sage, lavender.
+ *
+ *  Each block recolours the same accent SLOTS (pink / blush / sky
+ *  / noodle), so the slot name reflects the cream theme's hue, not
+ *  necessarily the preset's. MIX & MATCH: copy any line between
+ *  blocks. Keep the light / `-deep` pairing so text stays readable.
+ * ============================================================
+ */
+
+/* Rosebud — rose pink front and centre, soft and warm. */
+[data-theme='rosebud'] {
+  --color-cream: #fdf3f1;
+  --color-cream-dark: #f0d8d3;
+  --color-pink: #f4ccd2;
+  --color-pink-deep: #a83258;
+  --color-blush: #f8d5cd;
+  --color-blush-deep: #9c4636;
+  --color-sky: #ecdff1; /* shifts toward mauve to harmonise */
+  --color-sky-deep: #5b4b8a;
+  --color-noodle: #f7e3ad;
+  --color-noodle-deep: #7c621a;
+}
+
+/* Sage — calm, leafy and fresh. */
+[data-theme='sage'] {
+  --color-cream: #f4f7ee;
+  --color-cream-dark: #dde7d0;
+  --color-pink: #f3d6df;
+  --color-pink-deep: #b0426a;
+  --color-blush: #fbe6cf;
+  --color-blush-deep: #a8612e;
+  --color-sky: #cfe3c4; /* leans green in this theme */
+  --color-sky-deep: #3f6035;
+  --color-noodle: #f3ebb0;
+  --color-noodle-deep: #6f6118;
+}
+
+/* Lavender — dreamy and soft, purple-led. */
+[data-theme='lavender'] {
+  --color-cream: #f7f4fb;
+  --color-cream-dark: #e4dcef;
+  --color-pink: #e7d6f3;
+  --color-pink-deep: #7a3f9e;
+  --color-blush: #f4dced;
+  --color-blush-deep: #8a4a6a;
+  --color-sky: #dbe7e9;
+  --color-sky-deep: #3f6066;
+  --color-noodle: #f3e6b3;
+  --color-noodle-deep: #6f5d18;
 }
 
 /* Base element styles */
@@ -82,7 +184,7 @@
 
   /* Small rounded tag/chip */
   .chip {
-    @apply inline-flex items-center rounded-full bg-sage px-3 py-1 text-sm font-semibold text-sage-deep;
+    @apply inline-flex items-center rounded-full bg-sky px-3 py-1 text-sm font-semibold text-sky-deep;
   }
 }
 
@@ -97,7 +199,7 @@
   --tw-prose-bullets: var(--color-pink-deep);
   --tw-prose-counters: var(--color-pink-deep);
   --tw-prose-hr: var(--color-cream-dark);
-  --tw-prose-code: var(--color-peach-deep);
+  --tw-prose-code: var(--color-blush-deep);
 }
 
 .prose h2,

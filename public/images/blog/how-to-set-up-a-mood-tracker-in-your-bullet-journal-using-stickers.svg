@@ -1,0 +1,56 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three mood faces above a small mood-tracker grid">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- card -->
+  <rect x="395" y="170" width="410" height="330" rx="24" fill="#FFFFFF" stroke="#F8EFDE" stroke-width="5"/>
+  <!-- three mood faces -->
+  <g>
+    <circle cx="480" cy="270" r="44" fill="#FAD3E0"/>
+    <circle cx="466" cy="262" r="5" fill="#43382E"/><circle cx="494" cy="262" r="5" fill="#43382E"/>
+    <path d="M464 284q16 14 32 0" stroke="#43382E" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="600" cy="270" r="44" fill="#FBE7A8"/>
+    <circle cx="586" cy="262" r="5" fill="#43382E"/><circle cx="614" cy="262" r="5" fill="#43382E"/>
+    <path d="M584 288h32" stroke="#43382E" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <g>
+    <circle cx="720" cy="270" r="44" fill="#DDE9D5"/>
+    <circle cx="706" cy="262" r="5" fill="#43382E"/><circle cx="734" cy="262" r="5" fill="#43382E"/>
+    <path d="M704 292q16 -14 32 0" stroke="#43382E" stroke-width="5" fill="none" stroke-linecap="round"/>
+  </g>
+  <!-- mini mood grid -->
+  <g>
+    <rect x="430" y="382" width="36" height="36" rx="9" fill="#FAD3E0"/>
+    <rect x="476" y="382" width="36" height="36" rx="9" fill="#FBE7A8"/>
+    <rect x="522" y="382" width="36" height="36" rx="9" fill="#DDE9D5"/>
+    <rect x="568" y="382" width="36" height="36" rx="9" fill="#FAD3E0"/>
+    <rect x="614" y="382" width="36" height="36" rx="9" fill="#F8EFDE"/>
+    <rect x="660" y="382" width="36" height="36" rx="9" fill="#FBE7A8"/>
+    <rect x="706" y="382" width="36" height="36" rx="9" fill="#F8EFDE"/>
+    <rect x="430" y="428" width="36" height="36" rx="9" fill="#DDE9D5"/>
+    <rect x="476" y="428" width="36" height="36" rx="9" fill="#FAD3E0"/>
+    <rect x="522" y="428" width="36" height="36" rx="9" fill="#F8EFDE"/>
+    <rect x="568" y="428" width="36" height="36" rx="9" fill="#FBE7A8"/>
+    <rect x="614" y="428" width="36" height="36" rx="9" fill="#DDE9D5"/>
+    <rect x="660" y="428" width="36" height="36" rx="9" fill="#FAD3E0"/>
+    <rect x="706" y="428" width="36" height="36" rx="9" fill="#F8EFDE"/>
+  </g>
+
+  <path d="M150 520 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

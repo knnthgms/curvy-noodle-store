@@ -12,13 +12,17 @@ export const SITE = {
     'Welcome to your new favourite planner stickers store. Curvy Noodle makes handmade planner stickers for bullet journals and daily planners — emotion trackers, daily activity sheets and bundles, shipped across India.',
   url: import.meta.env.SITE ?? 'https://curvynoodle.com',
   locale: 'en',
+  /**
+   * Active colour theme. Options (defined in src/styles/global.css):
+   * 'cream' (default), 'rosebud', 'sage', 'lavender'.
+   */
+  theme: 'cream',
   /** Announcement shown in the site header. */
   announcement: 'Free shipping on orders above ₹500',
-  /**
-   * WhatsApp number in international format, digits only (no "+").
-   * PLACEHOLDER — replace with the real business number before launch.
-   */
-  whatsappNumber: '919999999999',
+  /** WhatsApp number in international format, digits only (no "+"). */
+  whatsappNumber: '919353164742',
+  /** Human-readable phone number for display. */
+  phone: '+91 93531 64742',
   email: 'curvynoodle04@gmail.com',
   socials: {
     instagram: 'https://www.instagram.com/curvy_noodle/',
@@ -30,7 +34,7 @@ export const SITE = {
 
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Shop', href: '/shop' },
+  { label: 'Store', href: '/shop' },
   { label: 'Collections', href: '/collections' },
   { label: 'Planning Nook', href: '/blog' },
   { label: 'About', href: '/about' },
@@ -40,34 +44,34 @@ export const NAV_LINKS = [
 
 /**
  * Product categories, mirroring the original store's collections.
- * `emoji` and `description` are used on the /collections browse page.
+ * `image` and `description` are used on the /collections browse page.
  */
 export const CATEGORIES = [
   {
     slug: 'emotion-mood',
     label: 'Emotion & Mood',
-    emoji: '😊',
+    image: '/images/collections/emotion-mood.svg',
     description:
       'Expressive characters for tracking how each day actually felt — happy, tired, anxious, motivated and more.',
   },
   {
     slug: 'daily-activity',
     label: 'Daily Activity',
-    emoji: '✅',
+    image: '/images/collections/daily-activity.svg',
     description:
       'Hand-illustrated icons for everyday tasks: work, cooking, exercise, chores, study and rest.',
   },
   {
     slug: 'bundles',
     label: 'Sticker Bundles',
-    emoji: '🎁',
+    image: '/images/collections/bundles.svg',
     description:
       'Best value — big mixed packs with hundreds of stickers across multiple sheets.',
   },
   {
     slug: 'planner-tracker',
     label: 'Planner & Tracker',
-    emoji: '📅',
+    image: '/images/collections/planner-tracker.svg',
     description:
       'Combined mood-and-activity sheets and trackers for comprehensive daily planning.',
   },

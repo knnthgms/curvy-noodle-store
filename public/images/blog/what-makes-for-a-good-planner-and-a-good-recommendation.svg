@@ -1,0 +1,35 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="A well-loved planner with an award rosette">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1140" cy="620" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <g transform="rotate(-16 150 90)">
+    <rect x="10" y="64" width="260" height="46" rx="6" fill="#FAD3E0" opacity="0.9"/>
+    <path d="M30 87h220" stroke="#B02D63" stroke-width="3" stroke-dasharray="2 13" stroke-linecap="round" opacity="0.5"/>
+  </g>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- planner book -->
+  <rect x="455" y="175" width="290" height="330" rx="20" fill="#FFE3D0" stroke="#E3B48F" stroke-width="5"/>
+  <rect x="455" y="175" width="46" height="330" rx="18" fill="#E3B48F"/>
+  <circle cx="478" cy="230" r="6" fill="#FFFBF4"/><circle cx="478" cy="275" r="6" fill="#FFFBF4"/><circle cx="478" cy="320" r="6" fill="#FFFBF4"/>
+  <rect x="535" y="225" width="170" height="22" rx="11" fill="#FFFFFF" opacity="0.75"/>
+  <rect x="535" y="265" width="135" height="18" rx="9" fill="#FFFFFF" opacity="0.55"/>
+  <rect x="535" y="300" width="160" height="18" rx="9" fill="#FFFFFF" opacity="0.55"/>
+  <!-- award rosette -->
+  <g transform="translate(700 400)">
+    <path d="M-10 30 L-26 70 -8 60 0 78 16 40 Z" fill="#FAD3E0"/>
+    <path d="M10 30 L26 70 8 60 0 78 -16 40 Z" fill="#F4B9CF"/>
+    <circle cx="0" cy="20" r="46" fill="#DDE9D5" stroke="#FFFFFF" stroke-width="5"/>
+    <path d="M-19 20 l13 15 25 -29" stroke="#48663F" stroke-width="8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <path d="M150 520 l9 24 24 9 -24 9 -9 24 -9 -24 -24 -9 24 -9 Z" fill="#FBE7A8"/>
+</svg>

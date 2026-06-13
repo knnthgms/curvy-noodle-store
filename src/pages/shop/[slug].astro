@@ -63,13 +63,13 @@ const trustSignals = [
 // How ordering works, since there's no cart — sets expectations clearly.
 const orderSteps = [
   'Tap “Order on WhatsApp” — it opens a chat with your sticker pre-filled.',
-  'Confirm your sheets, quantity and delivery address with us.',
-  'Pay, and we hand-pack and post your order across India. 🍜',
+  'Confirm your sheets, quantity and delivery address with me.',
+  'Pay, and I hand-pack and post your order across India. 🍜',
 ];
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
-  { label: 'Shop', href: '/shop' },
+  { label: 'Store', href: '/shop' },
   { label: title },
 ];
 
@@ -144,7 +144,7 @@ const schemas = [
             )
           }
         </p>
-        <p class="mt-1 text-sm font-semibold text-sage-deep">✓ In stock</p>
+        <p class="mt-1 text-sm font-semibold text-sky-deep">✓ In stock</p>
 
         <p class="mt-4 text-lg text-ink-soft">{description}</p>
 
@@ -168,9 +168,9 @@ const schemas = [
         </div>
 
         {/* How ordering works (no cart) */}
-        <div class="mt-6 rounded-3xl bg-sage/60 p-5">
-          <h2 class="font-display font-bold text-sage-deep">How ordering works</h2>
-          <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-sage-deep">
+        <div class="mt-6 rounded-3xl bg-sky/60 p-5">
+          <h2 class="font-display font-bold text-sky-deep">How ordering works</h2>
+          <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-sky-deep">
             {orderSteps.map((step) => <li>{step}</li>)}
           </ol>
         </div>
@@ -206,7 +206,7 @@ const schemas = [
 
         <p class="mt-6 text-sm text-ink-soft">
           Ships across India in 2–3 business days. Damaged or incorrect order?
-          We'll replace or refund it — see the
+          I'll replace or refund it — see the
           <a href="/faq" class="font-semibold text-pink-deep underline underline-offset-4">FAQs</a>
           for shipping &amp; returns details.
         </p>

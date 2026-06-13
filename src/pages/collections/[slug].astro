@@ -40,9 +40,15 @@ const breadcrumbs = [
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
 
-    <h1 class="mt-4 font-display text-4xl font-bold">
-      <span aria-hidden="true">{category.emoji} </span>{category.label}
-    </h1>
+    <img
+      src={category.image}
+      alt={`${category.label} sticker collection`}
+      width="1200"
+      height="675"
+      decoding="async"
+      class="mt-4 aspect-[16/7] w-full rounded-3xl border-2 border-cream-dark bg-cream object-cover"
+    />
+    <h1 class="mt-6 font-display text-4xl font-bold">{category.label}</h1>
     <p class="mt-2 max-w-2xl text-lg text-ink-soft">{category.description}</p>
 
     <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -54,7 +60,7 @@ const breadcrumbs = [
         <p class="mt-8 text-lg text-ink-soft">
           Nothing in this collection just yet — {' '}
           <a href="/shop" class="font-semibold text-pink-deep underline underline-offset-4">
-            browse the full shop
+            browse the full store
           </a>{' '}
           instead.
         </p>
