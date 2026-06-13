@@ -6,11 +6,16 @@ import { SITE } from '@config';
 import { breadcrumbSchema } from '@utils/schema';
 
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
+
+// Contact form backend. Set PUBLIC_WEB3FORMS_KEY (see .env.example) to a free
+// Web3Forms access key to make the form deliver to your inbox. While unset,
+// the form shows a friendly "use Instagram/WhatsApp" message instead.
+const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 ---
 
 <BaseLayout
   title="Contact"
-  description="Questions, custom sticker ideas or just want to say hi? Reach The Curvy Noodle Shop on WhatsApp, Instagram or through the contact form."
+  description="Questions about an order or a custom sticker idea? Reach Curvy Noodle on Instagram (@curvy_noodle), WhatsApp or email — we reply within 24–48 hours."
   schemas={[breadcrumbSchema(breadcrumbs)]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
@@ -19,28 +24,43 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
     <h1 class="mt-4 font-display text-4xl font-bold">Say hello 💬</h1>
     <p class="mt-2 max-w-2xl text-lg text-ink-soft">
       Questions about an order, a custom sticker idea, or just want to share
-      a photo of where your noodle ended up? We'd love to hear from you.
+      your planner spread? We'd love to hear from you — we usually reply
+      within 24–48 hours.
     </p>
 
     <div class="mt-10 grid grid-cols-1 gap-10 lg:grid-cols-2">
-      {/* Contact form (UI only — no backend wired up yet) */}
-      <form id="contact-form" class="rounded-3xl border-2 border-cream-dark bg-white p-6 sm:p-8" novalidate>
+      {/* Contact form — submits to Web3Forms when PUBLIC_WEB3FORMS_KEY is set */}
+      <form
+        id="contact-form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        class="rounded-3xl border-2 border-cream-dark bg-white p-6 sm:p-8"
+        novalidate
+      >
         <h2 class="font-display text-2xl font-bold">Send a note</h2>
 
         <div class="mt-6 space-y-5">
+          {/* Web3Forms config: access key + email subject. */}
+          {web3formsKey && <input type="hidden" name="access_key" value={web3formsKey} />}
+          <input type="hidden" name="subject" value="New message from the Curvy Noodle website" />
+          <input type="hidden" name="from_name" value="Curvy Noodle website" />
+          {/* Honeypot — bots fill this in; humans never see it. */}
+          <input type="checkbox" name="botcheck" tabindex="-1" class="hidden" aria-hidden="true" />
           <div>
-            <label for="contact-name" class="block font-display font-semibold">Your name</label>
+            <label for="contact-name" class="block font-display font-semibold">Name</label>
             <input
               type="text"
               id="contact-name"
               name="name"
-              required
               autocomplete="name"
               class="mt-1 w-full rounded-2xl border-2 border-cream-dark px-4 py-3 focus:border-pink-deep focus:outline-none"
             />
           </div>
           <div>
-            <label for="contact-email" class="block font-display font-semibold">Email</label>
+            <label for="contact-email" class="block font-display font-semibold">
+              Email <span aria-hidden="true" class="text-pink-deep">*</span>
+              <span class="sr-only">(required)</span>
+            </label>
             <input
               type="email"
               id="contact-email"
@@ -51,10 +71,20 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
             />
           </div>
           <div>
-            <label for="contact-message" class="block font-display font-semibold">Message</label>
+            <label for="contact-phone" class="block font-display font-semibold">Phone</label>
+            <input
+              type="tel"
+              id="contact-phone"
+              name="phone"
+              autocomplete="tel"
+              class="mt-1 w-full rounded-2xl border-2 border-cream-dark px-4 py-3 focus:border-pink-deep focus:outline-none"
+            />
+          </div>
+          <div>
+            <label for="contact-message" class="block font-display font-semibold">Comment</label>
             <textarea
               id="contact-message"
-              name="message"
+              name="comment"
               rows="5"
               required
               class="mt-1 w-full rounded-2xl border-2 border-cream-dark px-4 py-3 focus:border-pink-deep focus:outline-none"
@@ -62,29 +92,25 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
           </div>
           <button type="submit" class="btn-primary w-full sm:w-auto">Send message</button>
           <p id="contact-status" role="status" class="font-semibold text-pink-deep"></p>
-          <p class="text-sm text-ink-soft">
-            This form isn't wired to a mailbox yet — for now, WhatsApp is the
-            fastest way to reach us.
-          </p>
+          {
+            !web3formsKey && (
+              <p class="text-sm text-ink-soft">
+                This form isn't connected to an inbox yet — for now, Instagram or
+                WhatsApp is the fastest way to reach us. (See the README to switch
+                it on.)
+              </p>
+            )
+          }
         </div>
       </form>
 
       {/* Other channels */}
       <div class="space-y-6">
-        <div class="rounded-3xl bg-sage p-6 sm:p-8">
-          <h2 class="font-display text-2xl font-bold text-sage-deep">WhatsApp (fastest!)</h2>
-          <p class="mt-2 text-sage-deep">
-            Orders, questions, custom requests — we usually reply within a day.
-          </p>
-          <div class="mt-4">
-            <WhatsAppButton />
-          </div>
-        </div>
-
         <div class="rounded-3xl bg-peach p-6 sm:p-8">
-          <h2 class="font-display text-2xl font-bold text-peach-deep">Instagram</h2>
+          <h2 class="font-display text-2xl font-bold text-peach-deep">Instagram (preferred!)</h2>
           <p class="mt-2 text-peach-deep">
-            Sneak peeks, works-in-progress and sticker giveaways.
+            DMs are the fastest way to reach us — plus sneak peeks, planner
+            spreads and new sheet announcements.
           </p>
           <a
             href={SITE.socials.instagram}
@@ -92,13 +118,25 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
             rel="noopener noreferrer"
             class="btn-secondary mt-4"
           >
-            @thecurvynoodleshop
+            @curvy_noodle
           </a>
+        </div>
+
+        <div class="rounded-3xl bg-sage p-6 sm:p-8">
+          <h2 class="font-display text-2xl font-bold text-sage-deep">WhatsApp</h2>
+          <p class="mt-2 text-sage-deep">
+            Orders, questions, custom requests — message us any time.
+          </p>
+          <div class="mt-4">
+            <WhatsAppButton />
+          </div>
         </div>
 
         <div class="rounded-3xl bg-noodle p-6 sm:p-8">
           <h2 class="font-display text-2xl font-bold text-noodle-deep">Email</h2>
-          <p class="mt-2 text-noodle-deep">For wholesale and collaborations.</p>
+          <p class="mt-2 text-noodle-deep">
+            For order changes, wholesale and collaborations.
+          </p>
           <a
             href={`mailto:${SITE.email}`}
             class="mt-2 inline-block font-display font-bold text-ink underline underline-offset-4"
@@ -112,15 +150,44 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 </BaseLayout>
 
 <script>
-  // Placeholder handler — swap for a real form backend when ready.
-  const form = document.getElementById('contact-form');
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
   const status = document.getElementById('contact-status');
+  // The form only has an access_key once PUBLIC_WEB3FORMS_KEY is configured.
+  const isConnected = !!form?.querySelector('input[name="access_key"]');
 
-  form?.addEventListener('submit', (event) => {
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    if (status) {
+    if (!status) return;
+
+    if (!isConnected) {
       status.textContent =
-        'The form is still under construction — please ping us on WhatsApp instead! 💚';
+        'The form isn’t connected yet — please DM us on Instagram or WhatsApp instead! 💚';
+      return;
+    }
+
+    // Native HTML validation for the required fields.
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+
+    status.textContent = 'Sending…';
+    try {
+      const response = await fetch(form.action, {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: new FormData(form),
+      });
+      if (response.ok) {
+        form.reset();
+        status.textContent = 'Thank you! Your message is on its way. 🍜';
+      } else {
+        status.textContent =
+          'Something went wrong — please email or message us on WhatsApp instead.';
+      }
+    } catch {
+      status.textContent =
+        'Network hiccup — please email or message us on WhatsApp instead.';
     }
   });
 </script>

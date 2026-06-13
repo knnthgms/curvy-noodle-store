@@ -5,6 +5,7 @@ import '../styles/global.css';
 import SEO from '@components/SEO.astro';
 import Header from '@components/Header.astro';
 import Footer from '@components/Footer.astro';
+import StickyWhatsApp from '@components/StickyWhatsApp.astro';
 import { SITE } from '@config';
 import { organizationSchema, websiteSchema } from '@utils/schema';
 
@@ -60,6 +61,8 @@ const gaId = import.meta.env.PUBLIC_GA_MEASUREMENT_ID as string | undefined;
     </main>
 
     <Footer />
+
+    <StickyWhatsApp />
 
     {/* Cloudflare Web Analytics (privacy-friendly, no cookies) */}
     {

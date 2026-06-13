@@ -4,8 +4,9 @@ import Hero from '@components/Hero.astro';
 import ProductCard from '@components/ProductCard.astro';
 import BlogCard from '@components/BlogCard.astro';
 import NewsletterSignup from '@components/NewsletterSignup.astro';
+import SocialProof from '@components/SocialProof.astro';
 import { getProducts, getPublishedPosts } from '@utils/collections';
-import { SITE } from '@config';
+import { CATEGORIES, SITE } from '@config';
 
 const products = await getProducts();
 const featured = products.filter((p) => p.data.featured).slice(0, 4);
@@ -28,16 +29,35 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
     </div>
   </section>
 
+  {/* Browse by collection */}
+  <section class="mx-auto max-w-6xl px-4 pb-12 sm:px-6" aria-labelledby="collections-heading">
+    <h2 id="collections-heading" class="font-display text-3xl font-bold">Browse by collection 🗂️</h2>
+    <div class="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      {
+        CATEGORIES.map((category) => (
+          <a
+            href={`/collections/${category.slug}/`}
+            class="flex flex-col items-center gap-2 rounded-3xl border-2 border-cream-dark bg-white px-4 py-6 text-center font-display font-semibold transition hover:-translate-y-1 hover:border-pink-deep hover:shadow-md"
+          >
+            <span class="text-3xl" aria-hidden="true">{category.emoji}</span>
+            {category.label}
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
   {/* About preview */}
   <section class="bg-peach/50" aria-labelledby="about-heading">
     <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
       <div class="mx-auto max-w-2xl text-center">
-        <h2 id="about-heading" class="font-display text-3xl font-bold">A tiny shop with big noodle energy</h2>
+        <h2 id="about-heading" class="font-display text-3xl font-bold">Hi, I'm Curvy Noodle 🍜</h2>
         <p class="mt-4 text-lg text-ink-soft">
-          The Curvy Noodle Shop started at a kitchen table with one wobbly
-          drawing of a ramen bowl. Today every sticker is still drawn by
-          hand, printed in small batches, and packed with a doodle on the
-          envelope — because little things should feel special.
+          A lover of all things stationery, planning, and the tiny joys that
+          make everyday life a little more colourful. Every sheet in the
+          Curvy Noodle range is hand-illustrated and handmade by me, and all
+          orders are packaged personally, with care, from my little corner
+          of India.
         </p>
         <a href="/about" class="btn-secondary mt-6">Read our story</a>
       </div>
@@ -47,7 +67,7 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
   {/* Latest blog posts */}
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="blog-heading">
     <div class="flex flex-wrap items-end justify-between gap-4">
-      <h2 id="blog-heading" class="font-display text-3xl font-bold">Fresh from the blog 📓</h2>
+      <h2 id="blog-heading" class="font-display text-3xl font-bold">Fresh from the Planning Nook 📓</h2>
       <a href="/blog" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
         All posts →
       </a>
@@ -56,6 +76,9 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
       {latestPosts.map((post) => <BlogCard post={post} />)}
     </div>
   </section>
+
+  {/* Testimonials — hidden until enabled in src/config.ts */}
+  <SocialProof />
 
   <div class="py-12">
     <NewsletterSignup />

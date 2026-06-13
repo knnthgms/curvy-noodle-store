@@ -15,3 +15,14 @@ export function whatsappChatLink(
 ): string {
   return `https://wa.me/${SITE.whatsappNumber}?text=${encodeURIComponent(message)}`;
 }
+
+/**
+ * Wrap a direct wa.me URL in the internal `/go/whatsapp` redirect so the
+ * click is counted as a conversion in Cloudflare Web Analytics (which only
+ * measures page views, not custom events). `label` tags the source/product
+ * for Google Analytics, if enabled. See src/pages/go/whatsapp.astro.
+ */
+export function trackedWhatsAppLink(directUrl: string, label: string): string {
+  const params = new URLSearchParams({ to: directUrl, p: label });
+  return `/go/whatsapp/?${params.toString()}`;
+}

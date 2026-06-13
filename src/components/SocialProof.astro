@@ -1,0 +1,35 @@
+---
+import { SOCIAL_PROOF } from '@config';
+
+/**
+ * Testimonials / social proof section.
+ * Renders nothing unless `SOCIAL_PROOF.showSocialProof` is true AND there is
+ * at least one testimonial — so it stays hidden until you have real quotes.
+ * Edit the list in src/config.ts.
+ */
+const { showSocialProof, testimonials } = SOCIAL_PROOF;
+const show = showSocialProof && testimonials.length > 0;
+---
+
+{
+  show && (
+    <section class="bg-pink/40" aria-labelledby="testimonials-heading">
+      <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6">
+        <h2 id="testimonials-heading" class="text-center font-display text-3xl font-bold">
+          Loved by fellow planners 💖
+        </h2>
+        <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {testimonials.map((t) => (
+            <li class="rounded-3xl border-2 border-cream-dark bg-white p-6">
+              <blockquote class="text-ink-soft">“{t.quote}”</blockquote>
+              <p class="mt-4 font-display font-bold">
+                {t.name}
+                {t.location && <span class="font-normal text-ink-soft"> · {t.location}</span>}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )
+}

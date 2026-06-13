@@ -1,19 +1,31 @@
 ---
-import { whatsappChatLink, whatsappOrderLink } from '@utils/whatsapp';
+import {
+  trackedWhatsAppLink,
+  whatsappChatLink,
+  whatsappOrderLink,
+} from '@utils/whatsapp';
 
 /**
  * WhatsApp call-to-action. Pass `productName` to pre-fill an order
  * message for that product; omit it for a generic chat link.
+ *
+ * Links route through /go/whatsapp so clicks are counted as conversions
+ * (see src/pages/go/whatsapp.astro).
  */
 interface Props {
   productName?: string;
   label?: string;
   /** "lg" renders a full-width, prominent button for product pages. */
   size?: 'md' | 'lg';
+  /** Analytics label identifying where the click came from. */
+  source?: string;
 }
 
-const { productName, label, size = 'md' } = Astro.props;
-const href = productName ? whatsappOrderLink(productName) : whatsappChatLink();
+const { productName, label, size = 'md', source } = Astro.props;
+
+const directLink = productName ? whatsappOrderLink(productName) : whatsappChatLink();
+const analyticsLabel = source ?? (productName ? `product:${productName}` : 'chat');
+const href = trackedWhatsAppLink(directLink, analyticsLabel);
 const text = label ?? (productName ? 'Order on WhatsApp' : 'Chat on WhatsApp');
 ---
 

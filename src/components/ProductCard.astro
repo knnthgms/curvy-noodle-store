@@ -14,7 +14,8 @@ interface Props {
 }
 
 const { product, eager = false } = Astro.props;
-const { title, price, category, tags, image, imageAlt } = product.data;
+const { title, price, compareAtPrice, category, tags, image, imageAlt } =
+  product.data;
 const href = productPath(product);
 const searchText = [title, ...tags, categoryLabel(category)].join(' ').toLowerCase();
 ---
@@ -42,7 +43,17 @@ const searchText = [title, ...tags, categoryLabel(category)].join(' ').toLowerCa
       </a>
     </h3>
     <div class="mt-auto flex items-center justify-between">
-      <p class="font-display text-lg font-bold text-pink-deep">{formatPrice(price)}</p>
+      <p class="font-display text-lg font-bold text-pink-deep">
+        {formatPrice(price)}
+        {
+          compareAtPrice && (
+            <s class="ml-1 text-sm font-semibold text-ink-soft">
+              <span class="sr-only">Original price </span>
+              {formatPrice(compareAtPrice)}
+            </s>
+          )
+        }
+      </p>
       <span class="font-semibold text-ink-soft underline-offset-4 group-hover:text-pink-deep group-hover:underline" aria-hidden="true">
         View details →
       </span>

@@ -9,6 +9,9 @@ const isActive = (href: string): boolean =>
 ---
 
 <header class="sticky top-0 z-40 border-b-2 border-cream-dark bg-cream/90 backdrop-blur">
+  <p class="bg-pink-deep px-4 py-1.5 text-center text-sm font-semibold text-white">
+    {SITE.announcement} 🚚
+  </p>
   <div class="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
     <a href="/" class="flex items-center gap-2" aria-label={`${SITE.name} — home`}>
       {/* Inline logo: a smiling noodle bowl */}
@@ -32,7 +35,7 @@ const isActive = (href: string): boolean =>
         <path d="M21.5 34.5c1.5 1.5 3.5 1.5 5 0" stroke="#43382E" stroke-width="2" stroke-linecap="round"></path>
       </svg>
       <span class="font-display text-lg font-bold leading-tight sm:text-xl">
-        The Curvy Noodle Shop
+        {SITE.name}
       </span>
     </a>
 

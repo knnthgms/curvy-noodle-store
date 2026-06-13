@@ -24,6 +24,14 @@ export async function getProducts(): Promise<Product[]> {
   return products.sort((a, b) => a.data.title.localeCompare(b.data.title));
 }
 
+/** Products in a given category, alphabetical by title. */
+export async function getProductsByCategory(
+  category: string,
+): Promise<Product[]> {
+  const products = await getProducts();
+  return products.filter((p) => p.data.category === category);
+}
+
 /** Published (non-draft) posts, newest first. */
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('blog', ({ data }) => !data.draft);

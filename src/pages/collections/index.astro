@@ -1,0 +1,62 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import { CATEGORIES } from '@config';
+import { getProductsByCategory } from '@utils/collections';
+import { breadcrumbSchema } from '@utils/schema';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Collections' }];
+
+// Count products per category so empty collections can be hidden.
+const collections = await Promise.all(
+  CATEGORIES.map(async (category) => ({
+    ...category,
+    count: (await getProductsByCategory(category.slug)).length,
+  })),
+);
+const visible = collections.filter((c) => c.count > 0);
+---
+
+<BaseLayout
+  title="Collections"
+  description="Browse Curvy Noodle planner stickers by collection — emotion & mood, daily activity, bundles, and planner & tracker sheets."
+  schemas={[breadcrumbSchema(breadcrumbs)]}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1 class="mt-4 font-display text-4xl font-bold">Shop by collection 🗂️</h1>
+    <p class="mt-2 max-w-2xl text-lg text-ink-soft">
+      Not sure where to start? Browse by the kind of sticker you're after.
+    </p>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2">
+      {
+        visible.map((collection) => (
+          <a
+            href={`/collections/${collection.slug}/`}
+            class="group flex items-start gap-4 rounded-3xl border-2 border-cream-dark bg-white p-6 transition hover:-translate-y-1 hover:border-pink-deep hover:shadow-md"
+          >
+            <span class="text-4xl" aria-hidden="true">
+              {collection.emoji}
+            </span>
+            <span class="flex-1">
+              <span class="flex items-center justify-between gap-2">
+                <span class="font-display text-xl font-bold">{collection.label}</span>
+                <span class="chip">{collection.count} {collection.count === 1 ? 'sheet' : 'sheets'}</span>
+              </span>
+              <span class="mt-1 block text-ink-soft">{collection.description}</span>
+              <span class="mt-3 inline-block font-semibold text-pink-deep underline-offset-4 group-hover:underline">
+                Browse {collection.label} →
+              </span>
+            </span>
+          </a>
+        ))
+      }
+    </div>
+
+    <p class="mt-8 text-ink-soft">
+      Or <a href="/shop" class="font-semibold text-pink-deep underline underline-offset-4">see every sticker in the shop →</a>
+    </p>
+  </div>
+</BaseLayout>

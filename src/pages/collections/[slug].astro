@@ -1,0 +1,70 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import ProductCard from '@components/ProductCard.astro';
+import { CATEGORIES } from '@config';
+import { getProductsByCategory, type Product } from '@utils/collections';
+import { breadcrumbSchema } from '@utils/schema';
+
+export async function getStaticPaths() {
+  return Promise.all(
+    CATEGORIES.map(async (category) => ({
+      params: { slug: category.slug },
+      props: {
+        category,
+        products: await getProductsByCategory(category.slug),
+      },
+    })),
+  );
+}
+
+interface Props {
+  category: (typeof CATEGORIES)[number];
+  products: Product[];
+}
+
+const { category, products } = Astro.props;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Collections', href: '/collections' },
+  { label: category.label },
+];
+---
+
+<BaseLayout
+  title={`${category.label} Stickers`}
+  description={category.description}
+  schemas={[breadcrumbSchema(breadcrumbs)]}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1 class="mt-4 font-display text-4xl font-bold">
+      <span aria-hidden="true">{category.emoji} </span>{category.label}
+    </h1>
+    <p class="mt-2 max-w-2xl text-lg text-ink-soft">{category.description}</p>
+
+    <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {products.map((product, index) => <ProductCard product={product} eager={index < 3} />)}
+    </div>
+
+    {
+      products.length === 0 && (
+        <p class="mt-8 text-lg text-ink-soft">
+          Nothing in this collection just yet — {' '}
+          <a href="/shop" class="font-semibold text-pink-deep underline underline-offset-4">
+            browse the full shop
+          </a>{' '}
+          instead.
+        </p>
+      )
+    }
+
+    <p class="mt-10">
+      <a href="/collections" class="font-semibold text-pink-deep underline-offset-4 hover:underline">
+        ← All collections
+      </a>
+    </p>
+  </div>
+</BaseLayout>

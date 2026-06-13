@@ -8,60 +8,75 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'About' }];
 const processSteps = [
   {
     emoji: '✏️',
-    title: 'Doodle',
-    text: 'Every design starts as a pencil sketch in a well-loved sketchbook — usually over a bowl of actual noodles.',
-  },
-  {
-    emoji: '🎨',
-    title: 'Colour',
-    text: 'Sketches are inked and painted digitally in our soft pastel palette, then fussed over until they feel just right.',
+    title: 'Hand-illustrated',
+    text: 'Every character starts as a hand-drawn illustration — covering real moods and real routines, from motivated mornings to tired evenings.',
   },
   {
     emoji: '✂️',
-    title: 'Print & cut',
-    text: 'Stickers are printed in small batches on waterproof vinyl and kiss-cut by hand, so each one is checked before it ships.',
+    title: 'Handmade',
+    text: 'Each sheet is handmade on premium matte paper that resists smudging and lets you write directly over the stickers.',
+  },
+  {
+    emoji: '📦',
+    title: 'Packed personally',
+    text: 'All orders are packaged personally, with care, from my little corner of India — and shipped across the country.',
   },
 ];
 ---
 
 <BaseLayout
   title="About"
-  description="The story behind The Curvy Noodle Shop — a tiny independent sticker studio making playful, hand-drawn stickers in small batches."
+  description="The story behind Curvy Noodle — handmade planner stickers, hand-illustrated by one independent creator in India for bullet journals and daily planners."
   schemas={[breadcrumbSchema(breadcrumbs)]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
 
-    {/* Story */}
+    {/* TODO: Add about page illustrations */}
+
+    {/* Story — original copy from curvynoodle.com/pages/about */}
     <section class="mx-auto mt-6 max-w-3xl" aria-labelledby="story-heading">
       <h1 id="story-heading" class="font-display text-4xl font-bold sm:text-5xl">
-        Hello, we're The Curvy Noodle Shop 👋
+        About Curvy Noodle
       </h1>
       <div class="mt-6 space-y-4 text-lg text-ink-soft">
         <p>
-          It started with a doodle of a ramen bowl that came out a little…
-          curvy. Instead of erasing it, we gave it a face. Then a friend
-          asked for one as a sticker, then her friend did, and suddenly the
-          kitchen table was a sticker studio.
+          Hi, I'm Curvy Noodle — a lover of all things stationery, planning,
+          and the tiny joys that make everyday life a little more colourful. 🍜
         </p>
         <p>
-          Today The Curvy Noodle Shop is still a one-desk operation. Every
-          design begins as a hand-drawn sketch, every order is packed by the
-          same two hands that drew it, and every envelope leaves with a tiny
-          doodle on the back — because getting mail should feel like a gift.
+          This store started the way most passion projects do — out of a
+          personal need. I'd been bullet journaling and regular planning for
+          years and kept searching for planner stickers that felt
+          <em>personal</em> — characters that actually looked like they were
+          having a real day, with real moods and real routines. I couldn't
+          find quite what I wanted, so I made them myself.
         </p>
         <p>
-          Our stickers live on journals, laptops, water bottles, fridges,
-          guitar cases and at least one skateboard that we know of. Wherever
-          yours end up, we hope they make you smile on ordinary days.
+          What began as stickers for my own planner slowly turned into
+          something I wanted to share. Every sheet in the Curvy Noodle range
+          is hand-illustrated and handmade by me, packed with characters that
+          cover the full spectrum of a real human week — the motivated
+          mornings, the tired evenings, the everything-went-wrong Tuesdays,
+          and the quietly lovely Sundays.
         </p>
+        <p>
+          All orders are packaged personally, with care, from my little
+          corner of India. When you order from Curvy Noodle, you're
+          supporting an independent creator — and that means the world to me.
+        </p>
+        <p>
+          I hope these stickers bring as much joy to your planner as they
+          bring to mine. Happy planning! 🌸
+        </p>
+        <p class="font-display font-semibold text-ink">— Curvy Noodle</p>
       </div>
     </section>
 
     {/* Creative process */}
     <section class="mt-16" aria-labelledby="process-heading">
       <h2 id="process-heading" class="text-center font-display text-3xl font-bold">
-        How a sticker is born
+        How every sheet is made
       </h2>
       <ol class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
         {
@@ -82,13 +97,13 @@ const processSteps = [
 
     {/* Mission */}
     <section class="mt-16 rounded-3xl bg-sage px-6 py-12 text-center sm:px-12" aria-labelledby="mission-heading">
-      <h2 id="mission-heading" class="font-display text-3xl font-bold text-sage-deep">Our mission</h2>
+      <h2 id="mission-heading" class="font-display text-3xl font-bold text-sage-deep">Why Curvy Noodle exists</h2>
       <p class="mx-auto mt-4 max-w-2xl text-lg text-sage-deep">
-        To sneak little moments of joy into everyday objects — one slightly
-        wobbly, lovingly hand-drawn sticker at a time. Small-batch, kind to
-        the planet where we can be, and never too serious.
+        To make planner stickers that feel personal — characters having a
+        real day, with real moods and real routines — so that planning your
+        week feels like a tiny joy instead of a chore.
       </p>
-      <a href="/shop" class="btn-primary mt-6">Browse the stickers</a>
+      <a href="/shop" class="btn-primary mt-6">Shop planner stickers</a>
     </section>
   </div>
 </BaseLayout>

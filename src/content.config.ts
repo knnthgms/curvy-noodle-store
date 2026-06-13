@@ -14,7 +14,14 @@ const products = defineCollection({
     slug: z.string().optional(),
     /** Price in whole rupees (INR). */
     price: z.number().positive(),
-    category: z.enum(['food-drink', 'animals', 'celestial', 'plants']),
+    /** Original price shown struck through when the product is on sale. */
+    compareAtPrice: z.number().positive().optional(),
+    category: z.enum([
+      'emotion-mood',
+      'daily-activity',
+      'bundles',
+      'planner-tracker',
+    ]),
     tags: z.array(z.string()).default([]),
     /** Short summary used on cards and in meta descriptions. */
     description: z.string().max(200),

@@ -1,0 +1,105 @@
+---
+import { SITE } from '@config';
+import { whatsappChatLink } from '@utils/whatsapp';
+
+/**
+ * WhatsApp conversion-tracking redirect.
+ *
+ * Every WhatsApp CTA points here instead of straight to wa.me. Because this
+ * is a real (pre-rendered) page, Cloudflare Web Analytics counts each visit
+ * to `/go/whatsapp` as a page view — that count is your number of WhatsApp
+ * conversions. The page then fires a Google Analytics event (if GA is on)
+ * and immediately forwards the visitor to the real wa.me link.
+ *
+ * The destination is read from the `to` query param on the client. We never
+ * trust it blindly — only `https://wa.me/…` URLs are followed; anything else
+ * falls back to the default chat link.
+ */
+const fallback = whatsappChatLink();
+---
+
+<!doctype html>
+<html lang={SITE.locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {/* Not a real content page — keep it out of search results. */}
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Opening WhatsApp…</title>
+
+    {/* Cloudflare Web Analytics — this page view IS the conversion. */}
+    {
+      import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
+        <script
+          is:inline
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={`{"token": "${import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
+        />
+      )
+    }
+    {
+      import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+        <>
+          <script
+            is:inline
+            async
+            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}
+          />
+          <script
+            is:inline
+            set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}');`}
+          />
+        </>
+      )
+    }
+
+    <script is:inline define:vars={{ fallback }}>
+      (function () {
+        var params = new URLSearchParams(window.location.search);
+        var to = params.get('to') || '';
+        var label = params.get('p') || 'unknown';
+        // Only allow WhatsApp deep links — never an open redirect.
+        var dest = to.indexOf('https://wa.me/') === 0 ? to : fallback;
+
+        // Fire a Google Analytics conversion event if GA is present.
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'whatsapp_click', {
+            event_category: 'conversion',
+            event_label: label,
+            transport_type: 'beacon',
+          });
+        }
+
+        // Give the analytics beacons a moment, then forward to WhatsApp.
+        setTimeout(function () {
+          window.location.replace(dest);
+        }, 250);
+      })();
+    </script>
+  </head>
+  <body
+    style="font-family: system-ui, sans-serif; background:#fffbf4; color:#43382e; display:flex; min-height:100vh; align-items:center; justify-content:center; text-align:center; padding:1.5rem;"
+  >
+    <div>
+      <p style="font-size:1.25rem; font-weight:700;">Opening WhatsApp… 🍜</p>
+      <p style="margin-top:.5rem;">
+        Not redirected automatically?
+        <a id="manual-link" href={fallback} style="color:#b02d63; font-weight:700;">
+          Tap here to continue
+        </a>.
+      </p>
+    </div>
+
+    {/* No-JS / fallback: point the manual link at the real destination. */}
+    <script is:inline>
+      (function () {
+        var to = new URLSearchParams(window.location.search).get('to') || '';
+        if (to.indexOf('https://wa.me/') === 0) {
+          var link = document.getElementById('manual-link');
+          if (link) link.href = to;
+        }
+      })();
+    </script>
+  </body>
+</html>

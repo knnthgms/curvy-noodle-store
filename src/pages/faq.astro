@@ -1,0 +1,141 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import WhatsAppButton from '@components/WhatsAppButton.astro';
+import { SITE } from '@config';
+import { breadcrumbSchema } from '@utils/schema';
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'FAQs' }];
+
+/** FAQ content migrated from curvynoodle.com/pages/frequently-asked-questions */
+const faqSections = [
+  {
+    heading: 'About the stickers',
+    items: [
+      {
+        q: 'What size are the sticker sheets?',
+        a: 'Sheets are A5-sized, with individual stickers measuring roughly 1.5–2.5 cm wide. They fit most standard planner formats, including A5 bullet journals, B6 daily planners and Hobonichi-style notebooks.',
+      },
+      {
+        q: 'Can I write over the stickers?',
+        a: 'Yes! The matte finish accepts fine-liners, ballpoints and gel pens without smearing.',
+      },
+      {
+        q: 'Are the stickers waterproof?',
+        a: 'They are water-resistant but not fully waterproof — they handle everyday planner life happily, but please avoid submerging your planner.',
+      },
+      {
+        q: 'Can I reposition a sticker after placing it?',
+        a: 'Stickers adhere permanently but remain movable for 1–2 minutes after placement, so you have a little window to nudge them into the perfect spot.',
+      },
+      {
+        q: 'How many stickers are on a sheet?',
+        a: 'Individual sheets contain approximately 30–40 stickers. The 400+ Bundle includes over 400 stickers across multiple sheets.',
+      },
+      {
+        q: 'Do you take custom orders?',
+        a: "There's no standard custom option at the moment, but custom orders are available upon inquiry — send us a message and we'll see what we can do!",
+      },
+    ],
+  },
+  {
+    heading: 'Shipping & orders',
+    items: [
+      {
+        q: 'Where do you ship?',
+        a: 'We ship throughout India, with free shipping on all orders above ₹500.',
+      },
+      {
+        q: 'How long does delivery take?',
+        a: 'Orders are dispatched within 2–3 business days. Delivery takes 5–8 business days depending on your location, and tracking is provided for every order.',
+      },
+      {
+        q: 'Do you ship internationally?',
+        a: "Currently we're India-only — international shipping may come in the future!",
+      },
+      {
+        q: 'Can I change my order after placing it?',
+        a: 'Contact us immediately if changes are needed — we can usually help as long as your order has not yet been dispatched.',
+      },
+    ],
+  },
+  {
+    heading: 'Returns & exchanges',
+    items: [
+      {
+        q: 'What is your return policy?',
+        a: 'Due to the handmade nature of the products, opened or used products cannot be returned. Damaged or incorrect orders qualify for a replacement or refund — contact us within 48 hours of delivery with a photo.',
+      },
+    ],
+  },
+];
+
+const schemas = [
+  breadcrumbSchema(breadcrumbs),
+  // FAQPage structured data for rich results.
+  {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqSections.flatMap((section) =>
+      section.items.map((item) => ({
+        '@type': 'Question',
+        name: item.q,
+        acceptedAnswer: { '@type': 'Answer', text: item.a },
+      })),
+    ),
+  },
+];
+---
+
+<BaseLayout
+  title="FAQs"
+  description="Frequently asked questions about Curvy Noodle planner stickers — sizes, writing over stickers, shipping across India, delivery times and returns."
+  schemas={schemas}
+>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1 class="mt-4 font-display text-4xl font-bold">Frequently asked questions</h1>
+    <p class="mt-2 text-lg text-ink-soft">
+      Everything you might want to know before (and after) ordering. Can't
+      find your answer? <a href="/contact" class="font-semibold text-pink-deep underline underline-offset-4">Get in touch</a>
+      — we reply within 24–48 hours.
+    </p>
+
+    {
+      faqSections.map((section) => (
+        <section class="mt-10" aria-label={section.heading}>
+          <h2 class="font-display text-2xl font-bold">{section.heading}</h2>
+          <div class="mt-4 space-y-3">
+            {section.items.map((item) => (
+              <details class="group rounded-3xl border-2 border-cream-dark bg-white px-6 py-4 open:border-pink-deep">
+                <summary class="cursor-pointer list-none font-display text-lg font-semibold marker:hidden [&::-webkit-details-marker]:hidden">
+                  <span class="flex items-center justify-between gap-4">
+                    {item.q}
+                    <span aria-hidden="true" class="text-pink-deep transition group-open:rotate-45">
+                      +
+                    </span>
+                  </span>
+                </summary>
+                <p class="mt-3 text-ink-soft">{item.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+      ))
+    }
+
+    <div class="mt-12 rounded-3xl bg-sage p-6 text-center sm:p-8">
+      <h2 class="font-display text-2xl font-bold text-sage-deep">Still curious?</h2>
+      <p class="mt-2 text-sage-deep">
+        DM us on <a href={SITE.socials.instagram} target="_blank" rel="noopener noreferrer" class="font-semibold underline underline-offset-4">Instagram @curvy_noodle</a>
+        (our preferred channel), email
+        <a href={`mailto:${SITE.email}`} class="font-semibold underline underline-offset-4">{SITE.email}</a>,
+        or say hi on WhatsApp.
+      </p>
+      <div class="mt-4 flex justify-center">
+        <WhatsAppButton />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
