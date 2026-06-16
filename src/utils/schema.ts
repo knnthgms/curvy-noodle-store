@@ -16,7 +16,7 @@ export function organizationSchema(): JsonLd {
     '@type': 'Organization',
     name: SITE.name,
     url: SITE.url,
-    logo: absolute('/images/branding/logo.svg'),
+    logo: absolute('/images/branding/logo.PNG'),
     email: SITE.email,
     sameAs: Object.values(SITE.socials),
   };
@@ -99,7 +99,7 @@ export function blogPostingSchema(input: {
       name: SITE.name,
       logo: {
         '@type': 'ImageObject',
-        url: absolute('/images/branding/logo.svg'),
+        url: absolute('/images/branding/logo.PNG'),
       },
     },
   };
