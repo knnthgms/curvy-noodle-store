@@ -27,42 +27,40 @@ const fallback = whatsappChatLink();
     <meta name="robots" content="noindex, nofollow" />
     <title>Opening WhatsApp…</title>
 
-    {/* Cloudflare Web Analytics — this page view IS the conversion. */}
-    {
-      import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
+    {/* All three analytics tags — this page view is the WhatsApp conversion. */}
+    {import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN && (
+      <script
+        is:inline
+        defer
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon={`{"token":"${import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
+      />
+    )}
+    {import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`} />
         <script
           is:inline
-          defer
-          src="https://static.cloudflareinsights.com/beacon.min.js"
-          data-cf-beacon={`{"token": "${import.meta.env.PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN}"}`}
+          set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}',{send_page_view:true});`}
         />
-      )
-    }
-    {
-      import.meta.env.PUBLIC_GA_MEASUREMENT_ID && (
-        <>
-          <script
-            is:inline
-            async
-            src={`https://www.googletagmanager.com/gtag/js?id=${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}`}
-          />
-          <script
-            is:inline
-            set:html={`window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','${import.meta.env.PUBLIC_GA_MEASUREMENT_ID}');`}
-          />
-        </>
-      )
-    }
+      </>
+    )}
+    {import.meta.env.PUBLIC_CLARITY_PROJECT_ID && (
+      <script
+        is:inline
+        set:html={`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${import.meta.env.PUBLIC_CLARITY_PROJECT_ID}");`}
+      />
+    )}
 
     <script is:inline define:vars={{ fallback }}>
       (function () {
         var params = new URLSearchParams(window.location.search);
-        var to = params.get('to') || '';
-        var label = params.get('p') || 'unknown';
+        var to     = params.get('to') || '';
+        var label  = params.get('p')  || 'unknown';
         // Only allow WhatsApp deep links — never an open redirect.
         var dest = to.indexOf('https://wa.me/') === 0 ? to : fallback;
 
-        // Fire a Google Analytics conversion event if GA is present.
+        // Fire GA4 whatsapp_click conversion event.
         if (typeof window.gtag === 'function') {
           window.gtag('event', 'whatsapp_click', {
             event_category: 'conversion',
@@ -71,10 +69,16 @@ const fallback = whatsappChatLink();
           });
         }
 
-        // Give the analytics beacons a moment, then forward to WhatsApp.
+        // Fire Clarity custom event.
+        if (typeof window.clarity === 'function') {
+          window.clarity('event', 'whatsapp_click');
+          window.clarity('set', 'whatsapp_source', label);
+        }
+
+        // Give beacons a moment to flush, then forward to WhatsApp.
         setTimeout(function () {
           window.location.replace(dest);
-        }, 250);
+        }, 300);
       })();
     </script>
   </head>

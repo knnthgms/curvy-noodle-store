@@ -231,16 +231,39 @@ const schemas = [
   </div>
 </BaseLayout>
 
+<div
+  id="product-analytics-data"
+  data-item-id={productSlug(product)}
+  data-item-name={title}
+  data-price={price}
+  data-category={category}
+  hidden
+/>
+
 <script>
+  import { trackViewItem, trackGalleryImageView } from '@utils/analytics';
+
+  // Fire view_item on page load.
+  const meta = document.getElementById('product-analytics-data') as HTMLElement;
+  if (meta) {
+    trackViewItem({
+      item_id: meta.dataset.itemId!,
+      item_name: meta.dataset.itemName!,
+      price: Number(meta.dataset.price),
+      item_category: meta.dataset.category,
+    });
+  }
+
   // Swap the main gallery image when a thumbnail is clicked.
   const main = document.getElementById('gallery-main') as HTMLImageElement | null;
   const thumbs = document.querySelectorAll<HTMLButtonElement>('.gallery-thumb');
 
-  thumbs.forEach((thumb) => {
+  thumbs.forEach((thumb, index) => {
     thumb.addEventListener('click', () => {
       if (main && thumb.dataset.src) {
         main.src = thumb.dataset.src;
         main.alt = thumb.dataset.alt ?? '';
+        trackGalleryImageView(meta?.dataset.itemId ?? '', index + 1);
       }
     });
   });

@@ -25,7 +25,9 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
       </a>
     </div>
     <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-      {featured.map((product, index) => <ProductCard product={product} eager={index < 2} />)}
+      {featured.map((product, index) => (
+        <ProductCard product={product} eager={index < 2} listName="home_featured" />
+      ))}
     </div>
   </section>
 
@@ -93,3 +95,34 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
     <NewsletterSignup />
   </div>
 </BaseLayout>
+
+<script>
+  import { trackViewItemList, trackSelectItem } from '@utils/analytics';
+
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-product-card]')];
+
+  trackViewItemList(
+    cards.map((card) => ({
+      item_id: card.dataset.itemId ?? '',
+      item_name: card.dataset.itemName ?? '',
+      item_category: card.dataset.category,
+      price: Number(card.dataset.price) || undefined,
+    })),
+    'Home Featured',
+    'home_featured',
+  );
+
+  for (const card of cards) {
+    card.querySelector('a')?.addEventListener('click', () => {
+      trackSelectItem(
+        {
+          item_id: card.dataset.itemId ?? '',
+          item_name: card.dataset.itemName ?? '',
+          item_category: card.dataset.category,
+          price: Number(card.dataset.price) || undefined,
+        },
+        'home_featured',
+      );
+    });
+  }
+</script>
