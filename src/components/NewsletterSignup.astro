@@ -1,9 +1,5 @@
 ---
-/**
- * Newsletter signup placeholder. There is no mailing-list backend yet —
- * the form shows a friendly "coming soon" message on submit. Swap the
- * handler for a real provider (Buttondown, Mailchimp, …) when ready.
- */
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_NEWSLETTER_KEY as string | undefined;
 ---
 
 <section class="mx-auto max-w-6xl px-4 sm:px-6" aria-labelledby="newsletter-heading">
@@ -16,6 +12,9 @@
       No spam, only fun doodles.
     </p>
     <form id="newsletter-form" class="mx-auto mt-6 flex max-w-md flex-col gap-3 sm:flex-row" novalidate>
+      {accessKey && <input type="hidden" name="access_key" value={accessKey} />}
+      <input type="hidden" name="subject" value="New Curvy Noodle newsletter subscriber" />
+      <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
       <label for="newsletter-email" class="sr-only">Email address</label>
       <input
         type="email"
@@ -26,7 +25,7 @@
         autocomplete="email"
         class="w-full rounded-full border-2 border-ink/20 bg-white px-5 py-3 placeholder:text-ink-soft/70 focus:border-pink-deep focus:outline-none"
       />
-      <button type="submit" class="btn-primary shrink-0">Sign up</button>
+      <button type="submit" id="newsletter-btn" class="btn-primary shrink-0">Sign up</button>
     </form>
     <p id="newsletter-status" role="status" class="mt-3 font-semibold text-pink-deep"></p>
   </div>
@@ -35,15 +34,50 @@
 <script>
   import { trackNewsletterSubmit } from '@utils/analytics';
 
-  const form = document.getElementById('newsletter-form');
-  const status = document.getElementById('newsletter-status');
+  const form    = document.getElementById('newsletter-form') as HTMLFormElement | null;
+  const status  = document.getElementById('newsletter-status');
+  const btn     = document.getElementById('newsletter-btn') as HTMLButtonElement | null;
+  const hasKey  = form?.querySelector<HTMLInputElement>('[name="access_key"]');
 
-  form?.addEventListener('submit', (event) => {
+  form?.addEventListener('submit', async (event) => {
     event.preventDefault();
-    trackNewsletterSubmit();
-    if (status) {
-      status.textContent =
-        'The noodle letter is still simmering — follow me on Instagram in the meantime!';
+
+    const email = (form.querySelector<HTMLInputElement>('[name="email"]'))?.value.trim();
+    if (!email) return;
+
+    // No backend key — friendly holding message.
+    if (!hasKey) {
+      if (status) status.textContent = 'The noodle letter is still simmering — follow me on Instagram in the meantime!';
+      return;
+    }
+
+    if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+    if (status) status.textContent = '';
+
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(form))),
+      });
+      const data = await res.json() as { success: boolean; message?: string };
+
+      if (data.success) {
+        trackNewsletterSubmit();
+        form.reset();
+        if (status) {
+          status.textContent = 'You\'re on the list! Expect fun doodles soon. 🍜';
+        }
+      } else {
+        throw new Error(data.message ?? 'Submission failed');
+      }
+    } catch {
+      if (status) {
+        status.textContent = 'Something went wrong — try again or reach out on Instagram.';
+        status.style.color = 'var(--color-ink-soft)';
+      }
+    } finally {
+      if (btn) { btn.disabled = false; btn.textContent = 'Sign up'; }
     }
   });
 </script>
