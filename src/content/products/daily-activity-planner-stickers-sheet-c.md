@@ -5,14 +5,15 @@ category: "daily-activity"
 tags: ["planner stickers", "task stickers"]
 description: "This sticker sheet is for those who love tracking or planning chores and pet tasks (which is a chore in itself, I can testify)."
 featured: false
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/daily-activity-pet-stickers.PNG"
 imageAlt: "chore stickers and pet stickers for planners in india like neorah and alicia souza"
+gallery:
+  - src: /images/products/daily-activity-pet-stickers.PNG
+    alt: chore stickers and pet stickers for planners in india like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
 
-<!-- TODO: Add product gallery images -->
 
 Bring your daily routine to life with this sheet of illustrated activity planner stickers!
 

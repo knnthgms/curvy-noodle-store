@@ -5,14 +5,14 @@ category: "daily-activity"
 tags: ["emotion stickers", "planner stickers"]
 description: "Hand-illustrated characters for everyday tasks — like running errands, self-care, swimming and more. The sheet that makes planning engaging."
 featured: true
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/running-errands-stickers.PNG"
 imageAlt: "running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza"
+gallery:
+  - src: /images/products/running-errands-stickers.PNG
+    alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
-
-<!-- TODO: Add product gallery images -->
 
 Keep your to-dos cute and organised with our errands and self-care collection! This sheet covers chores, errands, and self-care routines — the often-forgotten everyday tasks that deserve a spot in your planner.
 

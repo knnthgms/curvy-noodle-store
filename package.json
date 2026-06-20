@@ -16,7 +16,8 @@
     "@fontsource-variable/caveat": "^5.2.8",
     "@fontsource-variable/noto-sans": "^5.2.10",
     "@fontsource/lilita-one": "^5.2.8",
-    "astro": "^5.13.0"
+    "astro": "^5.13.0",
+    "photoswipe": "^5.4.4"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",

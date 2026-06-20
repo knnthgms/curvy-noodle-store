@@ -5,14 +5,15 @@ category: "daily-activity"
 tags: ["planner stickers", "task stickers"]
 description: "These stickers are perfect for those who love to cook (or hate, no judgement here) and want to stay on top of work too (for the strong, independent business women). Pairs seamlessly with Sheet A."
 featured: false
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/working-cooking-stickers.PNG"
 imageAlt: "working and cooking stickers for planners in India for planners like neorah and alicia souza"
+gallery:
+  - src: /images/products/working-cooking-stickers.PNG
+    alt: working and cooking stickers for planners in India for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
 
-<!-- TODO: Add product gallery images -->
 
 A favourite for bullet journal beginners and seasoned planners alike, this sheet works beautifully as a standalone purchase or as a complement to our individual emotion and activity sheets.
 

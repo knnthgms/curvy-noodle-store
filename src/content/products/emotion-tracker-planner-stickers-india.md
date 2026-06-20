@@ -5,14 +5,15 @@ category: "emotion-mood"
 tags: ["emotion stickers", "planner stickers"]
 description: "Expressive characters for happiness, sadness, anxiety, anger and more — track your daily moods and build self-awareness, one sticker at a time."
 featured: true
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/emotion-stickers-1.PNG"
 imageAlt: "expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza"
+gallery:
+  - src: /images/products/emotion-stickers-1.PNG
+    alt: expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
 
-<!-- TODO: Add product gallery images -->
 
 Track your emotional journey one sticker at a time! This sheet of Emotion Tracker Planner Stickers features a full cast of expressive illustrated characters — happy, sad, anxious, angry, teary, laughing, smug, and more.
 

@@ -5,14 +5,15 @@ category: "planner-tracker"
 tags: ["emotion stickers", "planner stickers", "task stickers"]
 description: "Expressive emotion characters and everyday action icons on one combined sheet — log moods and track daily tasks in a fun way."
 featured: true
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/mood-activity-stickers-2.PNG"
 imageAlt: "various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners"
+gallery:
+  - src: /images/products/mood-activity-stickers-2.PNG
+    alt: various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
 
-<!-- TODO: Add product gallery images -->
 
 This is for all the planner lovers and mood trackers out there. 
 
