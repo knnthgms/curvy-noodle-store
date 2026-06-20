@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import ProductCard from '@components/ProductCard.astro';
 import WhatsAppButton from '@components/WhatsAppButton.astro';
+import ProductGallery from '@components/ProductGallery.astro';
 import { categoryLabel } from '@config';
 import {
   getProducts,
@@ -47,6 +48,11 @@ const {
 const related = relatedProducts(product, products);
 const path = productPath(product);
 
+// gallery is the authoritative image list; image/imageAlt are kept for OG tags and schema.
+const galleryImages = gallery.length > 0
+  ? gallery.map((g) => ({ src: g.src, alt: g.alt }))
+  : [{ src: image, alt: imageAlt }];
+
 // Percentage saved when the product is on sale (for the savings badge).
 const percentOff = compareAtPrice
   ? Math.round((1 - price / compareAtPrice) * 100)
@@ -85,41 +91,7 @@ const schemas = [
 
     <div class="mt-6 grid grid-cols-1 gap-10 lg:grid-cols-2">
       {/* Gallery */}
-      <div>
-        <img
-          id="gallery-main"
-          src={image}
-          alt={imageAlt}
-          width="800"
-          height="800"
-          decoding="async"
-          class="aspect-square w-full rounded-3xl border-2 border-cream-dark bg-white object-cover"
-        />
-        {
-          gallery.length > 0 && (
-            <div class="mt-4 flex flex-wrap gap-3" role="group" aria-label="More photos">
-              {[{ src: image, alt: imageAlt }, ...gallery].map((item) => (
-                <button
-                  type="button"
-                  class="gallery-thumb overflow-hidden rounded-2xl border-2 border-cream-dark transition hover:border-pink-deep"
-                  data-src={item.src}
-                  data-alt={item.alt}
-                >
-                  <img
-                    src={item.src}
-                    alt={item.alt}
-                    width="96"
-                    height="96"
-                    loading="lazy"
-                    decoding="async"
-                    class="h-24 w-24 bg-white object-cover"
-                  />
-                </button>
-              ))}
-            </div>
-          )
-        }
-      </div>
+      <ProductGallery images={galleryImages} productId={productSlug(product)} />
 
       {/* Details */}
       <div>
@@ -241,9 +213,8 @@ const schemas = [
 />
 
 <script>
-  import { trackViewItem, trackGalleryImageView } from '@utils/analytics';
+  import { trackViewItem } from '@utils/analytics';
 
-  // Fire view_item on page load.
   const meta = document.getElementById('product-analytics-data') as HTMLElement;
   if (meta) {
     trackViewItem({
@@ -253,18 +224,4 @@ const schemas = [
       item_category: meta.dataset.category,
     });
   }
-
-  // Swap the main gallery image when a thumbnail is clicked.
-  const main = document.getElementById('gallery-main') as HTMLImageElement | null;
-  const thumbs = document.querySelectorAll<HTMLButtonElement>('.gallery-thumb');
-
-  thumbs.forEach((thumb, index) => {
-    thumb.addEventListener('click', () => {
-      if (main && thumb.dataset.src) {
-        main.src = thumb.dataset.src;
-        main.alt = thumb.dataset.alt ?? '';
-        trackGalleryImageView(meta?.dataset.itemId ?? '', index + 1);
-      }
-    });
-  });
 </script>

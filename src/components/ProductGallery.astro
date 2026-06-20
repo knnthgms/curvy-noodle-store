@@ -1,0 +1,282 @@
+---
+/**
+ * ProductGallery — Amazon-style product image gallery with PhotoSwipe lightbox.
+ *
+ * Layout:
+ *   Desktop → vertical thumbnail rail on the left, large hero on the right.
+ *   Mobile  → hero on top, horizontal scrollable thumbnail strip below.
+ *
+ * Single image: renders hero only — no thumbnails or controls.
+ * Multiple images: thumbnail rail/strip + hero; clicking hero opens lightbox.
+ *
+ * PhotoSwipe (v5) handles the full-screen experience:
+ *   prev/next navigation, touch swipe, keyboard (arrows + Esc),
+ *   backdrop-click to close, image counter, zoom, and smooth transitions.
+ *
+ * PhotoSwipe JS core is lazy-loaded on first open; only the tiny lightbox
+ * module and CSS ship with the initial page.
+ */
+
+export interface GalleryImage {
+  src: string;
+  alt: string;
+}
+
+interface Props {
+  images: GalleryImage[];
+  /** Passed through to analytics events. */
+  productId?: string;
+}
+
+const { images, productId = '' } = Astro.props;
+
+// Filter out any items with missing src.
+const safe = images.filter((img) => img?.src);
+const first = safe[0] ?? { src: '', alt: '' };
+const hasMultiple = safe.length > 1;
+---
+
+<div
+  id="product-gallery"
+  class="flex flex-col gap-3 md:flex-row md:items-start"
+  data-images={JSON.stringify(safe)}
+  data-product-id={productId}
+>
+  <!-- ─── Thumbnail rail ─── only rendered when there is more than one image -->
+  {hasMultiple && (
+    <div
+      class="gallery-thumbs order-2 flex flex-row gap-2 overflow-x-auto pb-0.5 md:order-1 md:flex-col md:overflow-x-hidden md:overflow-y-auto"
+      role="list"
+      aria-label="Product image thumbnails"
+    >
+      {safe.map((img, i) => (
+        <button
+          type="button"
+          role="listitem"
+          class:list={[
+            'gallery-thumb shrink-0 overflow-hidden rounded-2xl border-2 transition-all duration-150',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-deep focus-visible:ring-offset-1',
+            i === 0
+              ? 'border-pink-deep shadow-sm'
+              : 'border-cream-dark hover:border-ink/30',
+          ]}
+          data-thumb
+          data-index={i}
+          aria-label={`View image ${i + 1} of ${safe.length}: ${img.alt}`}
+          aria-pressed={String(i === 0)}
+        >
+          <img
+            src={img.src}
+            alt=""
+            aria-hidden="true"
+            width="80"
+            height="80"
+            loading={i < 4 ? 'eager' : 'lazy'}
+            decoding="async"
+            class="gallery-thumb-img h-[68px] w-[68px] object-cover md:h-[76px] md:w-[76px]"
+          />
+        </button>
+      ))}
+    </div>
+  )}
+
+  <!-- ─── Hero image ─────────────────────────────────────────────────────── -->
+  <div class="order-1 md:order-2 md:flex-1">
+    <button
+      type="button"
+      id="gallery-hero-btn"
+      class="gallery-hero-btn group relative block w-full overflow-hidden rounded-3xl border-2 border-cream-dark bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-pink-deep focus-visible:ring-offset-2"
+      data-index="0"
+      aria-label={`Open full-size image: ${first.alt}`}
+    >
+      <img
+        id="gallery-main-img"
+        src={first.src}
+        alt={first.alt}
+        width="800"
+        height="800"
+        loading="eager"
+        decoding="async"
+        class="aspect-square w-full cursor-zoom-in object-cover"
+        style="transition: opacity 150ms ease;"
+      />
+
+      <!-- Zoom hint — visible on hover/focus -->
+      <span
+        class="pointer-events-none absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/50 px-2.5 py-1 text-xs font-semibold text-white opacity-0 backdrop-blur-sm transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100"
+        aria-hidden="true"
+      >
+        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/>
+          <path stroke-linecap="round" d="m20 20-3.5-3.5"/>
+          <path stroke-linecap="round" d="M11 8v6M8 11h6"/>
+        </svg>
+        Full size
+      </span>
+
+      <!-- Image counter badge (multiple images only) -->
+      {hasMultiple && (
+        <span
+          id="gallery-counter"
+          class="pointer-events-none absolute bottom-3 left-3 rounded-full bg-black/50 px-2.5 py-1 text-xs font-semibold text-white backdrop-blur-sm"
+          aria-live="polite"
+          aria-atomic="true"
+        >
+          1 / {safe.length}
+        </span>
+      )}
+    </button>
+  </div>
+</div>
+
+<style>
+  /* Hide scrollbar on thumbnail strip while keeping it scrollable. */
+  .gallery-thumbs {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  .gallery-thumbs::-webkit-scrollbar { display: none; }
+
+  /* Cap vertical rail height on desktop so it doesn't grow forever. */
+  @media (min-width: 768px) {
+    .gallery-thumbs { max-height: 520px; }
+  }
+
+  /* Ensure thumbnail images fill their button evenly. */
+  .gallery-thumb-img { display: block; }
+</style>
+
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+  import { trackGalleryImageView } from '@utils/analytics';
+
+  /* ── Bootstrap ── */
+
+  const root = document.getElementById('product-gallery') as HTMLElement | null;
+  if (!root) throw new Error('ProductGallery: #product-gallery not found');
+
+  const images: Array<{ src: string; alt: string }> = JSON.parse(
+    root.dataset.images ?? '[]',
+  );
+  const productId = root.dataset.productId ?? '';
+
+  if (!images.length) throw new Error('ProductGallery: no images provided');
+
+  const mainImg   = document.getElementById('gallery-main-img') as HTMLImageElement;
+  const heroBtn   = document.getElementById('gallery-hero-btn') as HTMLButtonElement;
+  const counter   = document.getElementById('gallery-counter');
+  const thumbBtns = [...root.querySelectorAll<HTMLButtonElement>('[data-thumb]')];
+
+  let activeIndex = 0;
+
+  /* ── Thumbnail active state ── */
+
+  function setActiveThumb(index: number) {
+    thumbBtns.forEach((btn, i) => {
+      const on = i === index;
+      btn.classList.toggle('border-pink-deep', on);
+      btn.classList.toggle('shadow-sm', on);
+      btn.classList.toggle('border-cream-dark', !on);
+      btn.setAttribute('aria-pressed', String(on));
+    });
+  }
+
+  /* ── Image switching with crossfade ── */
+
+  function switchToImage(index: number, fromLightbox = false) {
+    if (index < 0 || index >= images.length) return;
+    if (index === activeIndex && !fromLightbox) return;
+    activeIndex = index;
+
+    mainImg.style.opacity = '0';
+    const update = () => {
+      mainImg.src     = images[index].src;
+      mainImg.alt     = images[index].alt;
+      heroBtn.dataset.index = String(index);
+      heroBtn.setAttribute('aria-label', `Open full-size image: ${images[index].alt}`);
+      if (counter) counter.textContent = `${index + 1} / ${images.length}`;
+      mainImg.style.opacity = '1';
+    };
+
+    // If transitioning from lightbox the new src may already be cached — no flash.
+    setTimeout(update, fromLightbox ? 0 : 150);
+
+    setActiveThumb(index);
+
+    if (!fromLightbox) {
+      trackGalleryImageView(productId, index);
+    }
+  }
+
+  thumbBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const i = parseInt(btn.dataset.index ?? '0', 10);
+      switchToImage(i);
+    });
+  });
+
+  /* ── PhotoSwipe lightbox ── */
+
+  const pswpItems = images.map((img) => ({
+    src: img.src,
+    alt: img.alt,
+    // Width/height resolved from loaded elements at open time (filter below).
+    // Fall back to a large square which PS will then fit to the viewport.
+    width: 1500,
+    height: 1500,
+  }));
+
+  const lightbox = new PhotoSwipeLightbox({
+    dataSource: pswpItems,
+
+    // Zoom-in-from / zoom-out-to the hero image for a fluid open/close.
+    showHideAnimationType: 'zoom',
+
+    // Use the actual hero image position for the zoom origin.
+    getThumbBoundsFn: () => {
+      const rect = mainImg.getBoundingClientRect();
+      return { x: rect.left, y: rect.top, w: rect.width };
+    },
+
+    // Navigation and UI options.
+    loop: images.length > 1,
+    counter: images.length > 1,
+    arrowPrev: images.length > 1,
+    arrowNext: images.length > 1,
+    bgOpacity: 0.9,
+    spacing: 0.12,
+    allowPanToNext: true,
+
+    // Lazy-load the heavy PS core — only downloaded when the lightbox first opens.
+    pswpModule: () => import('photoswipe'),
+  });
+
+  // Refine image dimensions from already-loaded DOM elements for accurate layout.
+  lightbox.addFilter('itemData', (itemData, index) => {
+    // Prefer the main image (fully loaded, best quality dimensions).
+    const refEl: HTMLImageElement | null =
+      index === activeIndex
+        ? mainImg
+        : (thumbBtns[index]?.querySelector('img') ?? null);
+
+    if (refEl && refEl.naturalWidth > 0) {
+      return { ...itemData, width: refEl.naturalWidth, height: refEl.naturalHeight };
+    }
+    return itemData;
+  });
+
+  // Sync gallery when the user navigates within the lightbox.
+  lightbox.on('change', () => {
+    const idx = lightbox.pswp?.currIndex ?? 0;
+    if (idx !== activeIndex) {
+      switchToImage(idx, true);
+    }
+  });
+
+  lightbox.init();
+
+  heroBtn.addEventListener('click', () => {
+    lightbox.loadAndOpen(activeIndex);
+  });
+</script>

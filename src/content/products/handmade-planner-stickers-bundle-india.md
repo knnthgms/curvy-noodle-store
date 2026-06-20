@@ -6,14 +6,15 @@ category: "bundles"
 tags: ["organization stickers", "planner stickers", "stickers"]
 description: "400+ hand-illustrated emotion and activity stickers across multiple sheets — the complete Curvy Noodle collection in one bundle."
 featured: true
-# TODO: Add product photos at public/images/products/ (placeholder currently generated)
 image: "/images/products/bundle-stickers.PNG"
 imageAlt: "emotion and activity stickers by curvy noodle for planners in India"
+gallery:
+  - src: /images/products/bundle-stickers.PNG
+    alt: emotion and activity stickers by curvy noodle for planners in India
 dimensions: "Multiple A5 sheets; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---
 
-<!-- TODO: Add product gallery images -->
 
 Meet your new favourite planning companion! This 400+ planner stickers bundle is packed with handmade, hand-illustrated characters designed to make your bullet journal or daily planner come alive.
 
