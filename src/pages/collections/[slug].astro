@@ -52,7 +52,9 @@ const breadcrumbs = [
     <p class="mt-2 max-w-2xl text-lg text-ink-soft">{category.description}</p>
 
     <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-      {products.map((product, index) => <ProductCard product={product} eager={index < 3} />)}
+      {products.map((product, index) => (
+        <ProductCard product={product} eager={index < 3} listName={`collection_${category.slug}`} />
+      ))}
     </div>
 
     {
@@ -74,3 +76,34 @@ const breadcrumbs = [
     </p>
   </div>
 </BaseLayout>
+
+<script>
+  import { trackViewItemList, trackSelectItem } from '@utils/analytics';
+
+  const cards = [...document.querySelectorAll<HTMLElement>('[data-product-card]')];
+  const listName = cards[0]?.dataset.listName ?? 'collection';
+
+  trackViewItemList(
+    cards.map((card) => ({
+      item_id: card.dataset.itemId ?? '',
+      item_name: card.dataset.itemName ?? '',
+      item_category: card.dataset.category,
+      price: Number(card.dataset.price) || undefined,
+    })),
+    listName,
+  );
+
+  for (const card of cards) {
+    card.querySelector('a')?.addEventListener('click', () => {
+      trackSelectItem(
+        {
+          item_id: card.dataset.itemId ?? '',
+          item_name: card.dataset.itemName ?? '',
+          item_category: card.dataset.category,
+          price: Number(card.dataset.price) || undefined,
+        },
+        listName,
+      );
+    });
+  }
+</script>

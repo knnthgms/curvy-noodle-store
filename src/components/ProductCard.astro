@@ -1,29 +1,36 @@
 ---
 import { categoryLabel } from '@config';
 import { formatPrice } from '@utils/format';
-import { productPath, type Product } from '@utils/collections';
+import { productPath, productSlug, type Product } from '@utils/collections';
 
 /**
- * Product grid card. The data-* attributes power the client-side
- * search and category filtering on the shop page.
+ * Product grid card. The data-* attributes power client-side search,
+ * category filtering, and analytics event tracking.
  */
 interface Props {
   product: Product;
   /** Eagerly load the image (for above-the-fold cards). */
   eager?: boolean;
+  /** GA4 item_list_name — which list this card appears in. */
+  listName?: string;
 }
 
-const { product, eager = false } = Astro.props;
+const { product, eager = false, listName = 'shop' } = Astro.props;
 const { title, price, compareAtPrice, category, tags, image, imageAlt } =
   product.data;
 const href = productPath(product);
+const slug = productSlug(product);
 const searchText = [title, ...tags, categoryLabel(category)].join(' ').toLowerCase();
 ---
 
 <article
   class="group relative flex flex-col overflow-hidden rounded-3xl border-2 border-cream-dark bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-md"
   data-product-card
+  data-item-id={slug}
+  data-item-name={title}
+  data-price={price}
   data-category={category}
+  data-list-name={listName}
   data-search={searchText}
 >
   <img

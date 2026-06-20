@@ -33,11 +33,14 @@
 </section>
 
 <script>
+  import { trackNewsletterSubmit } from '@utils/analytics';
+
   const form = document.getElementById('newsletter-form');
   const status = document.getElementById('newsletter-status');
 
   form?.addEventListener('submit', (event) => {
     event.preventDefault();
+    trackNewsletterSubmit();
     if (status) {
       status.textContent =
         'The noodle letter is still simmering — follow me on Instagram in the meantime!';

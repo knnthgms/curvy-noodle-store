@@ -78,7 +78,8 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
 </style>
 
 <script>
-  // Combined text search + category filtering over the product grid.
+  import { trackViewItemList, trackSearch, trackFilterApplied, trackSelectItem } from '@utils/analytics';
+
   const input = document.getElementById('shop-search') as HTMLInputElement | null;
   const buttons = [...document.querySelectorAll<HTMLButtonElement>('.filter-btn')];
   const cards = [...document.querySelectorAll<HTMLElement>('[data-product-card]')];
@@ -86,7 +87,19 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
 
   let activeCategory = 'all';
 
-  const applyFilters = (): void => {
+  // Fire view_item_list once for the full shop on page load.
+  trackViewItemList(
+    cards.map((card) => ({
+      item_id: card.dataset.itemId ?? '',
+      item_name: card.dataset.itemName ?? '',
+      item_category: card.dataset.category,
+      price: Number(card.dataset.price) || undefined,
+    })),
+    'Shop',
+    'shop',
+  );
+
+  const applyFilters = (): number => {
     const query = (input?.value ?? '').trim().toLowerCase();
     let visible = 0;
 
@@ -101,9 +114,19 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
     }
 
     noResults?.classList.toggle('hidden', visible > 0);
+    return visible;
   };
 
-  input?.addEventListener('input', applyFilters);
+  // Debounced search event — fires 600 ms after the user stops typing.
+  let searchTimer: ReturnType<typeof setTimeout>;
+  input?.addEventListener('input', () => {
+    const visible = applyFilters();
+    clearTimeout(searchTimer);
+    const query = (input?.value ?? '').trim();
+    if (query.length >= 2) {
+      searchTimer = setTimeout(() => trackSearch(query, visible), 600);
+    }
+  });
 
   for (const button of buttons) {
     button.addEventListener('click', () => {
@@ -112,6 +135,24 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
         other.setAttribute('aria-pressed', String(other === button));
       }
       applyFilters();
+      if (activeCategory !== 'all') {
+        trackFilterApplied(activeCategory);
+      }
+    });
+  }
+
+  // Track product card clicks (select_item).
+  for (const card of cards) {
+    card.querySelector('a')?.addEventListener('click', () => {
+      trackSelectItem(
+        {
+          item_id: card.dataset.itemId ?? '',
+          item_name: card.dataset.itemName ?? '',
+          item_category: card.dataset.category,
+          price: Number(card.dataset.price) || undefined,
+        },
+        card.dataset.listName ?? 'shop',
+      );
     });
   }
 </script>
