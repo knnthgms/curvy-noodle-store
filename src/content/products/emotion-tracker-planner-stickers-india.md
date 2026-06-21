@@ -8,7 +8,9 @@ featured: true
 image: "/images/products/emotion-stickers-1.PNG"
 imageAlt: "expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza"
 gallery:
-  - src: /images/products/emotion-stickers-1.PNG
+  - src: /images/products/curvynoodle-emotion-stickers-watermarked-web.png
+    alt: expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza
+  - src: /images/products/curvy-noodle-stickers-in-filofax.png
     alt: expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

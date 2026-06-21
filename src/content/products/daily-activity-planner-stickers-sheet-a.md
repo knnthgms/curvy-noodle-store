@@ -8,7 +8,11 @@ featured: true
 image: "/images/products/running-errands-stickers.PNG"
 imageAlt: "running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza"
 gallery:
-  - src: /images/products/running-errands-stickers.PNG
+  - src: /images/products/curvynoodle-stickers-watermarked-web.png
+    alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
+  - src: /images/products/errands-workout-stickers.png
+    alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
+  - src: /images/products/tea-swimming-pets.png
     alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

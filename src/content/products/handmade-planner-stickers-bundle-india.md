@@ -11,6 +11,10 @@ imageAlt: "emotion and activity stickers by curvy noodle for planners in India"
 gallery:
   - src: /images/products/bundle-stickers.PNG
     alt: emotion and activity stickers by curvy noodle for planners in India
+  - src: /images/products/the-bundle-stickers.png
+    alt: emotion and activity stickers by curvy noodle for planners in India using atelier neorah planners or alicia souza planners
+  - src: /images/products/errands-workout-stickers.png
+    alt: emotion and activity stickers by curvy noodle for planners in India using atelier neorah planners or alicia souza planners
 dimensions: "Multiple A5 sheets; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---

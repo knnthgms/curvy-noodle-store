@@ -8,8 +8,12 @@ featured: false
 image: "/images/products/daily-activity-pet-stickers.PNG"
 imageAlt: "chore stickers and pet stickers for planners in india like neorah and alicia souza"
 gallery:
-  - src: /images/products/daily-activity-pet-stickers.PNG
-    alt: chore stickers and pet stickers for planners in india like neorah and alicia souza
+  - src: /images/products/curvynoodle-daily-activity-pet-stickers-watermarked-web.png
+    alt: chore stickers and pet stickers for planners in india like neorah and alicia souza 
+  - src: /images/products/tea-swimming-pets.png
+    alt: chore stickers and pet stickers for planners in india like neorah and alicia souza 
+  - src: /images/products/workout-filofax.png
+    alt: workout stickers and pet stickers for planners in india like neorah and alicia souza 
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---

@@ -8,8 +8,12 @@ featured: true
 image: "/images/products/mood-activity-stickers-2.PNG"
 imageAlt: "various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners"
 gallery:
-  - src: /images/products/mood-activity-stickers-2.PNG
+  - src: /images/products/curvynoodle-mood-activity-stickers-watermarked-web.png
     alt: various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners
+  - src: /images/products/baking-filofax-stickers.png
+    alt: various moods and chore stickers like baking, meal prep, for planners in india that can be use with neorah and alicia souza planners
+  - src: /images/products/baking-cooking-swimming-groceries.png
+    alt: various moods and chore stickers like baking, meal prep, for planners in india that can be use with neorah and alicia souza planners
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
 ---

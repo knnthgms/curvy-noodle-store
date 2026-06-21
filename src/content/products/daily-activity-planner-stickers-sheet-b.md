@@ -8,7 +8,9 @@ featured: false
 image: "/images/products/working-cooking-stickers.PNG"
 imageAlt: "working and cooking stickers for planners in India for planners like neorah and alicia souza"
 gallery:
-  - src: /images/products/working-cooking-stickers.PNG
+  - src: /images/products/curvynoodle-working-cooking-stickers-watermarked-web.png
+    alt: working and cooking stickers for planners in India for planners like neorah and alicia souza
+  - src: /images/products/curvy-noodle-stickers-in-filofax.png
     alt: working and cooking stickers for planners in India for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
