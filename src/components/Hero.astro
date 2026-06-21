@@ -1,7 +1,7 @@
 ---
 import { SITE } from '@config';
 
-/** Home page hero: brand name, tagline and primary calls to action. */
+/** Home page hero: full-width banner illustration with primary calls to action. */
 ---
 
 <section class="relative overflow-hidden">
@@ -23,16 +23,20 @@ import { SITE } from '@config';
     <path d="M58 38c30-18 70-8 86 22s4 70-28 86-72 2-86-30 0-60 28-78Z"></path>
   </svg>
 
-  <div class="relative mx-auto max-w-6xl px-4 py-16 text-center sm:px-6 sm:py-24">
-    <p class="font-display text-lg font-semibold text-pink-deep">
-      Welcome to your new favourite planner stickers store
-    </p>
-    <h1 class="mt-2 font-display text-4xl font-bold sm:text-6xl">
-      {SITE.name}
-    </h1>
-    <p class="mx-auto mt-4 max-w-xl text-lg text-ink-soft sm:text-xl">
-      {SITE.tagline}
-    </p>
+  <div class="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
+    {/* Accessible page heading for SEO; the banner carries the visible headline */}
+    <h1 class="sr-only">{SITE.name} — {SITE.tagline}</h1>
+
+    <img
+      src="/images/branding/homepage-banner.svg"
+      alt={`${SITE.name} — Stickers that get you. Real moods. Real days. Made for planners everywhere.`}
+      width="1600"
+      height="480"
+      class="mx-auto w-full rounded-3xl shadow-sm"
+      loading="eager"
+      decoding="async"
+    />
+
     <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
       <a href="/shop" class="btn-primary">Browse the store</a>
       <a href="/about" class="btn-secondary">My story</a>
