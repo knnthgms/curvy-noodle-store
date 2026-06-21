@@ -21,6 +21,7 @@ const products = defineCollection({
       'daily-activity',
       'bundles',
       'planner-tracker',
+      'sample-stickers',  
     ]),
     tags: z.array(z.string()).default([]),
     /** Short summary used on cards and in meta descriptions. */

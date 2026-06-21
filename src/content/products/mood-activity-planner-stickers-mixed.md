@@ -21,7 +21,7 @@ material: "Premium matte paper, handmade in India"
 
 This is for all the planner lovers and mood trackers out there. 
 
-Inside, you'll find illustrated characters with various emotions to emote all the different feelings throughout the wee and some baking, cooking tasks. Use these in your weekly spreads, habit trackers, or as reward stickers when you complete a goal.
+Inside, you'll find illustrated characters with various emotions to emote all the different feelings throughout the week and some baking, cooking tasks. Use these in your weekly spreads, habit trackers, or as reward stickers when you complete a goal.
 
 The cute, expressive art style makes these stickers a joy to use — they're functional enough to make planning easier and charming enough to make your journal genuinely beautiful.
 

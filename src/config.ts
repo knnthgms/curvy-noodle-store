@@ -75,6 +75,13 @@ export const CATEGORIES = [
     description:
       'Combined mood-and-activity sheets and trackers for comprehensive daily planning.',
   },
+  {
+    slug: 'sample-stickers',
+    label: 'Sample Packs',
+    image: '/images/collections/sample-stickers.svg',
+    description:
+      'Sample sticker packs of curvy noodle most popular designs.',
+  },
 ] as const;
 
 export type CategorySlug = (typeof CATEGORIES)[number]['slug'];

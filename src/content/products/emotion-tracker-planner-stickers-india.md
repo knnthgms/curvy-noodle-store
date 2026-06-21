@@ -5,7 +5,7 @@ category: "emotion-mood"
 tags: ["emotion stickers", "planner stickers"]
 description: "Expressive characters for happiness, sadness, anxiety, anger and more — track your daily moods and build self-awareness, one sticker at a time."
 featured: true
-image: "/images/products/emotion-stickers-1.PNG"
+image: "/images/products/emotion-stickers.PNG"
 imageAlt: "expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza"
 gallery:
   - src: /images/products/curvynoodle-emotion-stickers-watermarked-web.png
