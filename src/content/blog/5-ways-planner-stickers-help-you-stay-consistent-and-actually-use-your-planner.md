@@ -12,7 +12,7 @@ draft: false
 
 Here's the thing nobody tells you about planners: buying a beautiful planner is the easy part. Actually using it every single day — that's where most people struggle. If you've ever started January with a brand-new planner and by February it's gathering dust on your desk, you're not alone.
 
-<!-- TODO: Add image: (Curvy Noodle planner stickers used in Neorah A6 planner with Personal Saffiano Filofax) -->
+![Curvy Noodle planner stickers used in a Neorah A6 planner with a Personal Saffiano Filofax, showing a colourful weekly spread with character and activity stickers.](/images/blog/planner-stickers-neorah-a6-filofax-spread.jpg)
 
 Planner stickers, it turns out, are one of the most effective and underrated tools for building consistency. Here are five reasons why.
 
@@ -50,7 +50,7 @@ Every time you plan your day, you're making dozens of micro-decisions: what to w
 
 Stickers eliminate a whole category of these decisions. The format is decided for you. The icon is already illustrated. You just place the right sticker in the right spot and move on to actually thinking about your day — which is the whole point.
 
-<!-- TODO: Add image: (planner stickers featuring various emotions and activities) -->
+![A weekly planner spread decorated with Curvy Noodle stickers featuring various emotions and activities, with a sticker sheet resting alongside the planner.](/images/blog/emotion-activity-planner-stickers-spread.jpg)
 
 ## Getting Started with Planner Stickers in India
 

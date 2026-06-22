@@ -16,7 +16,7 @@ Stickers change this equation significantly. When the hard part (drawing and lab
 
 I'm currently using the Roda notes habit tracker cards that make it so convenient to track multiple habits and colouring the circles so satisfying.
 
-<!-- TODO: Add image: habit tracker card from Roda Notes showing circles to colour (image source: https://www.rodanotes.com) -->
+![Roda notes habit tracker in use by Curvy Noodle to track various habits](/images/blog/roda-habit-tracker.jpg)
 
 ## 1. Daily Water Intake Tracker
 
@@ -34,7 +34,7 @@ Place one emotion sticker each evening to record your dominant feeling for the d
 
 Mark each day you moved your body intentionally — a workout, a walk, yoga, swimming, anything counts. A simple month-grid where you place an exercise activity sticker on active days creates a satisfying visual streak. The gap on rest days is motivating rather than demoralising when you can see them in context of a broader active pattern.
 
-<!-- TODO: Add image: exercise tracker in use showing month-grid layout -->
+![Exercise tracker stickers by Curvy Noodle for planners in India](/images/blog/workout-filofax.png)
 
 ## 5. Reading Tracker
 
@@ -60,7 +60,7 @@ For students or anyone working on a long-term project, track the number of focus
 
 Define what self-care means to you — skincare routine, meditation, a walk outside, journaling itself — and track whether you did it each day. Self-care trackers work best when the habits are specific and small rather than vague and aspirational. 'Do face wash before bed' is trackable. 'Take care of myself' is not.
 
-<!-- TODO: Add image: self-care tracker spread example -->
+![Roda notes habit tracker in use by Curvy Noodle to track various habits over different months](/images/blog/habit-tracker-top-view.jpg)
 
 ## Making Your Trackers Stick
 
