@@ -9,11 +9,10 @@ const site = process.env.SITE_URL ?? 'https://curvynoodle.com';
 
 export default defineConfig({
   site,
-  // Fully static output — ideal for Cloudflare Pages (no adapter needed).
-  output: 'static',
   integrations: [
-    // Exclude the internal WhatsApp redirect from the sitemap.
-    sitemap({ filter: (page) => !page.includes('/go/') }),
+    sitemap({
+      filter: (page) => !page.includes('/go/') && !page.includes('/admin'),
+    }),
   ],
   vite: {
     plugins: [tailwindcss()],
