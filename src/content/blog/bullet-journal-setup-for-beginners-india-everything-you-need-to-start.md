@@ -10,7 +10,7 @@ draft: false
 
 <!-- TODO: Add cover image at public/images/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start.svg (placeholder currently generated) -->
 
-<!-- TODO: Add image: bullet journal spreads for beginners — simple and easy -->
+![bullet journal spreads that are simple and easy](/images/blog/easy-and-fun-bullet-journal-spread.jpg)
 
 Bullet journaling has a reputation for being complicated. Scroll through [Pinterest](https://pinterest.com) or Instagram and you'll find pages of immaculate hand-lettering, intricate layouts, and colour-coded spreads that look more like artwork than planning tools. It's beautiful — and it's also completely intimidating if you're just trying to get organised.
 
@@ -21,6 +21,8 @@ Here's the truth: bullet journaling is actually one of the simplest planning sys
 Bullet journaling (often shortened to 'bujo') is a planning and journaling method created by designer [Ryder Carroll](https://www.bulletjournal.com). At its core it's just a flexible notebook system where you track tasks, events, notes, habits, and anything else relevant to your life — all in one place.
 
 What makes it different from a standard diary is the structure: an index at the front, monthly and daily logs, and a system of symbols (bullets) to distinguish tasks from events from notes. Everything else — the layouts, the trackers, the artwork — is personal embellishment that you add only if you want to.
+
+![cute and simple bullet journal spread - monthly layout](/images/blog/cute-easy-month-bujo-spread.jpg)
 
 ## What You Actually Need to Start
 
@@ -34,7 +36,7 @@ Any notebook works. Seriously. Many bullet journalers start with a basic ₹50 n
 
 Indian options worth considering: Lemome dot grid notebooks (available on Amazon India), Classmate unruled notebooks for a budget start, or Leuchtturm1917 if you want to invest in something premium from the beginning.
 
-<!-- TODO: Add image: dot grid notebook page example -->
+![bullet journal spreads bobs burgers theme](/images/blog/cute-bobs-burgers-bullet-journal-spread.jpg)
 
 ### 2. A Pen
 
@@ -56,7 +58,7 @@ Don't overthink your first spread. Here's a beginner setup that works:
 
 That's the core system. Everything else is built on top of this foundation over time.
 
-<!-- TODO: Add image: sample first week setup -->
+![bullet journal spreads travel theme](/images/blog/easy-cute-bullet-journal-spread.jpg)
 
 ## Adding Stickers to Your Setup
 
@@ -68,7 +70,7 @@ Once you have the basic structure, stickers slot in naturally:
 
 The stickers remove the need for drawing and hand-lettering, which means your spreads look intentional and consistent even on your lowest-effort days.
 
-<!-- TODO: Add image: sticker placement examples -->
+![curvy noodle stickers in filofax personal great for planners using neorah or alica souza journals](/images/blog/workout-filofax.png)
 
 ## Common Beginner Mistakes to Avoid
 
