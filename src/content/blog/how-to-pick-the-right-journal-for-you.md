@@ -62,7 +62,7 @@ If you want a quick shortcut, here's where most people land:
 
 Once you've picked your journal, stickers are the easiest, most affordable way to make it feel personal — and to keep yourself opening it every day. If you're based in India and don't want to import from overseas, Curvy Noodle has you covered. All our sticker sheets are handmade and illustrated in India, with free shipping on orders above Rs. 500.
 
-![curvy noodle stickers for journaling and planning in india](/images/blog/dplanner-stickers-neorah-a6-filofax-spread.jpg)
+![curvy noodle stickers for journaling and planning in india](/images/blog/planner-stickers-neorah-a6-filofax-spread.jpg)
 
 Our bestselling 400+ Planner Stickers Bundle is a perfect companion for a fresh notebook — you'll get emotion stickers, activity stickers, and everyday task icons all in one collection. Or mix and match individual sheets to build a set that suits your new journal.
 
