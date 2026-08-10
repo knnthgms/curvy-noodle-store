@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "preview",
+      "name": "dev",
       "runtimeExecutable": "/opt/homebrew/bin/node",
-      "runtimeArgs": ["node_modules/astro/astro.js", "preview", "--port", "4321"],
+      "runtimeArgs": ["node_modules/astro/astro.js", "dev", "--port", "4321"],
       "port": 4321
     }
   ]

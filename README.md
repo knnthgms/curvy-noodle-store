@@ -10,20 +10,36 @@ free on Cloudflare Pages. No database, no logins, no shopping cart.
 
 ---
 
-## ✏️ For non-technical editors: updating the website
+## ✏️ Editing content — the easy way (Admin UI)
 
-**The golden rule:** the whole website is made of simple text files. You edit a
-text file, save it, and the matching page updates. You never touch code to
-change words, prices, or posts.
+The site has a built-in editor at **/admin**. Use it to edit products and blog
+posts — no code needed, works from any browser.
 
-All the content lives in two folders:
+- **Live site:** go to **https://thecurvynoodleshop.com/admin** and sign in
+  with a GitHub personal access token (fine-grained, Contents: Read & Write on
+  this repo). Changes are committed to GitHub and Cloudflare rebuilds the site
+  automatically (~1–2 min).
+- **Locally:** run `yarn dev`, then open **http://localhost:4321/admin**. Same
+  flow — it calls the GitHub API, so the token is still required.
 
-- **Products** → `src/content/products/` — one file per sticker sheet
-- **Blog posts** → `src/content/blog/` — one file per article
+**How to create the token:**
+1. Go to [github.com/settings/tokens?type=beta](https://github.com/settings/tokens?type=beta)
+2. New fine-grained personal access token → select `curvy-noodle-store` repo
+3. Under *Repository permissions*, set **Contents** to **Read and Write**
+4. Generate and copy the token — paste it into the Admin sign-in box
+5. The token is saved only in your browser tab and clears when you close it
 
-Each file starts with a small settings block between two `---` lines (this is
-called "frontmatter"), then the main text below it. Here's how to do the common
-jobs.
+---
+
+## ✏️ Editing content — the manual way (text files)
+
+If you prefer to edit files directly, all content lives in two folders:
+
+- **Products** → `src/content/products/` — one Markdown file per sticker sheet
+- **Blog posts** → `src/content/blog/` — one Markdown file per article
+
+Each file starts with a small settings block between two `---` lines (called
+"frontmatter"), then the main text below it. Here's how to do the common jobs.
 
 ### Change a product's price
 
@@ -288,33 +304,36 @@ preview links.
 | Variable | Purpose | Required? |
 | --- | --- | --- |
 | `SITE_URL` | Your live domain (e.g. `https://curvynoodle.com`) | Recommended |
-| `PUBLIC_WEB3FORMS_KEY` | Makes the contact form deliver to your inbox | Optional |
+| `PUBLIC_WEB3FORMS_CONTACT_KEY` | Makes the contact form send email | Optional |
+| `PUBLIC_WEB3FORMS_NEWSLETTER_KEY` | Makes the newsletter form send email | Optional |
 | `PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN` | Cloudflare Web Analytics | Optional |
 | `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 (e.g. `G-XXXXXXXXXX`) | Optional |
+| `PUBLIC_CLARITY_PROJECT_ID` | Microsoft Clarity session recordings | Optional |
 
-> Add these to a local `.env` file for development too (this file is git-ignored,
-> so your keys stay private). Because the site is static, **changing an
-> environment variable requires a redeploy** to take effect.
+> Add these to a local `.env` file for development (git-ignored, stays private).
+> **Changing an environment variable requires a redeploy** to take effect.
 
 ---
 
 ## 🧑‍💻 For developers
 
 ```bash
-npm install
-npm run dev        # local dev server at http://localhost:4321
-npm run build      # production build into dist/
-npm run preview    # preview the production build
-npm run check      # type-check (.astro + .ts)
+yarn install
+yarn dev           # local dev server at http://localhost:4321
+                   # Admin UI at http://localhost:4321/admin
+yarn build         # production build into dist/
+yarn preview       # preview the production build
+yarn astro check   # type-check (.astro + .ts)
 ```
 
 Requires Node.js 20+. Key locations:
 
 ```
+public/admin/index.html  # Admin UI — self-contained, talks to GitHub API
 src/
 ├── config.ts            # Brand, nav, categories, socials, testimonials
-├── content.config.ts    # Content schemas (products, blog) — validated at build
-├── content/{products,blog}/   # Markdown content
+├── content.config.ts    # Astro content schemas
+├── content/{products,blog}/   # Markdown content (edited via Admin UI or directly)
 ├── layouts/BaseLayout.astro   # Page shell: SEO, header, footer, analytics, sticky CTA
 ├── components/          # Header, Footer, Hero, ProductCard, BlogCard,
 │                        # WhatsAppButton, StickyWhatsApp, SocialProof, SEO, …
@@ -327,6 +346,10 @@ src/
 │   └── search.json.ts       # static search index
 └── utils/               # whatsapp, schema (JSON-LD), formatting, collections
 ```
+
+**Architecture note:** Fully static — all pages are pre-rendered at build time.
+The admin UI at `public/admin/index.html` is a plain HTML/JS page that calls
+the GitHub REST API directly from the browser; no server routes are needed.
 
 - **SEO:** per-page meta + Open Graph/Twitter via `SEO.astro`; JSON-LD for
   Organization, WebSite, Product, BlogPosting, BreadcrumbList and FAQPage;
@@ -341,9 +364,9 @@ src/
 - [ ] Set the real `whatsappNumber` in `src/config.ts`
 - [ ] Add real product photos and blog covers in `public/images/`
 - [ ] Set `SITE_URL` and update the domain in `public/robots.txt`
-- [ ] Add `PUBLIC_WEB3FORMS_KEY` to switch on the contact form
+- [ ] Add `PUBLIC_WEB3FORMS_CONTACT_KEY` and `PUBLIC_WEB3FORMS_NEWSLETTER_KEY` for forms
 - [ ] Add `PUBLIC_CLOUDFLARE_ANALYTICS_TOKEN` for analytics
 - [ ] Replace `public/images/branding/og-default.png` with real share artwork
 - [ ] Review the placeholder Privacy Policy and Terms pages
-```
+- [ ] Create a GitHub fine-grained PAT (Contents: Read & Write) for the Admin UI
 
