@@ -22,6 +22,11 @@ display_url: ${base}
 
 locale: en
 
+# Global media defaults (required by Decap). Individual collections override
+# these with their own media_folder/public_folder below.
+media_folder: public/images
+public_folder: /images
+
 # ── Collections ────────────────────────────────────────────────────────────────
 
 collections:
