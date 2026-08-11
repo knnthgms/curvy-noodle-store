@@ -1,6 +1,6 @@
 ---
 title: "The Best Stationery Sites to Shop From in India"
-description: "Your guide to India's top online stationery retailers — from premium paper and custom journals to everyday notebooks, pens, and planning supplies. Discover where to find quality supplies without the overseas shipping costs."
+description: "Your guide to India's top online stationery retailers — from premium paper and custom journals to everyday notebooks, pens, and planning supplies, without the overseas shipping costs."
 date: 2026-08-08
 tags: ["stationery", "notebooks", "journaling", "online shopping", "India"]
 coverImage: "/images/blog/best-stationery-sites-india.svg"
