@@ -1,21 +1,15 @@
 ---
-import { render } from 'astro:content';
 import { formatDate, isoDate } from '@utils/format';
 import { noteExcerpt, notePath, type Note } from '@utils/collections';
 
-/**
- * Noodle Notes card. Shows the full note by default (they're short);
- * pass `excerpt` for a compact version, e.g. the home page strip.
- */
+/** Noodle Notes card: photo, date, title and a short snippet linking to the full note. */
 interface Props {
   note: Note;
-  excerpt?: boolean;
 }
 
-const { note, excerpt = false } = Astro.props;
+const { note } = Astro.props;
 const { title, date, tags, image, imageAlt } = note.data;
 const href = notePath(note);
-const { Content } = excerpt ? { Content: null } : await render(note);
 ---
 
 <article class="flex flex-col overflow-hidden rounded-3xl border-2 border-cream-dark bg-white shadow-sm">
@@ -43,15 +37,14 @@ const { Content } = excerpt ? { Content: null } : await render(note);
     <h3 class="font-display text-xl font-bold">
       <a href={href} class="hover:text-pink-deep">{title}</a>
     </h3>
-    {
-      Content ? (
-        <div class="prose max-w-none">
-          <Content />
-        </div>
-      ) : (
-        <p class="text-ink-soft">{noteExcerpt(note)}</p>
-      )
-    }
+    <p class="text-ink-soft">{noteExcerpt(note)}</p>
+    <a
+      href={href}
+      class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline"
+      aria-label={`Read more: ${title}`}
+    >
+      Read more →
+    </a>
     {
       tags.length > 0 && (
         <ul class="mt-auto flex flex-wrap gap-2 pt-2" aria-label="Tags">
