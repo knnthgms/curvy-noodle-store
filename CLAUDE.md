@@ -155,7 +155,8 @@ Anonymous comments (any name, no login) appear on blog posts, Noodle Notes and p
 
 - **UI:** `src/components/Comments.astro`, given a slug like `blog/<id>`, `notes/<id>` or `shop/<slug>`.
 - **Backend:** `functions/api/comments.js` (Cloudflare Pages Function) stores comments in a **KV namespace bound as `COMMENTS`**. The `COMMENTS_ADMIN_TOKEN` secret protects listing and deleting.
-- **Moderation:** `/admin/comments` (paste the admin token). Not in the sitemap.
+- **Moderation:** `/admin/comments` (paste the admin token). Not in the sitemap. Lists photo comments waiting for approval (Approve / Delete) and recent comments.
+- **Photos:** one optional JPEG per comment. The browser resizes and re-encodes it (`preparePhoto()` in `Comments.astro`); the function accepts only files starting with the JPEG bytes, max 1.5 MB, and stores them in KV as `image:<id>`. Photo comments are **held as `pending:<id>`** until approved (`IMAGES_NEED_APPROVAL`), and unapproved items expire after 30 days. Approved photos are served from `/api/comments?image=<id>` with `nosniff` and a sandbox CSP header. Don't loosen these.
 - **Per-page switch:** `comments: false` in frontmatter (also an "Allow comments" toggle in Decap) hides the section on that entry.
 - **New sections:** to add comments elsewhere, add the section to `SLUG_PATTERN` in `functions/api/comments.js` and render `<Comments slug="section/id" />`. The function checks that the page exists before accepting a comment, and slugs must be lowercase letters, digits and hyphens.
 - **Not configured?** Without the KV binding the API returns 503 and the page shows "Comments will be switched on soon." Setup steps are in the README under "Comments".

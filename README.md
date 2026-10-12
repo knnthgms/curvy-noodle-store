@@ -329,7 +329,19 @@ needs one-time setup. Until it's done, the comments area on the site shows a
 
 To review or delete comments, open **/admin/comments** on your site and paste
 the token. Spam protection built in: no links allowed, a hidden trap field for
-bots, one comment per minute per visitor, and a 300 comments per page cap. To
+bots, one comment per minute per visitor, and a 300 comments per page cap.
+
+**Photos in comments:** visitors can attach one photo. It is shrunk and re-saved
+as a JPEG in their browser (about 1400 px, under 1.5 MB, location data removed)
+and stored in the same KV namespace, so there is nothing extra to set up. Photo
+comments are **held for your approval**: they appear under **Waiting for
+approval** on `/admin/comments`, where you can see the photo and press
+**Approve** or **Delete**. They go public only after you approve them. Unreviewed
+ones delete themselves after 30 days, and no more than 40 can be waiting at once.
+Text-only comments still appear straight away. (`IMAGES_NEED_APPROVAL` in
+`functions/api/comments.js` controls this. Keep it `true` unless you really want
+photos to appear instantly.) Check `/admin/comments` now and then, since there
+are no email alerts yet. To
 turn comments off for one post, note or product, untick **Allow comments** in the editor.
 
 > Add these to a local `.env` file for development (git-ignored, stays private).

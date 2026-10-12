@@ -2,12 +2,12 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Moderate comments" description="Review and delete comments." noindex>
+<BaseLayout title="Moderate comments" description="Review, approve and delete comments." noindex>
   <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
     <h1 class="font-display text-4xl font-bold">Moderate comments</h1>
     <p class="mt-2 text-lg text-ink-soft">
-      Paste your comments admin token to see the latest comments on every page and delete any
-      you don't want. The token is only kept in this browser tab.
+      Paste your comments admin token to approve photo comments and see the latest comments on
+      every page. The token is only kept in this browser tab.
     </p>
 
     <form id="token-form" class="mt-6 flex flex-wrap items-end gap-3">
@@ -25,7 +25,20 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     </form>
 
     <p id="status" class="mt-6 font-semibold" role="status"></p>
-    <ul id="list" class="mt-4 space-y-4"></ul>
+
+    <section id="pending-section" class="mt-8" hidden>
+      <h2 class="font-display text-2xl font-bold">Waiting for approval 📷</h2>
+      <p class="mt-1 text-ink-soft">
+        Photo comments stay hidden until you approve them. Unreviewed ones are removed
+        automatically after 30 days.
+      </p>
+      <ul id="pending-list" class="mt-4 space-y-4"></ul>
+    </section>
+
+    <section id="recent-section" class="mt-10" hidden>
+      <h2 class="font-display text-2xl font-bold">Recent comments</h2>
+      <ul id="list" class="mt-4 space-y-4"></ul>
+    </section>
   </div>
 </BaseLayout>
 
@@ -36,12 +49,16 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     name: string;
     message: string;
     createdAt: string;
+    image?: string;
   }
 
   const form = document.getElementById('token-form') as HTMLFormElement;
   const tokenInput = document.getElementById('token') as HTMLInputElement;
   const status = document.getElementById('status') as HTMLElement;
   const list = document.getElementById('list') as HTMLElement;
+  const pendingList = document.getElementById('pending-list') as HTMLElement;
+  const pendingSection = document.getElementById('pending-section') as HTMLElement;
+  const recentSection = document.getElementById('recent-section') as HTMLElement;
 
   let token = '';
   try {
@@ -50,55 +67,127 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     /* storage blocked; the token just has to be pasted again */
   }
 
-  const render = (comments: AdminComment[]): void => {
-    list.innerHTML = '';
-    status.textContent = comments.length === 0 ? 'No comments yet.' : `${comments.length} recent comments`;
-    for (const comment of comments) {
-      const item = document.createElement('li');
-      item.className = 'rounded-2xl border-2 border-cream-dark bg-white p-4';
+  const authHeaders = (): HeadersInit => ({ Authorization: `Bearer ${token}` });
 
-      const meta = document.createElement('p');
-      meta.className = 'text-sm text-ink-soft';
-      const page = document.createElement('a');
-      page.href = `/${comment.slug}/`;
-      page.className = 'underline';
-      page.textContent = comment.slug;
-      const author = document.createElement('strong');
-      author.className = 'text-ink';
-      author.textContent = comment.name;
-      meta.append(author, ` · ${new Date(comment.createdAt).toLocaleString('en-IN')} · `, page);
+  const makeButton = (label: string, primary = false): HTMLButtonElement => {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = primary ? 'btn-primary' : 'btn-secondary';
+    button.textContent = label;
+    return button;
+  };
 
+  const buildItem = (comment: AdminComment, pending: boolean): { item: HTMLLIElement; actions: HTMLDivElement } => {
+    const item = document.createElement('li');
+    item.className = 'rounded-2xl border-2 border-cream-dark bg-white p-4';
+
+    const meta = document.createElement('p');
+    meta.className = 'text-sm text-ink-soft';
+    const page = document.createElement('a');
+    page.href = `/${comment.slug}/`;
+    page.className = 'underline';
+    page.textContent = comment.slug;
+    const author = document.createElement('strong');
+    author.className = 'text-ink';
+    author.textContent = comment.name;
+    meta.append(author, ` · ${new Date(comment.createdAt).toLocaleString('en-IN')} · `, page);
+    item.append(meta);
+
+    if (comment.message) {
       const text = document.createElement('p');
       text.className = 'mt-2 whitespace-pre-line break-words';
       text.textContent = comment.message;
+      item.append(text);
+    }
 
-      const remove = document.createElement('button');
-      remove.type = 'button';
-      remove.className = 'btn-secondary mt-3';
-      remove.textContent = 'Delete';
-      remove.addEventListener('click', async () => {
-        if (!confirm('Delete this comment? This cannot be undone.')) return;
-        remove.disabled = true;
-        const response = await fetch(
-          `/api/comments?slug=${encodeURIComponent(comment.slug)}&id=${encodeURIComponent(comment.id)}`,
-          { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } },
-        );
+    if (comment.image) {
+      const picture = document.createElement('img');
+      picture.alt = `Photo from ${comment.name}`;
+      picture.className = 'mt-3 max-h-80 w-auto max-w-full rounded-2xl border-2 border-cream-dark';
+      if (pending) {
+        // Pending photos aren't public, so fetch with the token and show a local copy.
+        void fetch(`/api/comments?image=${encodeURIComponent(comment.image)}`, { headers: authHeaders() })
+          .then((response) => (response.ok ? response.blob() : Promise.reject(new Error('no image'))))
+          .then((blob) => {
+            picture.src = URL.createObjectURL(blob);
+          })
+          .catch(() => {
+            picture.alt = 'Could not load this photo';
+          });
+      } else {
+        picture.src = `/api/comments?image=${encodeURIComponent(comment.image)}`;
+      }
+      item.append(picture);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'mt-3 flex flex-wrap gap-3';
+    item.append(actions);
+    return { item, actions };
+  };
+
+  const remove = async (comment: AdminComment, pending: boolean, button: HTMLButtonElement, item: HTMLElement): Promise<void> => {
+    if (!confirm('Delete this comment? This cannot be undone.')) return;
+    button.disabled = true;
+    const query = pending
+      ? `id=${encodeURIComponent(comment.id)}&pending=1`
+      : `slug=${encodeURIComponent(comment.slug)}&id=${encodeURIComponent(comment.id)}`;
+    const response = await fetch(`/api/comments?${query}`, { method: 'DELETE', headers: authHeaders() });
+    if (response.ok) {
+      item.remove();
+    } else {
+      button.disabled = false;
+      status.textContent = 'Could not delete that comment. Please try again.';
+    }
+  };
+
+  const render = (comments: AdminComment[], pending: AdminComment[]): void => {
+    list.innerHTML = '';
+    pendingList.innerHTML = '';
+    pendingSection.hidden = pending.length === 0;
+    recentSection.hidden = false;
+    status.textContent = `${pending.length} waiting for approval, ${comments.length} recent comments`;
+
+    for (const comment of pending) {
+      const { item, actions } = buildItem(comment, true);
+      const approve = makeButton('Approve', true);
+      approve.addEventListener('click', async () => {
+        approve.disabled = true;
+        const response = await fetch(`/api/comments?id=${encodeURIComponent(comment.id)}`, {
+          method: 'PATCH',
+          headers: authHeaders(),
+        });
         if (response.ok) {
-          item.remove();
+          await load();
         } else {
-          remove.disabled = false;
-          status.textContent = 'Could not delete that comment. Please try again.';
+          approve.disabled = false;
+          status.textContent = 'Could not approve that comment. Please try again.';
         }
       });
+      const reject = makeButton('Delete');
+      reject.addEventListener('click', () => void remove(comment, true, reject, item));
+      actions.append(approve, reject);
+      pendingList.appendChild(item);
+    }
 
-      item.append(meta, text, remove);
+    if (comments.length === 0) {
+      const empty = document.createElement('li');
+      empty.className = 'text-ink-soft';
+      empty.textContent = 'No comments yet.';
+      list.appendChild(empty);
+    }
+    for (const comment of comments) {
+      const { item, actions } = buildItem(comment, false);
+      const del = makeButton('Delete');
+      del.addEventListener('click', () => void remove(comment, false, del, item));
+      actions.append(del);
       list.appendChild(item);
     }
   };
 
-  const load = async (): Promise<void> => {
+  async function load(): Promise<void> {
     status.textContent = 'Loading…';
-    const response = await fetch('/api/comments?all=1', { headers: { Authorization: `Bearer ${token}` } });
+    const response = await fetch('/api/comments?all=1', { headers: authHeaders() });
     if (response.status === 401) {
       status.textContent = "That token didn't work.";
       return;
@@ -111,14 +200,14 @@ import BaseLayout from '@layouts/BaseLayout.astro';
       status.textContent = 'Something went wrong loading comments.';
       return;
     }
-    const data = (await response.json()) as { comments: AdminComment[] };
+    const data = (await response.json()) as { comments: AdminComment[]; pending: AdminComment[] };
     try {
       sessionStorage.setItem('comments-admin-token', token);
     } catch {
       /* ignore */
     }
-    render(data.comments);
-  };
+    render(data.comments, data.pending ?? []);
+  }
 
   form.addEventListener('submit', (event) => {
     event.preventDefault();
