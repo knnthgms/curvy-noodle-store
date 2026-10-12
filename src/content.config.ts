@@ -37,6 +37,8 @@ const products = defineCollection({
       .default([]),
     dimensions: z.string(),
     material: z.string(),
+    /** Show the comments section on the product page. */
+    comments: z.boolean().default(true),
   }),
 });
 

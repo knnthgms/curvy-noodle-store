@@ -1,4 +1,4 @@
-// Cloudflare Pages Function: anonymous comments for blog posts and Noodle Notes.
+// Cloudflare Pages Function: anonymous comments for blog posts, Noodle Notes and products.
 //
 // Setup (Cloudflare dashboard, see README → "Comments"):
 //   KV namespace binding  COMMENTS             — stores the comments
@@ -12,7 +12,7 @@
 //
 // Comments for a page live in one KV value (`comments:<slug>`) as a JSON array.
 
-const SLUG_PATTERN = /^(blog|notes)\/[a-z0-9][a-z0-9-]*$/;
+const SLUG_PATTERN = /^(blog|notes|shop)\/[a-z0-9][a-z0-9-]*$/;
 const NAME_MAX = 40;
 const MESSAGE_MAX = 1000;
 const MAX_COMMENTS_PER_PAGE = 300;

@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Comments from '@components/Comments.astro';
 import ProductCard from '@components/ProductCard.astro';
 import WhatsAppButton from '@components/WhatsAppButton.astro';
 import ProductGallery from '@components/ProductGallery.astro';
@@ -43,6 +44,7 @@ const {
   gallery,
   dimensions,
   material,
+  comments,
 } = product.data;
 
 const related = relatedProducts(product, products);
@@ -184,6 +186,15 @@ const schemas = [
         </p>
       </div>
     </div>
+
+    {/* Comments */}
+    {
+      comments && (
+        <div class="mx-auto max-w-3xl">
+          <Comments slug={`shop/${productSlug(product)}`} />
+        </div>
+      )
+    }
 
     {/* Related products */}
     {

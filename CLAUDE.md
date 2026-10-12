@@ -90,7 +90,7 @@ Short personal notes live in `src/content/notes/`. Each is a `.md` file.
 
 **Filename convention:** `YYYY-MM-DD-note-slug.md`  
 Example: `2026-10-12-cute-2027-planner-from-london.md`  
-The URL becomes: `/notes/cute-2027-planner-from-london` (date prefix is stripped from the slug).
+The URL keeps the date prefix: `/notes/2026-10-12-cute-2027-planner-from-london`.
 
 **Required frontmatter:**
 
@@ -111,8 +111,9 @@ Note body in Markdown here. These are casual, first-person. Short is fine.
 **Images:** add photos to `public/images/notes/` and reference as `/images/notes/filename.jpg`.  
 These are personal/casual photos — any size works, portrait or landscape.
 
-**Noodle Notes are NOT yet in Decap CMS.** Add them as `.md` files directly (or via the GitHub web editor).  
-To add them to Decap CMS, add a `notes` collection to `src/pages/admin/config.yml.ts`.
+**Via Decap CMS:** go to `/admin` → Noodle Notes → New Note (the `notes` collection is in `src/pages/admin/config.yml.ts`).
+
+The `/notes` page and the home page strip show only a short snippet (`noteExcerpt()` in `src/utils/collections.ts`) with a "Read more" link. The full text is on the note's own page.
 
 ---
 
@@ -140,10 +141,25 @@ gallery:
 tags: ["planner stickers"]
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"
+comments: true                         # optional, false = hides the comment section
 ---
 
 Full product description in Markdown.
 ```
+
+---
+
+## Comments
+
+Anonymous comments (any name, no login) appear on blog posts, Noodle Notes and product pages.
+
+- **UI:** `src/components/Comments.astro`, given a slug like `blog/<id>`, `notes/<id>` or `shop/<slug>`.
+- **Backend:** `functions/api/comments.js` (Cloudflare Pages Function) stores comments in a **KV namespace bound as `COMMENTS`**. The `COMMENTS_ADMIN_TOKEN` secret protects listing and deleting.
+- **Moderation:** `/admin/comments` (paste the admin token). Not in the sitemap.
+- **Per-page switch:** `comments: false` in frontmatter (also an "Allow comments" toggle in Decap) hides the section on that entry.
+- **New sections:** to add comments elsewhere, add the section to `SLUG_PATTERN` in `functions/api/comments.js` and render `<Comments slug="section/id" />`. The function checks that the page exists before accepting a comment, and slugs must be lowercase letters, digits and hyphens.
+- **Not configured?** Without the KV binding the API returns 503 and the page shows "Comments will be switched on soon." Setup steps are in the README under "Comments".
+- Comment text is stored as plain text and rendered with `textContent`. Never switch it to `innerHTML`.
 
 ---
 
@@ -177,6 +193,9 @@ src/
     notes/               ← Noodle Notes
   components/
     Header.astro         ← Nav (lg breakpoint), hamburger menu
+    Comments.astro       ← Anonymous comments section (blog, notes, products)
+    NoteCard.astro       ← Noodle Notes card (snippet + Read more)
+    RelatedNotes.astro   ← "From Noodle Notes" sidebar on blog posts
     StickyWhatsApp.astro ← WhatsApp FAB (gap-0 at rest!)
     Footer.astro
   layouts/
@@ -194,6 +213,7 @@ functions/
   api/
     auth.js              ← Cloudflare Pages Function: GitHub OAuth start
     callback.js          ← Cloudflare Pages Function: GitHub OAuth callback
+    comments.js          ← Cloudflare Pages Function: comments API (KV binding COMMENTS)
 
 public/
   images/
