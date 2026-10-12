@@ -22,10 +22,25 @@ Admin UI: Decap CMS at `/admin` (Cloudflare Pages Functions handle GitHub OAuth)
 
 ## Core rules — don't break these
 
-### Navigation breakpoint
-The header desktop nav uses **`lg:` (1024 px)** as its show/hide breakpoint — not `md:`.  
-There are 8 nav links; they don't fit at md (768 px).  
-When changing: `hidden lg:block` (desktop nav) and `lg:hidden` (hamburger + mobile menu) must stay in sync.
+### Navigation — progressive disclosure
+The desktop nav reveals links progressively as the viewport widens. The hamburger stays
+visible until `2xl` so overflow links are always reachable via the mobile menu.
+
+| Breakpoint | Links in desktop nav | Hamburger |
+|---|---|---|
+| `< lg` (< 1024 px) | hidden | visible |
+| `lg` (1024 px+) | Store, Collections, Planning Nook, Noodle Notes | visible |
+| `xl` (1280 px+) | + About, FAQs | visible |
+| `2xl` (1536 px+) | + Contact | hidden |
+
+"Home" is intentionally absent from the desktop nav — the logo links home on all viewports.  
+The mobile menu always shows all links (including Home).
+
+**Key classes to keep in sync** when adding or reordering nav items:
+- `desktopBreakpoint` map at the top of `Header.astro` — maps each href to its `hidden xl:block` / `hidden 2xl:block` class (empty string = visible from lg)
+- Desktop nav: `hidden lg:block`
+- Hamburger button: `2xl:hidden`
+- Mobile menu `<nav>`: `2xl:hidden`
 
 ### WhatsApp FAB
 `src/components/StickyWhatsApp.astro` — the `<a>` has `gap-0` at rest (so the button is a perfect circle) and `hover:gap-2 focus-visible:gap-2` to add space when the "Order on WhatsApp" label expands.  

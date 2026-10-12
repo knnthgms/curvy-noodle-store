@@ -6,6 +6,22 @@ const currentPath = Astro.url.pathname.replace(/\/$/, '') || '/';
 
 const isActive = (href: string): boolean =>
   href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+
+/**
+ * Progressive desktop nav — links appear as the viewport widens.
+ * The logo already links home, so '/' is desktop-only hidden.
+ * Hamburger stays visible up to 2xl so overflow items are always reachable.
+ */
+const desktopBreakpoint: Record<string, string> = {
+  '/shop':        '',                 // lg+  — always visible in desktop nav
+  '/collections': '',                 // lg+
+  '/blog':        '',                 // lg+
+  '/notes':       '',                 // lg+
+  '/about':       'hidden xl:block',  // xl+
+  '/faq':         'hidden xl:block',  // xl+
+  '/contact':     'hidden 2xl:block', // 2xl+
+  // '/' is intentionally absent — logo covers home on all viewports
+};
 ---
 
 <header class="sticky top-0 z-40 border-b-2 border-cream-dark bg-cream/90 backdrop-blur">
@@ -27,11 +43,12 @@ const isActive = (href: string): boolean =>
       </span>
     </a>
 
+    <!-- Desktop nav: shows from lg; items appear progressively at wider breakpoints -->
     <nav aria-label="Main" class="hidden lg:block">
       <ul class="flex items-center gap-1">
         {
-          NAV_LINKS.map((link) => (
-            <li>
+          NAV_LINKS.filter((link) => link.href !== '/').map((link) => (
+            <li class={desktopBreakpoint[link.href] ?? ''}>
               <a
                 href={link.href}
                 aria-current={isActive(link.href) ? 'page' : undefined}
@@ -48,10 +65,11 @@ const isActive = (href: string): boolean =>
       </ul>
     </nav>
 
+    <!-- Hamburger: visible below 2xl so overflow links are always reachable -->
     <button
       id="menu-toggle"
       type="button"
-      class="rounded-full p-2 hover:bg-noodle lg:hidden"
+      class="rounded-full p-2 hover:bg-noodle 2xl:hidden"
       aria-controls="mobile-menu"
       aria-expanded="false"
     >
@@ -81,7 +99,8 @@ const isActive = (href: string): boolean =>
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t-2 border-cream-dark lg:hidden" hidden>
+  <!-- Mobile/overflow menu: full link list, hidden via CSS at 2xl -->
+  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t-2 border-cream-dark 2xl:hidden" hidden>
     <ul class="space-y-1 px-4 py-3">
       {
         NAV_LINKS.map((link) => (
