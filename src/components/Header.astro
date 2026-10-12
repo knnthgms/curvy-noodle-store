@@ -27,7 +27,7 @@ const isActive = (href: string): boolean =>
       </span>
     </a>
 
-    <nav aria-label="Main" class="hidden md:block">
+    <nav aria-label="Main" class="hidden lg:block">
       <ul class="flex items-center gap-1">
         {
           NAV_LINKS.map((link) => (
@@ -51,7 +51,7 @@ const isActive = (href: string): boolean =>
     <button
       id="menu-toggle"
       type="button"
-      class="rounded-full p-2 hover:bg-noodle md:hidden"
+      class="rounded-full p-2 hover:bg-noodle lg:hidden"
       aria-controls="mobile-menu"
       aria-expanded="false"
     >
@@ -81,7 +81,7 @@ const isActive = (href: string): boolean =>
     </button>
   </div>
 
-  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t-2 border-cream-dark md:hidden" hidden>
+  <nav id="mobile-menu" aria-label="Mobile" class="hidden border-t-2 border-cream-dark lg:hidden" hidden>
     <ul class="space-y-1 px-4 py-3">
       {
         NAV_LINKS.map((link) => (
