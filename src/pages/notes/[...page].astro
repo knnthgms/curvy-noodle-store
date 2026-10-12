@@ -1,0 +1,54 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import NoteCard from '@components/NoteCard.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Pagination from '@components/Pagination.astro';
+import { getPublishedNotes, type Note } from '@utils/collections';
+import { breadcrumbSchema } from '@utils/schema';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const notes = await getPublishedNotes();
+  return paginate(notes, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<Note>;
+}
+
+const { page } = Astro.props;
+
+const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Noodle Notes' }];
+---
+
+<BaseLayout
+  title="Noodle Notes"
+  description="Noodle Notes — quick stationery updates, desk shots, new finds and what I'm planning with right now, from Curvy Noodle."
+  schemas={[breadcrumbSchema(breadcrumbs)]}
+>
+  <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <h1 class="mt-4 font-display text-4xl font-bold">Noodle Notes 🍜</h1>
+    <p class="mt-2 max-w-2xl text-lg text-ink-soft">
+      Little updates from my desk: stationery finds, what I'm planning with
+      right now, and whatever else is making my week a bit brighter.
+    </p>
+
+    {
+      page.data.length > 0 ? (
+        <div class="mt-8 grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {page.data.map((note) => (
+            <NoteCard note={note} />
+          ))}
+        </div>
+      ) : (
+        <p class="mt-10 text-lg text-ink-soft">
+          Nothing here yet. Check back soon! 🌸
+        </p>
+      )
+    }
+
+    <Pagination page={page} />
+  </div>
+</BaseLayout>

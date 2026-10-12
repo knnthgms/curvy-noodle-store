@@ -1,0 +1,65 @@
+---
+import { render } from 'astro:content';
+import { formatDate, isoDate } from '@utils/format';
+import { noteExcerpt, notePath, type Note } from '@utils/collections';
+
+/**
+ * Noodle Notes card. Shows the full note by default (they're short);
+ * pass `excerpt` for a compact version, e.g. the home page strip.
+ */
+interface Props {
+  note: Note;
+  excerpt?: boolean;
+}
+
+const { note, excerpt = false } = Astro.props;
+const { title, date, tags, image, imageAlt } = note.data;
+const href = notePath(note);
+const { Content } = excerpt ? { Content: null } : await render(note);
+---
+
+<article class="flex flex-col overflow-hidden rounded-3xl border-2 border-cream-dark bg-white shadow-sm">
+  {
+    image && (
+      <a href={href} tabindex="-1">
+        <img
+          src={image}
+          alt={imageAlt ?? ''}
+          width="800"
+          height="600"
+          loading="lazy"
+          decoding="async"
+          class="aspect-[4/3] w-full bg-cream object-cover object-top"
+        />
+      </a>
+    )
+  }
+  <div class="flex flex-1 flex-col gap-2 p-5">
+    <p class="text-sm text-ink-soft">
+      <a href={href} class="hover:text-pink-deep">
+        <time datetime={isoDate(date)}>{formatDate(date)}</time>
+      </a>
+    </p>
+    <h3 class="font-display text-xl font-bold">
+      <a href={href} class="hover:text-pink-deep">{title}</a>
+    </h3>
+    {
+      Content ? (
+        <div class="prose max-w-none">
+          <Content />
+        </div>
+      ) : (
+        <p class="text-ink-soft">{noteExcerpt(note)}</p>
+      )
+    }
+    {
+      tags.length > 0 && (
+        <ul class="mt-auto flex flex-wrap gap-2 pt-2" aria-label="Tags">
+          {tags.map((tag) => (
+            <li class="chip">{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+  </div>
+</article>

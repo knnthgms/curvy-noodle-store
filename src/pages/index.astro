@@ -3,14 +3,16 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/Hero.astro';
 import ProductCard from '@components/ProductCard.astro';
 import BlogCard from '@components/BlogCard.astro';
+import NoteCard from '@components/NoteCard.astro';
 import NewsletterSignup from '@components/NewsletterSignup.astro';
 import SocialProof from '@components/SocialProof.astro';
-import { getProducts, getPublishedPosts } from '@utils/collections';
+import { getProducts, getPublishedNotes, getPublishedPosts } from '@utils/collections';
 import { CATEGORIES, SITE } from '@config';
 
 const products = await getProducts();
 const featured = products.filter((p) => p.data.featured).slice(0, 4);
 const latestPosts = (await getPublishedPosts()).slice(0, 3);
+const latestNotes = (await getPublishedNotes()).slice(0, 3);
 ---
 
 <BaseLayout description={SITE.description}>
@@ -30,6 +32,26 @@ const latestPosts = (await getPublishedPosts()).slice(0, 3);
       ))}
     </div>
   </section>
+
+  {/* Noodle Notes: latest short updates (hidden until there is at least one note) */}
+  {
+    latestNotes.length > 0 && (
+      <section class="mx-auto max-w-6xl px-4 pb-12 sm:px-6" aria-labelledby="notes-heading">
+        <div class="flex flex-wrap items-end justify-between gap-4">
+          <h2 id="notes-heading" class="font-display text-3xl font-bold">Noodle Notes 🍜</h2>
+          <a href="/notes" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
+            All notes →
+          </a>
+        </div>
+        <p class="mt-2 text-ink-soft">Little updates from my desk, stationery finds and what I'm planning with right now.</p>
+        <div class="mt-6 grid grid-cols-1 items-start gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {latestNotes.map((note) => (
+            <NoteCard note={note} excerpt />
+          ))}
+        </div>
+      </section>
+    )
+  }
 
   {/* Browse by collection */}
   <section class="mx-auto max-w-6xl px-4 pb-12 sm:px-6" aria-labelledby="collections-heading">

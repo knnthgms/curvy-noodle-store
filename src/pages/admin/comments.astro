@@ -1,0 +1,130 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Moderate comments" description="Review and delete comments." noindex>
+  <div class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <h1 class="font-display text-4xl font-bold">Moderate comments</h1>
+    <p class="mt-2 text-lg text-ink-soft">
+      Paste your comments admin token to see the latest comments on every page and delete any
+      you don't want. The token is only kept in this browser tab.
+    </p>
+
+    <form id="token-form" class="mt-6 flex flex-wrap items-end gap-3">
+      <div class="min-w-0 flex-1">
+        <label for="token" class="block font-semibold">Admin token</label>
+        <input
+          id="token"
+          type="password"
+          autocomplete="off"
+          required
+          class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-3 focus:border-pink-deep focus:outline-none"
+        />
+      </div>
+      <button type="submit" class="btn-primary">Load comments</button>
+    </form>
+
+    <p id="status" class="mt-6 font-semibold" role="status"></p>
+    <ul id="list" class="mt-4 space-y-4"></ul>
+  </div>
+</BaseLayout>
+
+<script>
+  interface AdminComment {
+    id: string;
+    slug: string;
+    name: string;
+    message: string;
+    createdAt: string;
+  }
+
+  const form = document.getElementById('token-form') as HTMLFormElement;
+  const tokenInput = document.getElementById('token') as HTMLInputElement;
+  const status = document.getElementById('status') as HTMLElement;
+  const list = document.getElementById('list') as HTMLElement;
+
+  let token = '';
+  try {
+    token = sessionStorage.getItem('comments-admin-token') ?? '';
+  } catch {
+    /* storage blocked; the token just has to be pasted again */
+  }
+
+  const render = (comments: AdminComment[]): void => {
+    list.innerHTML = '';
+    status.textContent = comments.length === 0 ? 'No comments yet.' : `${comments.length} recent comments`;
+    for (const comment of comments) {
+      const item = document.createElement('li');
+      item.className = 'rounded-2xl border-2 border-cream-dark bg-white p-4';
+
+      const meta = document.createElement('p');
+      meta.className = 'text-sm text-ink-soft';
+      const page = document.createElement('a');
+      page.href = `/${comment.slug}/`;
+      page.className = 'underline';
+      page.textContent = comment.slug;
+      const author = document.createElement('strong');
+      author.className = 'text-ink';
+      author.textContent = comment.name;
+      meta.append(author, ` · ${new Date(comment.createdAt).toLocaleString('en-IN')} · `, page);
+
+      const text = document.createElement('p');
+      text.className = 'mt-2 whitespace-pre-line break-words';
+      text.textContent = comment.message;
+
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'btn-secondary mt-3';
+      remove.textContent = 'Delete';
+      remove.addEventListener('click', async () => {
+        if (!confirm('Delete this comment? This cannot be undone.')) return;
+        remove.disabled = true;
+        const response = await fetch(
+          `/api/comments?slug=${encodeURIComponent(comment.slug)}&id=${encodeURIComponent(comment.id)}`,
+          { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } },
+        );
+        if (response.ok) {
+          item.remove();
+        } else {
+          remove.disabled = false;
+          status.textContent = 'Could not delete that comment. Please try again.';
+        }
+      });
+
+      item.append(meta, text, remove);
+      list.appendChild(item);
+    }
+  };
+
+  const load = async (): Promise<void> => {
+    status.textContent = 'Loading…';
+    const response = await fetch('/api/comments?all=1', { headers: { Authorization: `Bearer ${token}` } });
+    if (response.status === 401) {
+      status.textContent = "That token didn't work.";
+      return;
+    }
+    if (response.status === 503) {
+      status.textContent = 'Comments are not set up yet (the COMMENTS storage binding is missing).';
+      return;
+    }
+    if (!response.ok) {
+      status.textContent = 'Something went wrong loading comments.';
+      return;
+    }
+    const data = (await response.json()) as { comments: AdminComment[] };
+    try {
+      sessionStorage.setItem('comments-admin-token', token);
+    } catch {
+      /* ignore */
+    }
+    render(data.comments);
+  };
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+    token = tokenInput.value.trim();
+    void load();
+  });
+
+  if (token) void load();
+</script>

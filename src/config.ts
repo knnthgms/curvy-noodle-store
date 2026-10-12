@@ -37,6 +37,7 @@ export const NAV_LINKS = [
   { label: 'Store', href: '/shop' },
   { label: 'Collections', href: '/collections' },
   { label: 'Planning Nook', href: '/blog' },
+  { label: 'Noodle Notes', href: '/notes' },
   { label: 'About', href: '/about' },
   { label: 'FAQs', href: '/faq' },
   { label: 'Contact', href: '/contact' },

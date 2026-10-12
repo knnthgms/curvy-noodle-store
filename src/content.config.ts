@@ -54,7 +54,29 @@ const blog = defineCollection({
     coverImage: z.string(),
     coverImageAlt: z.string(),
     draft: z.boolean().default(false),
+    /** Show the comments section under the post. */
+    comments: z.boolean().default(true),
   }),
 });
 
-export const collections = { products, blog };
+/**
+ * Noodle Notes: short, casual updates (stationery finds, desk shots, what
+ * I'm using right now). One Markdown file per note in `src/content/notes/`.
+ * Notes with `draft: true` are excluded from listings.
+ */
+const notes = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/notes' }),
+  schema: z.object({
+    title: z.string(),
+    date: z.coerce.date(),
+    tags: z.array(z.string()).default([]),
+    /** Optional photo, served from /public (e.g. /images/notes/desk.jpg). */
+    image: z.string().optional(),
+    imageAlt: z.string().optional(),
+    draft: z.boolean().default(false),
+    /** Show the comments section under the note. */
+    comments: z.boolean().default(true),
+  }),
+});
+
+export const collections = { products, blog, notes };

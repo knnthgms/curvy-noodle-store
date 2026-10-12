@@ -3,6 +3,8 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 export type Product = CollectionEntry<'products'>;
 export type Post = CollectionEntry<'blog'>;
 
+export type Note = CollectionEntry<'notes'>;
+
 /** URL slug for a product (frontmatter override or filename). */
 export function productSlug(product: Product): string {
   return product.data.slug ?? product.id;
@@ -36,6 +38,32 @@ export async function getProductsByCategory(
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+}
+
+/** Absolute path to a Noodle Note. */
+export function notePath(note: Note): string {
+  return `/notes/${note.id}/`;
+}
+
+/** Published (non-draft) notes, newest first. */
+export async function getPublishedNotes(): Promise<Note[]> {
+  const notes = await getCollection('notes', ({ data }) => !data.draft);
+  return notes.sort(
+    (a, b) =>
+      b.data.date.valueOf() - a.data.date.valueOf() || b.id.localeCompare(a.id),
+  );
+}
+
+/** Plain-text excerpt of a note's Markdown body, cut at `max` characters. */
+export function noteExcerpt(note: Note, max = 160): string {
+  const text = (note.body ?? '')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[#>*_`~-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (text.length <= max) return text;
+  return `${text.slice(0, max).replace(/\s+\S*$/, '')}…`;
 }
 
 /**

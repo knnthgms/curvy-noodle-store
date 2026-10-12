@@ -1,0 +1,55 @@
+---
+import { formatDate, isoDate } from '@utils/format';
+import { noteExcerpt, notePath, type Note } from '@utils/collections';
+
+/** Sidebar of Noodle Notes shown beside a blog post as extra reading. */
+interface Props {
+  notes: Note[];
+}
+
+const { notes } = Astro.props;
+---
+
+{
+  notes.length > 0 && (
+    <aside aria-labelledby="related-notes-heading" class="mt-10 xl:mt-0 xl:w-72 xl:shrink-0 xl:self-start xl:sticky xl:top-24">
+      <div class="rounded-3xl bg-blush/50 p-6">
+        <h2 id="related-notes-heading" class="font-display text-lg font-bold">
+          From Noodle Notes 🍜
+        </h2>
+        <p class="mt-1 text-sm text-ink-soft">Quick stationery finds and updates you might like.</p>
+        <ul class="mt-4 space-y-4 sm:grid sm:grid-cols-2 sm:gap-4 sm:space-y-0 xl:block xl:space-y-4">
+          {notes.map((note) => (
+            <li class="overflow-hidden rounded-2xl border-2 border-cream-dark bg-white">
+              {note.data.image && (
+                <a href={notePath(note)} tabindex="-1">
+                  <img
+                    src={note.data.image}
+                    alt={note.data.imageAlt ?? ''}
+                    width="400"
+                    height="300"
+                    loading="lazy"
+                    decoding="async"
+                    class="aspect-[4/3] w-full bg-cream object-cover object-top"
+                  />
+                </a>
+              )}
+              <div class="p-4">
+                <p class="text-xs text-ink-soft">
+                  <time datetime={isoDate(note.data.date)}>{formatDate(note.data.date)}</time>
+                </p>
+                <h3 class="mt-1 font-display font-bold">
+                  <a href={notePath(note)} class="hover:text-pink-deep">{note.data.title}</a>
+                </h3>
+                <p class="mt-1 text-sm text-ink-soft">{noteExcerpt(note, 90)}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+        <a href="/notes" class="mt-4 inline-block font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
+          All notes →
+        </a>
+      </div>
+    </aside>
+  )
+}

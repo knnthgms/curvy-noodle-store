@@ -132,6 +132,67 @@ collections:
         widget: markdown
         hint: "The full product description shown on the product page."
 
+  # Noodle Notes (short updates)
+  - name: notes
+    label: Noodle Notes
+    label_singular: Note
+    description: "Quick updates: a photo, a few lines and a tag. Takes a couple of minutes."
+    folder: src/content/notes
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    extension: md
+    format: frontmatter
+    summary: "{{title}} — {{date}}"
+    # Media for this collection goes into public/images/notes/
+    media_folder: /public/images/notes
+    public_folder: /images/notes
+    fields:
+      - label: Title
+        name: title
+        widget: string
+        hint: "A short, friendly headline. e.g. 'Desk setup for the week'."
+
+      - label: Date
+        name: date
+        widget: date
+        format: YYYY-MM-DD
+        hint: "Used for sorting. Newest notes appear first."
+
+      - label: Photo
+        name: image
+        widget: image
+        required: false
+        hint: "Optional. Landscape or square works best (about 1200×900 px)."
+
+      - label: Photo alt text
+        name: imageAlt
+        widget: string
+        required: false
+        hint: "Describe the photo for screen readers. Fill this in if you add a photo."
+
+      - label: Tags
+        name: tags
+        widget: list
+        allow_add: true
+        required: false
+        hint: "e.g. desk, new find, planner, washi."
+
+      - label: Draft — hide from website
+        name: draft
+        widget: boolean
+        default: false
+
+      - label: Allow comments
+        name: comments
+        widget: boolean
+        default: true
+        hint: "Untick to hide the comments section on this note."
+
+      - label: Note
+        name: body
+        widget: markdown
+        hint: "Keep it short: one to three sentences is plenty."
+
   # Blog posts
   - name: blog
     label: Blog posts
@@ -183,6 +244,12 @@ collections:
         widget: list
         allow_add: true
         required: false
+
+      - label: Allow comments
+        name: comments
+        widget: boolean
+        default: true
+        hint: "Untick to hide the comments section on this post."
 
       - label: Post content
         name: body

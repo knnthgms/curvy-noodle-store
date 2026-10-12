@@ -2,8 +2,10 @@
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Comments from '@components/Comments.astro';
+import RelatedNotes from '@components/RelatedNotes.astro';
 import { SITE } from '@config';
-import { getPublishedPosts, postPath, type Post } from '@utils/collections';
+import { getPublishedNotes, getPublishedPosts, postPath, type Post } from '@utils/collections';
 import { formatDate, isoDate, readingTime } from '@utils/format';
 import { blogPostingSchema, breadcrumbSchema } from '@utils/schema';
 
@@ -28,7 +30,17 @@ interface Props {
 
 const { post, newerPost, olderPost } = Astro.props;
 const { Content, headings } = await render(post);
-const { title, description, date, tags, coverImage, coverImageAlt } = post.data;
+const { title, description, date, tags, coverImage, coverImageAlt, comments } = post.data;
+
+// Related Noodle Notes for the sidebar: notes sharing a tag first, then the latest.
+const postTags = new Set(tags.map((tag) => tag.toLowerCase()));
+const allNotes = await getPublishedNotes();
+const relatedNotes = [
+  ...allNotes.filter((note) => note.data.tags.some((tag) => postTags.has(tag.toLowerCase()))),
+  ...allNotes,
+]
+  .filter((note, index, list) => list.indexOf(note) === index)
+  .slice(0, 3);
 
 const minutes = readingTime(post.body ?? '');
 const path = postPath(post);
@@ -69,8 +81,10 @@ const shareLinks = [
 ---
 
 <BaseLayout title={title} description={description} ogImage={coverImage} ogType="article" schemas={schemas}>
-  <article class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
-    <Breadcrumbs items={breadcrumbs} />
+  <article class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
+    <div class="mx-auto max-w-[69rem]">
+      <Breadcrumbs items={breadcrumbs} />
+    </div>
 
     <header class="mx-auto mt-6 max-w-3xl text-center">
       <p class="text-ink-soft">
@@ -100,7 +114,8 @@ const shareLinks = [
       class="mx-auto mt-8 aspect-video w-full max-w-3xl rounded-3xl border-2 border-cream-dark bg-white object-cover"
     />
 
-    <div class="mx-auto mt-10 flex max-w-5xl flex-col gap-10 lg:flex-row">
+    <div class="mx-auto mt-10 max-w-5xl xl:flex xl:max-w-[80rem] xl:items-start xl:gap-10">
+    <div class="flex min-w-0 flex-1 flex-col gap-10 lg:flex-row">
       {/* Table of contents */}
       {
         toc.length > 0 && (
@@ -150,7 +165,12 @@ const shareLinks = [
             }
           </ul>
         </div>
+
+        {comments && <Comments slug={`blog/${post.id}`} />}
       </div>
+    </div>
+
+    <RelatedNotes notes={relatedNotes} />
     </div>
 
     {/* Previous / next navigation */}

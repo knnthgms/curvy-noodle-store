@@ -1,0 +1,122 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Breadcrumbs from '@components/Breadcrumbs.astro';
+import Comments from '@components/Comments.astro';
+import { SITE } from '@config';
+import { getPublishedNotes, noteExcerpt, notePath, type Note } from '@utils/collections';
+import { formatDate, isoDate } from '@utils/format';
+import { blogPostingSchema, breadcrumbSchema } from '@utils/schema';
+
+export async function getStaticPaths() {
+  const notes = await getPublishedNotes();
+  return notes.map((note, index) => ({
+    params: { slug: note.id },
+    props: {
+      note,
+      // Notes are sorted newest-first, so "newer" = previous in the list.
+      newerNote: notes[index - 1] ?? null,
+      olderNote: notes[index + 1] ?? null,
+    },
+  }));
+}
+
+interface Props {
+  note: Note;
+  newerNote: Note | null;
+  olderNote: Note | null;
+}
+
+const { note, newerNote, olderNote } = Astro.props;
+const { Content } = await render(note);
+const { title, date, tags, image, imageAlt, comments } = note.data;
+
+const path = notePath(note);
+const description = noteExcerpt(note, 160) || `A Noodle Note from ${SITE.name}.`;
+const ogImage = image ?? SITE.defaultOgImage;
+
+const breadcrumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Noodle Notes', href: '/notes' },
+  { label: title },
+];
+
+const schemas = [
+  breadcrumbSchema(breadcrumbs),
+  blogPostingSchema({ title, description, date, url: path, image: ogImage }),
+];
+---
+
+<BaseLayout title={title} description={description} ogImage={ogImage} ogType="article" schemas={schemas}>
+  <article class="mx-auto max-w-3xl px-4 py-10 sm:px-6">
+    <Breadcrumbs items={breadcrumbs} />
+
+    <header class="mt-6 text-center">
+      <p class="text-ink-soft">
+        <time datetime={isoDate(date)}>{formatDate(date)}</time>
+      </p>
+      <h1 class="mt-3 font-display text-4xl font-bold sm:text-5xl">{title}</h1>
+      {
+        tags.length > 0 && (
+          <ul class="mt-4 flex flex-wrap justify-center gap-2" aria-label="Tags">
+            {tags.map((tag) => (
+              <li class="chip">{tag}</li>
+            ))}
+          </ul>
+        )
+      }
+    </header>
+
+    {
+      image && (
+        <img
+          src={image}
+          alt={imageAlt ?? ''}
+          width="1200"
+          height="900"
+          decoding="async"
+          class="mx-auto mt-8 aspect-[4/3] w-full rounded-3xl border-2 border-cream-dark bg-white object-cover object-top"
+        />
+      )
+    }
+
+    <div class="prose prose-lg mx-auto mt-8 max-w-none">
+      <Content />
+    </div>
+
+    {comments && <Comments slug={`notes/${note.id}`} />}
+
+    <nav aria-label="More notes" class="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        newerNote ? (
+          <a
+            href={notePath(newerNote)}
+            class="rounded-3xl border-2 border-cream-dark bg-white p-5 transition hover:border-pink-deep"
+          >
+            <span class="text-sm text-ink-soft">← Newer note</span>
+            <span class="mt-1 block font-display font-bold">{newerNote.data.title}</span>
+          </a>
+        ) : (
+          <span aria-hidden="true" />
+        )
+      }
+      {
+        olderNote && (
+          <a
+            href={notePath(olderNote)}
+            class="rounded-3xl border-2 border-cream-dark bg-white p-5 text-right transition hover:border-pink-deep"
+          >
+            <span class="text-sm text-ink-soft">Older note →</span>
+            <span class="mt-1 block font-display font-bold">{olderNote.data.title}</span>
+          </a>
+        )
+      }
+    </nav>
+
+    <p class="mt-8 text-center">
+      <a href="/notes" class="font-display font-semibold text-pink-deep underline-offset-4 hover:underline">
+        ← All Noodle Notes
+      </a>
+    </p>
+  </article>
+</BaseLayout>

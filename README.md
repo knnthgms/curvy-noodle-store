@@ -310,6 +310,28 @@ preview links.
 | `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 (e.g. `G-XXXXXXXXXX`) | Optional |
 | `PUBLIC_CLARITY_PROJECT_ID` | Microsoft Clarity session recordings | Optional |
 
+### Comments (Noodle Notes and blog posts)
+
+Visitors can leave comments with any name, no login. Comments are stored in a
+Cloudflare **KV** namespace by the function in `functions/api/comments.js`. It
+needs one-time setup. Until it's done, the comments area on the site shows a
+"coming soon" message:
+
+1. **Create the storage:** Cloudflare dashboard → **Storage & Databases → KV →
+   Create a namespace** (call it `curvy-noodle-comments`).
+2. **Connect it to the site:** **Workers & Pages →** your Pages project →
+   **Settings → Bindings → Add → KV namespace**. Variable name must be exactly
+   `COMMENTS`; pick the namespace you just made. Add it for **Production** (and
+   Preview if you want to test).
+3. **Set your moderation password:** **Settings → Variables and Secrets → Add**
+   a **Secret** named `COMMENTS_ADMIN_TOKEN` with a long random value.
+4. **Redeploy** (Deployments → Retry deployment, or push any change).
+
+To review or delete comments, open **/admin/comments** on your site and paste
+the token. Spam protection built in: no links allowed, a hidden trap field for
+bots, one comment per minute per visitor, and a 300 comments per page cap. To
+turn comments off for one post or note, untick **Allow comments** in the editor.
+
 > Add these to a local `.env` file for development (git-ignored, stays private).
 > **Changing an environment variable requires a redeploy** to take effect.
 
