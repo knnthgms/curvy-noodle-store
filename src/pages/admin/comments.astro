@@ -50,6 +50,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     message: string;
     createdAt: string;
     image?: string;
+    parentId?: string;
+    owner?: boolean;
   }
 
   const form = document.getElementById('token-form') as HTMLFormElement;
@@ -90,7 +92,9 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     const author = document.createElement('strong');
     author.className = 'text-ink';
     author.textContent = comment.name;
-    meta.append(author, ` · ${new Date(comment.createdAt).toLocaleString('en-IN')} · `, page);
+    const kind = comment.parentId ? '↳ reply · ' : '';
+    const badge = comment.owner ? ' (you)' : '';
+    meta.append(kind, author, badge, ` · ${new Date(comment.createdAt).toLocaleString('en-IN')} · `, page);
     item.append(meta);
 
     if (comment.message) {
@@ -127,7 +131,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
   };
 
   const remove = async (comment: AdminComment, pending: boolean, button: HTMLButtonElement, item: HTMLElement): Promise<void> => {
-    if (!confirm('Delete this comment? This cannot be undone.')) return;
+    const withReplies = !pending && !comment.parentId;
+    if (!confirm(`Delete this comment${withReplies ? ' and any replies under it' : ''}? This cannot be undone.`)) return;
     button.disabled = true;
     const query = pending
       ? `id=${encodeURIComponent(comment.id)}&pending=1`
@@ -139,6 +144,63 @@ import BaseLayout from '@layouts/BaseLayout.astro';
       button.disabled = false;
       status.textContent = 'Could not delete that comment. Please try again.';
     }
+  };
+
+  // Replies are posted with the admin token, so they show up as the shop owner.
+  const openReplyBox = (comment: AdminComment, item: HTMLElement, trigger: HTMLButtonElement): void => {
+    if (item.querySelector('form')) return;
+    trigger.disabled = true;
+    const box = document.createElement('form');
+    box.className = 'mt-3 space-y-3';
+    const text = document.createElement('textarea');
+    text.rows = 3;
+    text.maxLength = 1000;
+    text.placeholder = `Reply to ${comment.name} as Curvy Noodle…`;
+    text.setAttribute('aria-label', `Reply to ${comment.name}`);
+    text.className =
+      'w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-3 focus:border-pink-deep focus:outline-none';
+    const row = document.createElement('div');
+    row.className = 'flex flex-wrap items-center gap-3';
+    const send = makeButton('Post reply', true);
+    send.type = 'submit';
+    const cancel = makeButton('Cancel');
+    const note = document.createElement('p');
+    note.className = 'font-semibold';
+    note.setAttribute('role', 'status');
+    row.append(send, cancel, note);
+    box.append(text, row);
+    item.append(box);
+    text.focus();
+
+    const close = (): void => {
+      box.remove();
+      trigger.disabled = false;
+    };
+    cancel.addEventListener('click', close);
+    box.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const message = text.value.trim();
+      if (!message) {
+        note.textContent = 'Please write a reply.';
+        return;
+      }
+      send.disabled = true;
+      note.textContent = 'Posting…';
+      const data = new FormData();
+      data.set('slug', comment.slug);
+      data.set('parentId', comment.id);
+      data.set('message', message);
+      data.set('name', 'Curvy Noodle');
+      data.set('website', '');
+      const response = await fetch('/api/comments', { method: 'POST', headers: authHeaders(), body: data });
+      if (response.ok) {
+        await load();
+      } else {
+        const result = (await response.json().catch(() => ({}))) as { error?: string };
+        note.textContent = result.error ?? 'Could not post that reply.';
+        send.disabled = false;
+      }
+    });
   };
 
   const render = (comments: AdminComment[], pending: AdminComment[]): void => {
@@ -178,9 +240,11 @@ import BaseLayout from '@layouts/BaseLayout.astro';
     }
     for (const comment of comments) {
       const { item, actions } = buildItem(comment, false);
+      const replyButton = makeButton('Reply as the shop');
+      replyButton.addEventListener('click', () => openReplyBox(comment, item, replyButton));
       const del = makeButton('Delete');
       del.addEventListener('click', () => void remove(comment, false, del, item));
-      actions.append(del);
+      actions.append(replyButton, del);
       list.appendChild(item);
     }
   };

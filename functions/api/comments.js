@@ -8,12 +8,16 @@
 //   GET    ?slug=notes/my-note        → approved comments for one page (public)
 //   GET    ?image=<id>                → an approved comment photo (public); admin can see pending ones
 //   POST   multipart or JSON          → add a comment, optionally with a JPEG photo (public, rate limited)
+//                                        or a reply (add parentId; text only)
+//                                        With the admin token a reply is posted as the shop owner.
 //   GET    ?all=1                     → recent and pending comments on every page (admin)
 //   PATCH  ?id=<id>                   → approve a pending photo comment (admin)
-//   DELETE ?slug=...&id=...           → remove a comment (admin); add &pending=1 for a pending one
+//   DELETE ?slug=...&id=...           → remove a comment and its replies (admin); add &pending=1 for a pending one
 //
 // Storage layout in KV:
-//   comments:<slug>  JSON array of approved comments for a page
+//   comments:<slug>  JSON array of approved comments and replies for a page.
+//                    A reply has parentId = the id of the top-level comment that
+//                    starts its thread (replies to replies join the same thread).
 //   pending:<id>     a photo comment waiting for approval (auto-deleted after 30 days)
 //   image:<id>       the JPEG bytes, with metadata {approved}
 //
@@ -24,6 +28,8 @@ const SLUG_PATTERN = /^(blog|notes|shop)\/[a-z0-9][a-z0-9-]*$/;
 const NAME_MAX = 40;
 const MESSAGE_MAX = 1000;
 const MAX_COMMENTS_PER_PAGE = 300;
+const MAX_REPLIES_PER_THREAD = 50;
+const OWNER_NAME = 'Curvy Noodle';
 const RATE_LIMIT_SECONDS = 60; // KV's minimum TTL
 const IMAGES_NEED_APPROVAL = true;
 const IMAGE_MAX_BYTES = 1.5 * 1024 * 1024;
@@ -145,6 +151,7 @@ async function readSubmission(request) {
         name: form.get('name'),
         message: form.get('message'),
         website: form.get('website'),
+        parentId: form.get('parentId'),
       },
       photo: photo && typeof photo === 'object' && photo.size > 0 ? photo : null,
     };
@@ -177,13 +184,20 @@ export async function onRequestPost({ request, env }) {
   if (fields.website) return json({ comment: null }, 201);
 
   const slug = String(fields.slug ?? '');
-  const name = clean(fields.name, NAME_MAX);
+  const parentId = fields.parentId ? String(fields.parentId) : '';
+  // Only a reply sent with the real admin token counts as the shop owner. This is
+  // decided by the secret token alone, never by anything the visitor's form says.
+  const owner = Boolean(parentId) && isAdmin(request, env);
+  const name = owner ? OWNER_NAME : clean(fields.name, NAME_MAX);
   const message = clean(fields.message, MESSAGE_MAX);
 
   if (!SLUG_PATTERN.test(slug)) return json({ error: 'Unknown page.' }, 400);
+  if (parentId && !UUID_PATTERN.test(parentId)) return json({ error: 'Something went wrong. Please try again.' }, 400);
+  if (parentId && photo) return json({ error: "Replies can't include photos." }, 400);
   if (!name) return json({ error: 'Please add a name.' }, 400);
+  if (parentId && !message) return json({ error: 'Please write a reply.' }, 400);
   if (!message && !photo) return json({ error: 'Please write a comment or add a photo.' }, 400);
-  if (URL_PATTERN.test(message) || URL_PATTERN.test(name)) {
+  if (!owner && (URL_PATTERN.test(message) || URL_PATTERN.test(name))) {
     return json({ error: "Links aren't allowed in comments (it keeps spam out). Please remove the link." }, 400);
   }
 
@@ -207,7 +221,7 @@ export async function onRequestPost({ request, env }) {
   // One comment per minute per visitor. The address is hashed, never stored as-is.
   const address = request.headers.get('CF-Connecting-IP') ?? 'unknown';
   const limitKey = `ratelimit:${await shortHash(address)}`;
-  if (await env.COMMENTS.get(limitKey)) {
+  if (!owner && (await env.COMMENTS.get(limitKey))) {
     return json({ error: 'Slow down a little! Please wait a minute before commenting again.' }, 429);
   }
 
@@ -239,13 +253,24 @@ export async function onRequestPost({ request, env }) {
   if (comments.length >= MAX_COMMENTS_PER_PAGE) {
     return json({ error: 'Comments are closed on this page.' }, 403);
   }
+  if (parentId) {
+    // A reply joins the thread of the top-level comment it answers.
+    const parent = comments.find((item) => item.id === parentId);
+    if (!parent) return json({ error: 'That comment is no longer there.' }, 404);
+    const threadId = parent.parentId ?? parent.id;
+    if (comments.filter((item) => item.parentId === threadId).length >= MAX_REPLIES_PER_THREAD) {
+      return json({ error: 'This conversation is full.' }, 403);
+    }
+    comment.parentId = threadId;
+    if (owner) comment.owner = true;
+  }
   if (photoBytes) {
     await env.COMMENTS.put(`image:${comment.id}`, photoBytes, { metadata: { approved: true } });
     comment.image = comment.id;
   }
   comments.push(comment);
   await env.COMMENTS.put(`comments:${slug}`, JSON.stringify(comments));
-  await env.COMMENTS.put(limitKey, '1', { expirationTtl: RATE_LIMIT_SECONDS });
+  if (!owner) await env.COMMENTS.put(limitKey, '1', { expirationTtl: RATE_LIMIT_SECONDS });
 
   return json({ comment }, 201);
 }
@@ -302,9 +327,13 @@ export async function onRequestDelete({ request, env }) {
   const comments = await readComments(env, slug);
   const target = comments.find((comment) => comment.id === id);
   if (!target) return json({ error: 'Comment not found.' }, 404);
-  const remaining = comments.filter((comment) => comment.id !== id);
+  // Deleting a comment also removes the replies under it.
+  const gone = comments.filter((comment) => comment.id === id || comment.parentId === id);
+  const remaining = comments.filter((comment) => !gone.includes(comment));
 
-  if (target.image) await env.COMMENTS.delete(`image:${target.image}`);
+  for (const comment of gone) {
+    if (comment.image) await env.COMMENTS.delete(`image:${comment.image}`);
+  }
   if (remaining.length === 0) {
     await env.COMMENTS.delete(`comments:${slug}`);
   } else {

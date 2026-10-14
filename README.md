@@ -331,6 +331,14 @@ To review or delete comments, open **/admin/comments** on your site and paste
 the token. Spam protection built in: no links allowed, a hidden trap field for
 bots, one comment per minute per visitor, and a 300 comments per page cap.
 
+**Replies:** every comment has a **Reply** link that opens a small form under it.
+Replies are text only and appear straight away, nested under the comment they
+answer (replying to a reply stays in the same conversation, with the person's
+name filled in). A conversation holds up to 50 replies. To answer as yourself,
+open **/admin/comments** and press **Reply as the shop** under any comment: your
+reply shows an **Author 🍜** badge, can include links (they become clickable),
+and isn't rate limited. Deleting a comment also deletes the replies under it.
+
 **Photos in comments:** visitors can attach one photo. It is shrunk and re-saved
 as a JPEG in their browser (about 1400 px, under 1.5 MB, location data removed)
 and stored in the same KV namespace, so there is nothing extra to set up. Photo
