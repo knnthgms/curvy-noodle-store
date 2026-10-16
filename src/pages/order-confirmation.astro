@@ -1,0 +1,56 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Order Confirmed! 🎉"
+  description="Your sticker order has been placed. Thank you for shopping with The Curvy Noodle Shop!"
+  noindex
+>
+  <div class="mx-auto max-w-xl px-4 py-16 text-center sm:px-6">
+    <p class="text-7xl" aria-hidden="true">🎉</p>
+    <h1 class="mt-6 font-display text-3xl font-bold sm:text-4xl">Order Confirmed!</h1>
+    <p class="mt-4 text-lg text-ink-soft">
+      Thank you! Your payment was successful and your order is on its way to being hand-packed.
+      You'll receive a confirmation email shortly.
+    </p>
+
+    <div id="confirmation-details" class="mt-8 rounded-3xl bg-cream-dark/60 px-6 py-5 text-left">
+      <dl class="space-y-2 text-sm">
+        <div class="flex justify-between">
+          <dt class="font-semibold text-ink-soft">Payment ID</dt>
+          <dd id="payment-id" class="font-mono text-ink break-all">—</dd>
+        </div>
+      </dl>
+    </div>
+
+    <p class="mt-6 text-sm text-ink-soft">
+      Questions? Reply to the confirmation email or ping us on
+      <a href="/contact" class="font-semibold text-pink-deep underline underline-offset-4">WhatsApp</a>.
+    </p>
+
+    <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+      <a
+        href="/shop"
+        class="rounded-full bg-pink-deep px-8 py-3 font-display font-bold text-white shadow transition hover:-translate-y-0.5"
+      >
+        Keep Shopping
+      </a>
+      <a
+        href="/"
+        class="rounded-full px-8 py-3 font-display font-bold text-ink transition hover:bg-noodle"
+      >
+        Go Home
+      </a>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  const params = new URLSearchParams(window.location.search);
+  const paymentId = params.get('payment_id');
+  if (paymentId) {
+    const el = document.getElementById('payment-id');
+    if (el) el.textContent = paymentId;
+  }
+</script>

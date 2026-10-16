@@ -65,6 +65,25 @@ const desktopBreakpoint: Record<string, string> = {
       </ul>
     </nav>
 
+    <!-- Cart icon + hamburger group -->
+    <div class="flex items-center gap-1">
+      <button
+        id="cart-toggle"
+        type="button"
+        class="relative rounded-full p-2 transition hover:bg-noodle"
+        aria-label="Open cart"
+      >
+        <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"></path>
+        </svg>
+        <span
+          id="cart-badge"
+          class="absolute -right-0.5 -top-0.5 hidden h-5 w-5 items-center justify-center rounded-full bg-pink-deep text-xs font-bold text-white"
+          aria-live="polite"
+          aria-label="items in cart"
+        ></span>
+      </button>
+
     <!-- Hamburger: visible below 2xl so overflow links are always reachable -->
     <button
       id="menu-toggle"
@@ -97,6 +116,7 @@ const desktopBreakpoint: Record<string, string> = {
         <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
       </svg>
     </button>
+    </div>{/* end cart+hamburger group */}
   </div>
 
   <!-- Mobile/overflow menu: full link list, hidden via CSS at 2xl -->
@@ -123,6 +143,35 @@ const desktopBreakpoint: Record<string, string> = {
 </header>
 
 <script>
+  import { getCart, cartCount, type CartItem } from '@utils/cart';
+
+  // ── Cart badge ─────────────────────────────────────────────────────────────
+  const cartBtn   = document.getElementById('cart-toggle') as HTMLButtonElement;
+  const cartBadge = document.getElementById('cart-badge') as HTMLElement;
+
+  function updateBadge(items: CartItem[]): void {
+    const n = cartCount(items);
+    if (n > 0) {
+      cartBadge.textContent = String(n > 99 ? '99+' : n);
+      cartBadge.classList.remove('hidden');
+      cartBadge.classList.add('flex');
+    } else {
+      cartBadge.classList.add('hidden');
+      cartBadge.classList.remove('flex');
+    }
+  }
+
+  updateBadge(getCart());
+
+  window.addEventListener('cart:change', ((e: CustomEvent<CartItem[]>) => {
+    updateBadge(e.detail);
+  }) as EventListener);
+
+  cartBtn.addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('cart:open'));
+  });
+
+  // ── Hamburger menu ─────────────────────────────────────────────────────────
   const toggle = document.getElementById('menu-toggle');
   const menu = document.getElementById('mobile-menu');
 

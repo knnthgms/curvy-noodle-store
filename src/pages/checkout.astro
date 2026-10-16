@@ -1,0 +1,305 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import { SITE } from '@config';
+---
+
+<BaseLayout
+  title="Checkout"
+  description="Complete your sticker order — secure payment powered by Razorpay."
+  noindex
+>
+  <div class="mx-auto max-w-2xl px-4 py-10 sm:px-6">
+    <h1 class="font-display text-3xl font-bold">Checkout</h1>
+    <p class="mt-1 text-ink-soft">
+      Secure payment by <strong>Razorpay</strong> — UPI, cards, net banking, wallets accepted.
+    </p>
+
+    {/* Empty cart fallback (shown before JS loads) */}
+    <div id="checkout-empty" class="mt-16 text-center">
+      <p class="text-5xl" aria-hidden="true">🛒</p>
+      <p class="mt-4 font-display text-xl font-bold">Your cart is empty</p>
+      <a href="/shop" class="mt-4 inline-block rounded-full bg-pink-deep px-6 py-3 font-display font-bold text-white transition hover:-translate-y-0.5">
+        Browse the Shop
+      </a>
+    </div>
+
+    <div id="checkout-main" class="hidden mt-8 gap-8 lg:grid lg:grid-cols-5">
+      {/* Order summary */}
+      <aside class="lg:col-span-2">
+        <div class="rounded-3xl bg-cream-dark/60 p-5">
+          <h2 class="font-display font-bold text-lg">Order Summary</h2>
+          <ul id="checkout-items" class="mt-4 space-y-3"></ul>
+          <dl class="mt-4 space-y-1.5 border-t border-cream-dark pt-4 text-sm">
+            <div class="flex justify-between">
+              <dt class="text-ink-soft">Subtotal</dt>
+              <dd id="co-subtotal" class="font-semibold"></dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-ink-soft">Shipping</dt>
+              <dd id="co-shipping" class="font-semibold"></dd>
+            </div>
+            <div class="flex justify-between border-t border-cream-dark pt-2 text-base">
+              <dt class="font-display font-bold">Total</dt>
+              <dd id="co-total" class="font-display font-bold text-pink-deep"></dd>
+            </div>
+          </dl>
+        </div>
+      </aside>
+
+      {/* Customer form */}
+      <section class="lg:col-span-3">
+        <form id="checkout-form" novalidate class="space-y-4">
+          <h2 class="font-display font-bold text-lg">Delivery Details</h2>
+
+          <div>
+            <label for="co-name" class="block text-sm font-semibold">Full Name <span class="text-pink-deep" aria-hidden="true">*</span></label>
+            <input
+              id="co-name" name="name" type="text" required autocomplete="name"
+              placeholder="Your name"
+              class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+            />
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div>
+              <label for="co-email" class="block text-sm font-semibold">Email <span class="text-pink-deep" aria-hidden="true">*</span></label>
+              <input
+                id="co-email" name="email" type="email" required autocomplete="email"
+                placeholder="you@email.com"
+                class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="co-phone" class="block text-sm font-semibold">Phone <span class="text-pink-deep" aria-hidden="true">*</span></label>
+              <input
+                id="co-phone" name="phone" type="tel" required autocomplete="tel"
+                placeholder="10-digit mobile number"
+                pattern="[6-9][0-9]{9}"
+                class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <div>
+            <label for="co-address" class="block text-sm font-semibold">Address <span class="text-pink-deep" aria-hidden="true">*</span></label>
+            <textarea
+              id="co-address" name="address" required autocomplete="street-address" rows="2"
+              placeholder="House / flat, street, locality"
+              class="mt-1 w-full resize-none rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+            <div class="col-span-2 sm:col-span-1">
+              <label for="co-city" class="block text-sm font-semibold">City <span class="text-pink-deep" aria-hidden="true">*</span></label>
+              <input
+                id="co-city" name="city" type="text" required autocomplete="address-level2"
+                placeholder="Mumbai"
+                class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="co-state" class="block text-sm font-semibold">State <span class="text-pink-deep" aria-hidden="true">*</span></label>
+              <input
+                id="co-state" name="state" type="text" required autocomplete="address-level1"
+                placeholder="Maharashtra"
+                class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+              />
+            </div>
+            <div>
+              <label for="co-pincode" class="block text-sm font-semibold">PIN Code <span class="text-pink-deep" aria-hidden="true">*</span></label>
+              <input
+                id="co-pincode" name="pincode" type="text" required autocomplete="postal-code"
+                placeholder="400001"
+                pattern="[1-9][0-9]{5}"
+                class="mt-1 w-full rounded-2xl border-2 border-cream-dark bg-cream px-4 py-2.5 transition focus:border-pink-deep focus:outline-none"
+              />
+            </div>
+          </div>
+
+          <p id="checkout-error" class="hidden rounded-2xl bg-pink/40 px-4 py-3 text-sm font-semibold text-pink-deep"></p>
+
+          <button
+            type="submit"
+            id="pay-btn"
+            class="mt-2 flex w-full items-center justify-center gap-2 rounded-full bg-pink-deep px-6 py-4 font-display text-lg font-bold text-white shadow transition hover:-translate-y-0.5 hover:shadow-lg disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            <svg id="pay-spinner" class="hidden h-5 w-5 animate-spin" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+            </svg>
+            <span id="pay-btn-label">Pay ₹—</span>
+          </button>
+
+          <p class="text-center text-xs text-ink-soft">
+            🔒 Payments are secured by Razorpay. {SITE.name} never stores your card details.
+          </p>
+        </form>
+      </section>
+    </div>
+  </div>
+</BaseLayout>
+
+{/* Razorpay checkout SDK */}
+<script is:inline src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<script>
+  import {
+    getCart,
+    clearCart,
+    cartSubtotal,
+    cartShipping,
+    cartTotal,
+    SHIPPING_THRESHOLD,
+    SHIPPING_FEE,
+    type CartItem,
+  } from '@utils/cart';
+
+  const emptyEl   = document.getElementById('checkout-empty') as HTMLElement;
+  const mainEl    = document.getElementById('checkout-main') as HTMLElement;
+  const itemsEl   = document.getElementById('checkout-items') as HTMLUListElement;
+  const subtotalEl = document.getElementById('co-subtotal') as HTMLElement;
+  const shippingEl = document.getElementById('co-shipping') as HTMLElement;
+  const totalEl    = document.getElementById('co-total') as HTMLElement;
+  const payBtn     = document.getElementById('pay-btn') as HTMLButtonElement;
+  const payLabel   = document.getElementById('pay-btn-label') as HTMLElement;
+  const paySpinner = document.getElementById('pay-spinner') as HTMLElement;
+  const errorEl    = document.getElementById('checkout-error') as HTMLElement;
+  const form       = document.getElementById('checkout-form') as HTMLFormElement;
+
+  function fmt(n: number): string { return `₹${n}`; }
+
+  function escHtml(s: string): string {
+    return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  const cart = getCart();
+
+  if (cart.length === 0) {
+    emptyEl.classList.remove('hidden');
+  } else {
+    emptyEl.classList.add('hidden');
+    mainEl.classList.remove('hidden');
+    mainEl.classList.add('grid');
+
+    // Render summary
+    for (const item of cart) {
+      const li = document.createElement('li');
+      li.className = 'flex items-center gap-3';
+      li.innerHTML = `
+        <img src="${escHtml(item.image)}" alt="" class="h-12 w-12 flex-shrink-0 rounded-xl object-cover" loading="lazy" aria-hidden="true" />
+        <div class="flex-1 min-w-0">
+          <p class="font-semibold leading-snug line-clamp-1">${escHtml(item.name)}</p>
+          <p class="text-sm text-ink-soft">Qty ${item.qty} × ${fmt(item.price)}</p>
+        </div>
+        <p class="font-bold text-pink-deep">${fmt(item.price * item.qty)}</p>
+      `;
+      itemsEl.appendChild(li);
+    }
+
+    const sub = cartSubtotal(cart);
+    const ship = cartShipping(sub);
+    subtotalEl.textContent = fmt(sub);
+    shippingEl.textContent = ship === 0 ? 'Free 🎉' : fmt(ship);
+    const total = cartTotal(cart);
+    totalEl.textContent = fmt(total);
+    payLabel.textContent = `Pay ${fmt(total)}`;
+  }
+
+  function setLoading(loading: boolean): void {
+    payBtn.disabled = loading;
+    paySpinner.classList.toggle('hidden', !loading);
+    payLabel.textContent = loading ? 'Processing…' : `Pay ${totalEl.textContent}`;
+  }
+
+  function showError(msg: string): void {
+    errorEl.textContent = msg;
+    errorEl.classList.remove('hidden');
+    errorEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function clearError(): void {
+    errorEl.classList.add('hidden');
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      return;
+    }
+    clearError();
+    setLoading(true);
+
+    const data = new FormData(form);
+    const customer = {
+      name: data.get('name') as string,
+      email: data.get('email') as string,
+      phone: data.get('phone') as string,
+      address: data.get('address') as string,
+      city: data.get('city') as string,
+      state: data.get('state') as string,
+      pincode: data.get('pincode') as string,
+    };
+
+    // 1. Create a Razorpay order server-side
+    let orderResp: { order_id: string; amount: number; currency: string; key_id: string };
+    try {
+      const resp = await fetch('/api/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: cart.map(({ id, qty }) => ({ id, qty })),
+          customer,
+        }),
+      });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error((err as { error?: string }).error ?? 'Could not create order.');
+      }
+      orderResp = await resp.json();
+    } catch (err) {
+      showError(err instanceof Error ? err.message : 'Could not connect to checkout. Please try again.');
+      setLoading(false);
+      return;
+    }
+
+    // 2. Open the Razorpay modal
+    // @ts-ignore — Razorpay loaded via is:inline script
+    const rzp = new Razorpay({
+      key: orderResp.key_id,
+      order_id: orderResp.order_id,
+      amount: orderResp.amount,
+      currency: orderResp.currency,
+      name: 'The Curvy Noodle Shop',
+      description: 'Sticker order',
+      image: '/images/branding/favicon.PNG',
+      prefill: {
+        name: customer.name,
+        email: customer.email,
+        contact: customer.phone,
+      },
+      theme: { color: '#c94f7c' },
+      handler: async (payment: { razorpay_payment_id: string; razorpay_order_id: string; razorpay_signature: string }) => {
+        // 3. Verify the signature server-side
+        try {
+          const vResp = await fetch('/api/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payment),
+          });
+          if (!vResp.ok) throw new Error('Verification failed');
+          clearCart();
+          window.location.href = `/order-confirmation?payment_id=${encodeURIComponent(payment.razorpay_payment_id)}`;
+        } catch {
+          showError('Payment received but verification failed. Please contact us with your payment ID: ' + payment.razorpay_payment_id);
+          setLoading(false);
+        }
+      },
+      modal: {
+        ondismiss: () => { setLoading(false); },
+      },
+    });
+    rzp.open();
+  });
+</script>

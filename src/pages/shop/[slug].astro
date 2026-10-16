@@ -68,13 +68,6 @@ const trustSignals = [
   { icon: '📦', text: 'Ships in 2–3 days' },
 ];
 
-// How ordering works, since there's no cart — sets expectations clearly.
-const orderSteps = [
-  'Tap “Order on WhatsApp” — it opens a chat with your sticker pre-filled.',
-  'Confirm your sheets, quantity and delivery address with me.',
-  'Pay, and I hand-pack and post your order across India. 🍜',
-];
-
 const breadcrumbs = [
   { label: 'Home', href: '/' },
   { label: 'Store', href: '/shop' },
@@ -134,19 +127,24 @@ const schemas = [
           }
         </ul>
 
-        <div class="mt-8">
-          <WhatsAppButton productName={title} size="lg" source={`product:${productSlug(product)}`} />
-          <p class="mt-2 text-sm text-ink-soft">
-            Opens WhatsApp with your order pre-filled — we reply within a day. 💬
-          </p>
-        </div>
-
-        {/* How ordering works (no cart) */}
-        <div class="mt-6 rounded-3xl bg-sky/60 p-5">
-          <h2 class="font-display font-bold text-sky-deep">How ordering works</h2>
-          <ol class="mt-2 list-decimal space-y-1 pl-5 text-sm text-sky-deep">
-            {orderSteps.map((step) => <li>{step}</li>)}
-          </ol>
+        <div class="mt-8 flex flex-col gap-3">
+          <button
+            type="button"
+            id="add-to-cart-btn"
+            class="flex w-full items-center justify-center gap-2 rounded-full bg-pink-deep px-6 py-3.5 font-display text-lg font-bold text-white shadow transition hover:-translate-y-0.5 hover:shadow-lg"
+            data-item-id={productSlug(product)}
+            data-item-name={title}
+            data-item-price={price}
+            data-item-image={image}
+          >
+            <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4zM3 6h18M16 10a4 4 0 01-8 0"></path>
+            </svg>
+            Add to Cart
+          </button>
+          <div>
+            <WhatsAppButton productName={title} size="lg" source={`product:${productSlug(product)}`} />
+          </div>
         </div>
 
         <dl class="mt-8 grid grid-cols-1 gap-4 rounded-3xl bg-cream-dark/60 p-6 sm:grid-cols-2">
@@ -225,6 +223,7 @@ const schemas = [
 
 <script>
   import { trackViewItem } from '@utils/analytics';
+  import { addToCart } from '@utils/cart';
 
   const meta = document.getElementById('product-analytics-data') as HTMLElement;
   if (meta) {
@@ -233,6 +232,19 @@ const schemas = [
       item_name: meta.dataset.itemName!,
       price: Number(meta.dataset.price),
       item_category: meta.dataset.category,
+    });
+  }
+
+  const btn = document.getElementById('add-to-cart-btn') as HTMLButtonElement | null;
+  if (btn) {
+    btn.addEventListener('click', () => {
+      addToCart({
+        id: btn.dataset.itemId!,
+        name: btn.dataset.itemName!,
+        price: Number(btn.dataset.itemPrice),
+        image: btn.dataset.itemImage!,
+      });
+      window.dispatchEvent(new CustomEvent('cart:open'));
     });
   }
 </script>

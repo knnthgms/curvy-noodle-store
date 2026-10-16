@@ -1,0 +1,254 @@
+---
+/**
+ * Slide-in cart drawer, injected once into BaseLayout before </body>.
+ * State lives in localStorage (key: cn_cart) and broadcasts via cart:change.
+ * Opened by dispatching window.dispatchEvent(new CustomEvent('cart:open')).
+ */
+---
+
+<!-- Backdrop -->
+<div
+  id="cart-backdrop"
+  class="pointer-events-none fixed inset-0 z-50 bg-ink/40 opacity-0 transition-opacity duration-300"
+  aria-hidden="true"
+></div>
+
+<!-- Drawer -->
+<aside
+  id="cart-drawer"
+  class="fixed right-0 top-0 z-50 flex h-full w-full max-w-sm translate-x-full flex-col bg-cream shadow-2xl transition-transform duration-300"
+  aria-label="Shopping cart"
+  role="dialog"
+  aria-modal="true"
+  hidden
+>
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b-2 border-cream-dark px-5 py-4">
+    <h2 class="font-display text-xl font-bold">
+      Your Cart
+      <span id="cart-drawer-count" class="ml-1 text-ink-soft"></span>
+    </h2>
+    <button
+      id="cart-close"
+      type="button"
+      class="rounded-full p-2 transition hover:bg-noodle"
+      aria-label="Close cart"
+    >
+      <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- Empty state -->
+  <div id="cart-empty" class="flex flex-1 flex-col items-center justify-center gap-4 px-6 py-10 text-center">
+    <span class="text-6xl" aria-hidden="true">🛒</span>
+    <p class="font-display text-xl font-bold">Your cart is empty</p>
+    <p class="text-ink-soft">Browse the shop and add some stickers!</p>
+    <a
+      href="/shop"
+      class="mt-2 rounded-full bg-pink-deep px-6 py-3 font-display font-bold text-white transition hover:-translate-y-0.5"
+      id="cart-browse-link"
+    >Browse the Shop</a>
+  </div>
+
+  <!-- Item list -->
+  <ul id="cart-items" class="hidden flex-1 overflow-y-auto px-5 py-4 space-y-4"></ul>
+
+  <!-- Footer -->
+  <div id="cart-footer" class="hidden border-t-2 border-cream-dark px-5 py-5">
+    <dl class="space-y-1.5 text-sm">
+      <div class="flex justify-between">
+        <dt class="text-ink-soft">Subtotal</dt>
+        <dd id="cart-subtotal" class="font-semibold"></dd>
+      </div>
+      <div class="flex justify-between">
+        <dt class="text-ink-soft">Shipping</dt>
+        <dd id="cart-shipping" class="font-semibold"></dd>
+      </div>
+      <div class="flex justify-between border-t border-cream-dark pt-2 text-base">
+        <dt class="font-display font-bold">Total</dt>
+        <dd id="cart-total" class="font-display font-bold text-pink-deep"></dd>
+      </div>
+    </dl>
+    <a
+      href="/checkout"
+      id="cart-checkout-btn"
+      class="mt-4 flex w-full items-center justify-center rounded-full bg-pink-deep px-6 py-3.5 font-display font-bold text-white shadow transition hover:-translate-y-0.5 hover:shadow-lg"
+    >
+      Checkout →
+    </a>
+    <button
+      type="button"
+      id="cart-continue"
+      class="mt-2 w-full rounded-full px-6 py-2.5 font-display font-semibold text-ink-soft transition hover:bg-noodle"
+    >
+      Continue Shopping
+    </button>
+  </div>
+</aside>
+
+<script>
+  import {
+    getCart,
+    addToCart,
+    updateQty,
+    removeFromCart,
+    cartSubtotal,
+    cartShipping,
+    cartTotal,
+    cartCount,
+    SHIPPING_THRESHOLD,
+    SHIPPING_FEE,
+    type CartItem,
+  } from '@utils/cart';
+
+  const drawer   = document.getElementById('cart-drawer') as HTMLElement;
+  const backdrop = document.getElementById('cart-backdrop') as HTMLElement;
+  const closeBtn = document.getElementById('cart-close') as HTMLButtonElement;
+  const continueBtn = document.getElementById('cart-continue') as HTMLButtonElement;
+  const emptyEl  = document.getElementById('cart-empty') as HTMLElement;
+  const itemsEl  = document.getElementById('cart-items') as HTMLUListElement;
+  const footerEl = document.getElementById('cart-footer') as HTMLElement;
+  const countEl  = document.getElementById('cart-drawer-count') as HTMLElement;
+  const subtotalEl = document.getElementById('cart-subtotal') as HTMLElement;
+  const shippingEl = document.getElementById('cart-shipping') as HTMLElement;
+  const totalEl    = document.getElementById('cart-total') as HTMLElement;
+
+  function fmt(n: number): string {
+    return `₹${n}`;
+  }
+
+  function renderItems(items: CartItem[]): void {
+    const count = cartCount(items);
+
+    countEl.textContent = count > 0 ? `(${count})` : '';
+
+    if (items.length === 0) {
+      emptyEl.classList.remove('hidden');
+      emptyEl.classList.add('flex');
+      itemsEl.classList.add('hidden');
+      footerEl.classList.add('hidden');
+      return;
+    }
+
+    emptyEl.classList.add('hidden');
+    emptyEl.classList.remove('flex');
+    itemsEl.classList.remove('hidden');
+    footerEl.classList.remove('hidden');
+
+    itemsEl.innerHTML = '';
+    for (const item of items) {
+      const li = document.createElement('li');
+      li.className = 'flex gap-3 rounded-2xl bg-cream-dark/60 p-3';
+      li.dataset.id = item.id;
+      li.innerHTML = `
+        <img src="${item.image}" alt="" class="h-16 w-16 flex-shrink-0 rounded-xl object-cover" loading="lazy" aria-hidden="true" />
+        <div class="flex min-w-0 flex-1 flex-col gap-1">
+          <p class="line-clamp-2 font-display font-semibold leading-snug">${escHtml(item.name)}</p>
+          <p class="font-bold text-pink-deep">${fmt(item.price)}</p>
+          <div class="mt-auto flex items-center justify-between">
+            <div class="flex items-center rounded-full border border-cream-dark bg-cream">
+              <button type="button" data-action="dec" aria-label="Remove one ${escHtml(item.name)}"
+                class="flex h-7 w-7 items-center justify-center rounded-full text-lg font-bold transition hover:bg-noodle">−</button>
+              <span class="w-6 text-center text-sm font-bold" aria-live="polite">${item.qty}</span>
+              <button type="button" data-action="inc" aria-label="Add one more ${escHtml(item.name)}"
+                class="flex h-7 w-7 items-center justify-center rounded-full text-lg font-bold transition hover:bg-noodle">+</button>
+            </div>
+            <button type="button" data-action="remove" aria-label="Remove ${escHtml(item.name)} from cart"
+              class="rounded-full p-1.5 text-ink-soft transition hover:bg-pink/40 hover:text-pink-deep">
+              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+      `;
+      itemsEl.appendChild(li);
+    }
+
+    const sub = cartSubtotal(items);
+    const ship = cartShipping(sub);
+    subtotalEl.textContent = fmt(sub);
+    shippingEl.textContent = ship === 0
+      ? 'Free 🎉'
+      : `${fmt(ship)} (free over ${fmt(SHIPPING_THRESHOLD)})`;
+    totalEl.textContent = fmt(cartTotal(items));
+  }
+
+  function escHtml(s: string): string {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  // ── Open / close ──────────────────────────────────────────────────────────
+
+  let returnFocus: HTMLElement | null = null;
+
+  function openDrawer(): void {
+    returnFocus = document.activeElement as HTMLElement;
+    drawer.hidden = false;
+    // rAF so the initial translate-x-full is painted before the transition
+    requestAnimationFrame(() => {
+      drawer.classList.remove('translate-x-full');
+      backdrop.classList.remove('pointer-events-none', 'opacity-0');
+      backdrop.classList.add('pointer-events-auto');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    });
+    renderItems(getCart());
+  }
+
+  function closeDrawer(): void {
+    drawer.classList.add('translate-x-full');
+    backdrop.classList.add('pointer-events-none', 'opacity-0');
+    backdrop.classList.remove('pointer-events-auto');
+    document.body.style.overflow = '';
+    drawer.addEventListener('transitionend', () => { drawer.hidden = true; }, { once: true });
+    returnFocus?.focus();
+  }
+
+  closeBtn.addEventListener('click', closeDrawer);
+  continueBtn.addEventListener('click', closeDrawer);
+  backdrop.addEventListener('click', closeDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !drawer.hidden) closeDrawer();
+  });
+
+  // ── Cart events ────────────────────────────────────────────────────────────
+
+  window.addEventListener('cart:open', () => openDrawer());
+
+  window.addEventListener('cart:change', ((e: CustomEvent<CartItem[]>) => {
+    if (!drawer.hidden) renderItems(e.detail);
+    // Update the header badge (dispatched separately in Header.astro script)
+  }) as EventListener);
+
+  // ── Item interactions ──────────────────────────────────────────────────────
+
+  itemsEl.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest('[data-action]') as HTMLElement | null;
+    if (!btn) return;
+    const li = btn.closest('li[data-id]') as HTMLElement | null;
+    if (!li) return;
+    const id = li.dataset.id!;
+    const action = btn.dataset.action!;
+
+    const cart = getCart();
+    const item = cart.find((c) => c.id === id);
+    if (!item) return;
+
+    if (action === 'inc') updateQty(id, item.qty + 1);
+    else if (action === 'dec') updateQty(id, item.qty - 1);
+    else if (action === 'remove') removeFromCart(id);
+
+    renderItems(getCart());
+  });
+
+  // Initial render (page load)
+  renderItems(getCart());
+</script>
