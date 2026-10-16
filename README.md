@@ -310,7 +310,7 @@ preview links.
 | `PUBLIC_GA_MEASUREMENT_ID` | Google Analytics 4 (e.g. `G-XXXXXXXXXX`) | Optional |
 | `PUBLIC_CLARITY_PROJECT_ID` | Microsoft Clarity session recordings | Optional |
 
-### Comments (Noodle Notes and blog posts)
+### Comments (Noodle Notes, blog posts and products)
 
 Visitors can leave comments with any name, no login. Comments are stored in a
 Cloudflare **KV** namespace by the function in `functions/api/comments.js`. It
@@ -329,8 +329,28 @@ needs one-time setup. Until it's done, the comments area on the site shows a
 
 To review or delete comments, open **/admin/comments** on your site and paste
 the token. Spam protection built in: no links allowed, a hidden trap field for
-bots, one comment per minute per visitor, and a 300 comments per page cap. To
-turn comments off for one post or note, untick **Allow comments** in the editor.
+bots, one comment per minute per visitor, and a 300 comments per page cap.
+
+**Replies:** every comment has a **Reply** link that opens a small form under it.
+Replies are text only and appear straight away, nested under the comment they
+answer (replying to a reply stays in the same conversation, with the person's
+name filled in). A conversation holds up to 50 replies. To answer as yourself,
+open **/admin/comments** and press **Reply as the shop** under any comment: your
+reply shows an **Author 🍜** badge, can include links (they become clickable),
+and isn't rate limited. Deleting a comment also deletes the replies under it.
+
+**Photos in comments:** visitors can attach one photo. It is shrunk and re-saved
+as a JPEG in their browser (about 1400 px, under 1.5 MB, location data removed)
+and stored in the same KV namespace, so there is nothing extra to set up. Photo
+comments are **held for your approval**: they appear under **Waiting for
+approval** on `/admin/comments`, where you can see the photo and press
+**Approve** or **Delete**. They go public only after you approve them. Unreviewed
+ones delete themselves after 30 days, and no more than 40 can be waiting at once.
+Text-only comments still appear straight away. (`IMAGES_NEED_APPROVAL` in
+`functions/api/comments.js` controls this. Keep it `true` unless you really want
+photos to appear instantly.) Check `/admin/comments` now and then, since there
+are no email alerts yet. To
+turn comments off for one post, note or product, untick **Allow comments** in the editor.
 
 > Add these to a local `.env` file for development (git-ignored, stays private).
 > **Changing an environment variable requires a redeploy** to take effect.

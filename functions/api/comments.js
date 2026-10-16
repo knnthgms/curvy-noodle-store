@@ -1,22 +1,42 @@
-// Cloudflare Pages Function: anonymous comments for blog posts and Noodle Notes.
+// Cloudflare Pages Function: anonymous comments for blog posts, Noodle Notes and products.
 //
 // Setup (Cloudflare dashboard, see README → "Comments"):
-//   KV namespace binding  COMMENTS             — stores the comments
-//   Secret                COMMENTS_ADMIN_TOKEN — lets you list and delete comments
+//   KV namespace binding  COMMENTS             — stores comments and photos
+//   Secret                COMMENTS_ADMIN_TOKEN — lets you review, approve and delete
 //
 // Endpoints (all under /api/comments):
-//   GET    ?slug=notes/my-note        → comments for one page (public)
-//   POST   {slug, name, message}      → add a comment (public, rate limited)
-//   GET    ?all=1                     → recent comments on every page (admin token)
-//   DELETE ?slug=...&id=...           → remove a comment (admin token)
+//   GET    ?slug=notes/my-note        → approved comments for one page (public)
+//   GET    ?image=<id>                → an approved comment photo (public); admin can see pending ones
+//   POST   multipart or JSON          → add a comment, optionally with a JPEG photo (public, rate limited)
+//                                        or a reply (add parentId; text only)
+//                                        With the admin token a reply is posted as the shop owner.
+//   GET    ?all=1                     → recent and pending comments on every page (admin)
+//   PATCH  ?id=<id>                   → approve a pending photo comment (admin)
+//   DELETE ?slug=...&id=...           → remove a comment and its replies (admin); add &pending=1 for a pending one
 //
-// Comments for a page live in one KV value (`comments:<slug>`) as a JSON array.
+// Storage layout in KV:
+//   comments:<slug>  JSON array of approved comments and replies for a page.
+//                    A reply has parentId = the id of the top-level comment that
+//                    starts its thread (replies to replies join the same thread).
+//   pending:<id>     a photo comment waiting for approval (auto-deleted after 30 days)
+//   image:<id>       the JPEG bytes, with metadata {approved}
+//
+// Text-only comments appear straight away. Comments with a photo are held for
+// approval while IMAGES_NEED_APPROVAL is true, so nothing unchecked is ever public.
 
-const SLUG_PATTERN = /^(blog|notes)\/[a-z0-9][a-z0-9-]*$/;
+const SLUG_PATTERN = /^(blog|notes|shop)\/[a-z0-9][a-z0-9-]*$/;
 const NAME_MAX = 40;
 const MESSAGE_MAX = 1000;
 const MAX_COMMENTS_PER_PAGE = 300;
+const MAX_REPLIES_PER_THREAD = 50;
+const OWNER_NAME = 'Curvy Noodle';
 const RATE_LIMIT_SECONDS = 60; // KV's minimum TTL
+const IMAGES_NEED_APPROVAL = true;
+const IMAGE_MAX_BYTES = 1.5 * 1024 * 1024;
+const REQUEST_MAX_BYTES = 2 * 1024 * 1024;
+const MAX_PENDING_IMAGES = 40;
+const PENDING_TTL_SECONDS = 60 * 60 * 24 * 30;
+const UUID_PATTERN = /^[0-9a-f-]{36}$/;
 // Blocks pasted links. Short endings like ".in" are left out so ordinary
 // sentences that miss a space after a full stop ("love it.In the...") still work.
 const URL_PATTERN = /https?:\/\/|www\.|[a-z0-9-]{2,}\.(com|net|org|ru|xyz|shop|site|online|top|biz)\b/i;
@@ -63,13 +83,41 @@ async function readComments(env, slug) {
   return Array.isArray(stored) ? stored : [];
 }
 
+async function listPending(env) {
+  const listing = await env.COMMENTS.list({ prefix: 'pending:' });
+  const items = await Promise.all(listing.keys.map((key) => env.COMMENTS.get(key.name, 'json')));
+  return items.filter(Boolean).sort((a, b) => b.createdAt.localeCompare(a.createdAt));
+}
+
+// A real JPEG starts with the bytes FF D8 FF.
+const looksLikeJpeg = (bytes) => bytes.length > 3 && bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff;
+
 const notConfigured = () => json({ error: 'Comments are not switched on yet.' }, 503);
+
+async function serveImage(env, request, id) {
+  if (!UUID_PATTERN.test(id)) return json({ error: 'Not found.' }, 404);
+  const { value, metadata } = await env.COMMENTS.getWithMetadata(`image:${id}`, 'arrayBuffer');
+  const admin = isAdmin(request, env);
+  if (!value || (!metadata?.approved && !admin)) return json({ error: 'Not found.' }, 404);
+  return new Response(value, {
+    headers: {
+      'Content-Type': 'image/jpeg',
+      // Photos are shown only as pictures: never sniffed, never run as a page.
+      'X-Content-Type-Options': 'nosniff',
+      'Content-Security-Policy': "default-src 'none'; sandbox",
+      'Cache-Control': metadata?.approved ? 'public, max-age=86400' : 'private, no-store',
+    },
+  });
+}
 
 export async function onRequestGet({ request, env }) {
   if (!env.COMMENTS) return notConfigured();
   const url = new URL(request.url);
 
-  // Admin: recent comments across all pages.
+  const imageId = url.searchParams.get('image');
+  if (imageId) return serveImage(env, request, imageId);
+
+  // Admin: recent comments across all pages, plus anything waiting for approval.
   if (url.searchParams.get('all')) {
     if (!isAdmin(request, env)) return json({ error: 'Not allowed.' }, 401);
     const listing = await env.COMMENTS.list({ prefix: 'comments:' });
@@ -84,12 +132,31 @@ export async function onRequestGet({ request, env }) {
       .flat()
       .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
       .slice(0, 200);
-    return json({ comments: all });
+    return json({ comments: all, pending: await listPending(env) });
   }
 
   const slug = url.searchParams.get('slug') ?? '';
   if (!SLUG_PATTERN.test(slug)) return json({ error: 'Unknown page.' }, 400);
   return json({ comments: await readComments(env, slug) });
+}
+
+async function readSubmission(request) {
+  const type = request.headers.get('Content-Type') ?? '';
+  if (type.includes('multipart/form-data')) {
+    const form = await request.formData();
+    const photo = form.get('image');
+    return {
+      fields: {
+        slug: form.get('slug'),
+        name: form.get('name'),
+        message: form.get('message'),
+        website: form.get('website'),
+        parentId: form.get('parentId'),
+      },
+      photo: photo && typeof photo === 'object' && photo.size > 0 ? photo : null,
+    };
+  }
+  return { fields: await request.json(), photo: null };
 }
 
 export async function onRequestPost({ request, env }) {
@@ -100,27 +167,49 @@ export async function onRequestPost({ request, env }) {
   if (request.headers.get('Origin') !== url.origin) {
     return json({ error: 'Not allowed.' }, 403);
   }
+  if (Number(request.headers.get('Content-Length') ?? 0) > REQUEST_MAX_BYTES) {
+    return json({ error: 'That photo is too big. Please choose a smaller one.' }, 413);
+  }
 
-  let body;
+  let fields;
+  let photo;
   try {
-    body = await request.json();
+    ({ fields, photo } = await readSubmission(request));
   } catch {
     return json({ error: 'Something went wrong. Please try again.' }, 400);
   }
 
   // Hidden "website" field: real people leave it empty, bots fill it in.
   // Pretend it worked so bots don't learn anything.
-  if (body.website) return json({ comment: null }, 201);
+  if (fields.website) return json({ comment: null }, 201);
 
-  const slug = String(body.slug ?? '');
-  const name = clean(body.name, NAME_MAX);
-  const message = clean(body.message, MESSAGE_MAX);
+  const slug = String(fields.slug ?? '');
+  const parentId = fields.parentId ? String(fields.parentId) : '';
+  // Only a reply sent with the real admin token counts as the shop owner. This is
+  // decided by the secret token alone, never by anything the visitor's form says.
+  const owner = Boolean(parentId) && isAdmin(request, env);
+  const name = owner ? OWNER_NAME : clean(fields.name, NAME_MAX);
+  const message = clean(fields.message, MESSAGE_MAX);
 
   if (!SLUG_PATTERN.test(slug)) return json({ error: 'Unknown page.' }, 400);
+  if (parentId && !UUID_PATTERN.test(parentId)) return json({ error: 'Something went wrong. Please try again.' }, 400);
+  if (parentId && photo) return json({ error: "Replies can't include photos." }, 400);
   if (!name) return json({ error: 'Please add a name.' }, 400);
-  if (!message) return json({ error: 'Please write a comment.' }, 400);
-  if (URL_PATTERN.test(message) || URL_PATTERN.test(name)) {
+  if (parentId && !message) return json({ error: 'Please write a reply.' }, 400);
+  if (!message && !photo) return json({ error: 'Please write a comment or add a photo.' }, 400);
+  if (!owner && (URL_PATTERN.test(message) || URL_PATTERN.test(name))) {
     return json({ error: "Links aren't allowed in comments (it keeps spam out). Please remove the link." }, 400);
+  }
+
+  let photoBytes = null;
+  if (photo) {
+    if (photo.size > IMAGE_MAX_BYTES) {
+      return json({ error: 'That photo is too big. Please choose a smaller one.' }, 413);
+    }
+    photoBytes = new Uint8Array(await photo.arrayBuffer());
+    if (!looksLikeJpeg(photoBytes)) {
+      return json({ error: 'Please upload a JPG or PNG photo.' }, 400);
+    }
   }
 
   // The page has to exist, so nobody can create comments for made-up URLs.
@@ -132,13 +221,8 @@ export async function onRequestPost({ request, env }) {
   // One comment per minute per visitor. The address is hashed, never stored as-is.
   const address = request.headers.get('CF-Connecting-IP') ?? 'unknown';
   const limitKey = `ratelimit:${await shortHash(address)}`;
-  if (await env.COMMENTS.get(limitKey)) {
+  if (!owner && (await env.COMMENTS.get(limitKey))) {
     return json({ error: 'Slow down a little! Please wait a minute before commenting again.' }, 429);
-  }
-
-  const comments = await readComments(env, slug);
-  if (comments.length >= MAX_COMMENTS_PER_PAGE) {
-    return json({ error: 'Comments are closed on this page.' }, 403);
   }
 
   const comment = {
@@ -147,11 +231,77 @@ export async function onRequestPost({ request, env }) {
     message,
     createdAt: new Date().toISOString(),
   };
+
+  // Photo comments wait for approval, so nothing unchecked is ever public.
+  if (photoBytes && IMAGES_NEED_APPROVAL) {
+    const waiting = await env.COMMENTS.list({ prefix: 'pending:' });
+    if (waiting.keys.length >= MAX_PENDING_IMAGES) {
+      return json({ error: 'Photo comments are paused for a bit. You can still comment without a photo!' }, 503);
+    }
+    await env.COMMENTS.put(`image:${comment.id}`, photoBytes, {
+      metadata: { approved: false },
+      expirationTtl: PENDING_TTL_SECONDS,
+    });
+    await env.COMMENTS.put(`pending:${comment.id}`, JSON.stringify({ ...comment, slug, image: comment.id }), {
+      expirationTtl: PENDING_TTL_SECONDS,
+    });
+    await env.COMMENTS.put(limitKey, '1', { expirationTtl: RATE_LIMIT_SECONDS });
+    return json({ pending: true }, 202);
+  }
+
+  const comments = await readComments(env, slug);
+  if (comments.length >= MAX_COMMENTS_PER_PAGE) {
+    return json({ error: 'Comments are closed on this page.' }, 403);
+  }
+  if (parentId) {
+    // A reply joins the thread of the top-level comment it answers.
+    const parent = comments.find((item) => item.id === parentId);
+    if (!parent) return json({ error: 'That comment is no longer there.' }, 404);
+    const threadId = parent.parentId ?? parent.id;
+    if (comments.filter((item) => item.parentId === threadId).length >= MAX_REPLIES_PER_THREAD) {
+      return json({ error: 'This conversation is full.' }, 403);
+    }
+    comment.parentId = threadId;
+    if (owner) comment.owner = true;
+  }
+  if (photoBytes) {
+    await env.COMMENTS.put(`image:${comment.id}`, photoBytes, { metadata: { approved: true } });
+    comment.image = comment.id;
+  }
   comments.push(comment);
   await env.COMMENTS.put(`comments:${slug}`, JSON.stringify(comments));
-  await env.COMMENTS.put(limitKey, '1', { expirationTtl: RATE_LIMIT_SECONDS });
+  if (!owner) await env.COMMENTS.put(limitKey, '1', { expirationTtl: RATE_LIMIT_SECONDS });
 
   return json({ comment }, 201);
+}
+
+// Approve a pending photo comment: it moves onto its page and the photo goes public.
+export async function onRequestPatch({ request, env }) {
+  if (!env.COMMENTS) return notConfigured();
+  if (!isAdmin(request, env)) return json({ error: 'Not allowed.' }, 401);
+
+  const id = new URL(request.url).searchParams.get('id') ?? '';
+  if (!UUID_PATTERN.test(id)) return json({ error: 'Bad request.' }, 400);
+
+  const pending = await env.COMMENTS.get(`pending:${id}`, 'json');
+  if (!pending) return json({ error: 'Comment not found.' }, 404);
+
+  const comments = await readComments(env, pending.slug);
+  if (comments.length >= MAX_COMMENTS_PER_PAGE) {
+    return json({ error: 'That page already has the maximum number of comments.' }, 403);
+  }
+
+  const { value } = await env.COMMENTS.getWithMetadata(`image:${id}`, 'arrayBuffer');
+  if (value) {
+    // Re-saving without a time limit makes the approved photo permanent.
+    await env.COMMENTS.put(`image:${id}`, value, { metadata: { approved: true } });
+  }
+  const { slug, ...comment } = pending;
+  if (!value) delete comment.image;
+  comments.push(comment);
+  await env.COMMENTS.put(`comments:${slug}`, JSON.stringify(comments));
+  await env.COMMENTS.delete(`pending:${id}`);
+  return json({ ok: true });
 }
 
 export async function onRequestDelete({ request, env }) {
@@ -159,14 +309,31 @@ export async function onRequestDelete({ request, env }) {
   if (!isAdmin(request, env)) return json({ error: 'Not allowed.' }, 401);
 
   const url = new URL(request.url);
-  const slug = url.searchParams.get('slug') ?? '';
   const id = url.searchParams.get('id') ?? '';
+
+  // A pending photo comment that was never approved.
+  if (url.searchParams.get('pending')) {
+    if (!UUID_PATTERN.test(id)) return json({ error: 'Bad request.' }, 400);
+    const pending = await env.COMMENTS.get(`pending:${id}`, 'json');
+    if (!pending) return json({ error: 'Comment not found.' }, 404);
+    await env.COMMENTS.delete(`pending:${id}`);
+    await env.COMMENTS.delete(`image:${id}`);
+    return json({ ok: true });
+  }
+
+  const slug = url.searchParams.get('slug') ?? '';
   if (!SLUG_PATTERN.test(slug) || !id) return json({ error: 'Bad request.' }, 400);
 
   const comments = await readComments(env, slug);
-  const remaining = comments.filter((comment) => comment.id !== id);
-  if (remaining.length === comments.length) return json({ error: 'Comment not found.' }, 404);
+  const target = comments.find((comment) => comment.id === id);
+  if (!target) return json({ error: 'Comment not found.' }, 404);
+  // Deleting a comment also removes the replies under it.
+  const gone = comments.filter((comment) => comment.id === id || comment.parentId === id);
+  const remaining = comments.filter((comment) => !gone.includes(comment));
 
+  for (const comment of gone) {
+    if (comment.image) await env.COMMENTS.delete(`image:${comment.image}`);
+  }
   if (remaining.length === 0) {
     await env.COMMENTS.delete(`comments:${slug}`);
   } else {

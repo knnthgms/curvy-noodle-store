@@ -86,6 +86,12 @@ collections:
         default: false
         hint: "Tick to include this product in the featured row on the home page."
 
+      - label: Allow comments
+        name: comments
+        widget: boolean
+        default: true
+        hint: "Untick to hide the comments section on this product page."
+
       - label: Main photo
         name: image
         widget: image
