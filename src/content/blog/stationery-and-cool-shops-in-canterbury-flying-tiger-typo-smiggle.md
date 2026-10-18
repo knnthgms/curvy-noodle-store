@@ -4,7 +4,7 @@ description: "A stationery lover's guide to three colourful shops in Canterbury'
 date: 2026-10-18
 tags: ["canterbury", "uk", "stationery", "cool stationery finds", "shopping"]
 coverImage: "/images/blog/stationery-and-cool-shops-in-canterbury-flying-tiger-typo-smiggle.svg"
-coverImageAlt: "Three shop awnings with a pineapple purse, a mini photo album, a wallet and a sling bag, with a Canterbury badge"
+coverImageAlt: "Three shop awnings with a pineapple purse, a mini photo album, a wallet and a sling bag"
 draft: false
 ---
 
