@@ -1,0 +1,64 @@
+<svg viewBox="0 0 1200 675" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Three shop awnings with a pineapple purse, a mini photo album, a wallet and a sling bag, and a Canterbury badge">
+  <defs>
+    <pattern id="dots" width="38" height="38" patternUnits="userSpaceOnUse">
+      <circle cx="4" cy="4" r="2.4" fill="#43382E" opacity="0.07"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="675" fill="#FFFBF4"/>
+  <rect width="1200" height="675" fill="url(#dots)"/>
+  <circle cx="1130" cy="600" r="200" fill="#FFE3D0" opacity="0.45"/>
+  <circle cx="70" cy="110" r="130" fill="#DDE9D5" opacity="0.4"/>
+  <circle cx="1052" cy="135" r="20" fill="#FAD3E0"/>
+  <circle cx="1100" cy="135" r="20" fill="#DDE9D5"/>
+  <circle cx="1148" cy="135" r="20" fill="#FBE7A8"/>
+
+  <!-- three shop fronts with scalloped awnings -->
+  <g>
+    <rect x="110" y="250" width="280" height="300" rx="18" fill="#FFFFFF" stroke="#E3B48F" stroke-width="4"/>
+    <path d="M100 250h300v-50l-24-30h-252l-24 30z" fill="#FFE3D0" stroke="#E3B48F" stroke-width="4"/>
+    <g fill="#F7B9A0"><circle cx="135" cy="262" r="22"/><circle cx="185" cy="262" r="22"/><circle cx="235" cy="262" r="22"/><circle cx="285" cy="262" r="22"/><circle cx="335" cy="262" r="22"/><circle cx="375" cy="262" r="22"/></g>
+    <!-- pineapple -->
+    <g transform="translate(250 420)">
+      <path d="M-14-70 -4-45 0-80 6-45 16-72 14-40z" fill="#F4A9C6"/>
+      <ellipse cx="0" cy="0" rx="46" ry="62" fill="#F8C6DA" stroke="#E98CB2" stroke-width="4"/>
+      <g stroke="#E98CB2" stroke-width="3" fill="none"><path d="M-34-30 34 30M-34 0 34 60M-34 30 20 62M34-30-34 30M34 0-34 60M34 30-20 62"/></g>
+    </g>
+  </g>
+  <g>
+    <rect x="460" y="250" width="280" height="300" rx="18" fill="#FFFFFF" stroke="#A9C39B" stroke-width="4"/>
+    <path d="M450 250h300v-50l-24-30h-252l-24 30z" fill="#DDE9D5" stroke="#A9C39B" stroke-width="4"/>
+    <g fill="#B9D3AB"><circle cx="485" cy="262" r="22"/><circle cx="535" cy="262" r="22"/><circle cx="585" cy="262" r="22"/><circle cx="635" cy="262" r="22"/><circle cx="685" cy="262" r="22"/><circle cx="725" cy="262" r="22"/></g>
+    <!-- mini photo album on a coil -->
+    <g transform="translate(600 410)">
+      <path d="M-40-70c-30 10-30 60 0 70" fill="none" stroke="#6FA3D8" stroke-width="12" stroke-linecap="round"/>
+      <rect x="-30" y="-10" width="70" height="80" rx="8" fill="#F8D5DE" stroke="#E98CB2" stroke-width="4"/>
+      <circle cx="30" cy="30" r="6" fill="#FFFFFF" stroke="#B9B9B9" stroke-width="2"/>
+      <path d="M-18 8h36M-18 28h28M-18 48h20" stroke="#E5604B" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <!-- wallet -->
+    <g transform="translate(655 470)">
+      <rect x="-34" y="-24" width="68" height="48" rx="12" fill="#C9603F"/>
+      <rect x="-24" y="-8" width="40" height="22" rx="6" fill="#D97756"/>
+      <circle cx="-4" cy="3" r="5" fill="#F4A9C6"/>
+    </g>
+  </g>
+  <g>
+    <rect x="810" y="250" width="280" height="300" rx="18" fill="#FFFFFF" stroke="#E2C566" stroke-width="4"/>
+    <path d="M800 250h300v-50l-24-30h-252l-24 30z" fill="#FBE7A8" stroke="#E2C566" stroke-width="4"/>
+    <g fill="#F5D983"><circle cx="835" cy="262" r="22"/><circle cx="885" cy="262" r="22"/><circle cx="935" cy="262" r="22"/><circle cx="985" cy="262" r="22"/><circle cx="1035" cy="262" r="22"/><circle cx="1075" cy="262" r="22"/></g>
+    <!-- sling bag -->
+    <g transform="translate(950 420)">
+      <path d="M-70-50c10 40 130 40 140 0" fill="none" stroke="#D9487F" stroke-width="10" stroke-linecap="round"/>
+      <rect x="-62" y="-30" width="124" height="86" rx="22" fill="#E24B86"/>
+      <rect x="-40" y="0" width="80" height="44" rx="12" fill="#EE6B9E"/>
+      <path d="M-40 8h80" stroke="#C93B72" stroke-width="3"/>
+      <circle cx="28" cy="30" r="9" fill="#C93B72"/>
+    </g>
+  </g>
+
+  <!-- title badge -->
+  <g transform="rotate(-3 600 110)">
+    <rect x="330" y="62" width="540" height="96" rx="48" fill="#43382E"/>
+    <text x="600" y="128" text-anchor="middle" font-family="Georgia, serif" font-size="52" font-weight="700" fill="#FFFBF4">CANTERBURY</text>
+  </g>
+</svg>
