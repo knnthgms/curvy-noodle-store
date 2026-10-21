@@ -57,6 +57,7 @@ export async function getPublishedNotes(): Promise<Note[]> {
 /** Plain-text excerpt of a note's Markdown body, cut at `max` characters. */
 export function noteExcerpt(note: Note, max = 160): string {
   const text = (note.body ?? '')
+    .replace(/<[^>]*>/g, ' ')
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/[#>*_`~-]+/g, ' ')
