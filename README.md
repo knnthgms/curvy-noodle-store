@@ -1,5 +1,9 @@
 # Curvy Noodle 🍜
 
+**Live:** https://curvynoodle.com
+
+![Curvy Noodle home page](docs/screenshot.jpg)
+
 The website for Curvy Noodle — handmade planner stickers for bullet journals
 and daily planners. It's a fast, mobile-friendly shop and blog with **no
 checkout**: customers browse, then tap **Order on WhatsApp** to place an order
