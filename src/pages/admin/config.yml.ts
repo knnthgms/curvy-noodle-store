@@ -257,6 +257,46 @@ collections:
         default: true
         hint: "Untick to hide the comments section on this post."
 
+      - label: Last updated
+        name: updated
+        widget: date
+        format: YYYY-MM-DD
+        required: false
+        hint: "Set this when you meaningfully update an old post. Google and AI tools see it as the modified date."
+
+      - label: FAQ (for search and AI answers)
+        name: faq
+        widget: list
+        required: false
+        label_singular: Question
+        summary: "{{fields.question}}"
+        hint: "Add 3 to 7 real questions readers ask, each with a short, direct answer. They show at the end of the post."
+        fields:
+          - { label: Question, name: question, widget: string }
+          - { label: Answer, name: answer, widget: text, hint: "Plain text, 1 to 3 sentences. Start with the direct answer." }
+
+      - label: YouTube video
+        name: video
+        widget: object
+        required: false
+        collapsed: true
+        hint: "Only for posts about one of your YouTube videos. It replaces the cover image with the video."
+        fields:
+          - { label: Video ID, name: youtubeId, widget: string, hint: "The part after v= in the YouTube link, e.g. zCY8Qw7isxk" }
+          - { label: Video title, name: title, widget: string }
+          - { label: Video description, name: description, widget: text }
+          - { label: Upload date, name: uploadDate, widget: date, format: YYYY-MM-DD }
+          - { label: Duration, name: duration, widget: string, hint: "ISO format: PT11M4S means 11 minutes 4 seconds" }
+          - label: Chapters
+            name: chapters
+            widget: list
+            required: false
+            label_singular: Chapter
+            summary: "{{fields.name}}"
+            fields:
+              - { label: Chapter name, name: name, widget: string }
+              - { label: Start time in seconds, name: start, widget: number, value_type: int, min: 0, hint: "1:10 is 70 seconds" }
+
       - label: Post content
         name: body
         widget: markdown

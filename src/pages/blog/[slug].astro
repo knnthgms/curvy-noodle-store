@@ -4,10 +4,12 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import Comments from '@components/Comments.astro';
 import RelatedNotes from '@components/RelatedNotes.astro';
+import BlogCard from '@components/BlogCard.astro';
+import YouTubeEmbed from '@components/YouTubeEmbed.astro';
 import { SITE } from '@config';
 import { getPublishedNotes, getPublishedPosts, postPath, type Post } from '@utils/collections';
-import { formatDate, isoDate, readingTime } from '@utils/format';
-import { blogPostingSchema, breadcrumbSchema } from '@utils/schema';
+import { formatClock, formatDate, isoDate, readingTime } from '@utils/format';
+import { blogPostingSchema, breadcrumbSchema, faqSchema, videoSchema } from '@utils/schema';
 
 export async function getStaticPaths() {
   const posts = await getPublishedPosts();
@@ -30,7 +32,20 @@ interface Props {
 
 const { post, newerPost, olderPost } = Astro.props;
 const { Content, headings } = await render(post);
-const { title, description, date, tags, coverImage, coverImageAlt, comments } = post.data;
+const { title, description, date, tags, coverImage, coverImageAlt, comments, updated, faq, video } = post.data;
+
+// Related posts for internal linking: most shared tags first, then newest.
+const allPosts = await getPublishedPosts();
+const ownTags = new Set(post.data.tags.map((tag) => tag.toLowerCase()));
+const relatedPosts = allPosts
+  .filter((other) => other.id !== post.id)
+  .map((other) => ({
+    other,
+    shared: other.data.tags.filter((tag) => ownTags.has(tag.toLowerCase())).length,
+  }))
+  .sort((a, b) => b.shared - a.shared || b.other.data.date.valueOf() - a.other.data.date.valueOf())
+  .slice(0, 3)
+  .map(({ other }) => other);
 
 // Related Noodle Notes for the sidebar: notes sharing a tag first, then the latest.
 const postTags = new Set(tags.map((tag) => tag.toLowerCase()));
@@ -45,6 +60,10 @@ const relatedNotes = [
 const minutes = readingTime(post.body ?? '');
 const path = postPath(post);
 const toc = headings.filter((heading) => heading.depth === 2 || heading.depth === 3);
+if (video && video.chapters.length > 0) toc.unshift({ depth: 2, slug: 'video-chapters', text: 'Video chapters' });
+if (faq.length > 0) toc.push({ depth: 2, slug: 'faq', text: 'Frequently asked questions' });
+const wordCount = (post.body ?? '').split(/\s+/).filter(Boolean).length;
+const showUpdated = updated && isoDate(updated) !== isoDate(date);
 
 const breadcrumbs = [
   { label: 'Home', href: '/' },
@@ -54,7 +73,9 @@ const breadcrumbs = [
 
 const schemas = [
   breadcrumbSchema(breadcrumbs),
-  blogPostingSchema({ title, description, date, url: path, image: coverImage }),
+  blogPostingSchema({ title, description, date, updated, url: path, image: coverImage, keywords: tags, wordCount, video }),
+  ...(video ? [videoSchema(video, path)] : []),
+  ...(faq.length > 0 ? [faqSchema(faq)] : []),
 ];
 
 // Social share links (simple anchors — zero JavaScript needed).
@@ -80,7 +101,17 @@ const shareLinks = [
 ];
 ---
 
-<BaseLayout title={title} description={description} ogImage={coverImage} ogType="article" schemas={schemas}>
+<BaseLayout
+  title={title}
+  description={description}
+  ogImage={coverImage}
+  ogImageAlt={coverImageAlt}
+  ogType="article"
+  publishedTime={date}
+  modifiedTime={updated ?? date}
+  tags={tags}
+  schemas={schemas}
+>
   <article class="mx-auto max-w-7xl px-4 py-10 sm:px-6">
     <div class="mx-auto max-w-[69rem]">
       <Breadcrumbs items={breadcrumbs} />
@@ -89,6 +120,14 @@ const shareLinks = [
     <header class="mx-auto mt-6 max-w-3xl text-center">
       <p class="text-ink-soft">
         <time datetime={isoDate(date)}>{formatDate(date)}</time>
+        {
+          showUpdated && (
+            <>
+              <span aria-hidden="true"> · </span>
+              Updated <time datetime={isoDate(updated!)}>{formatDate(updated!)}</time>
+            </>
+          )
+        }
         <span aria-hidden="true"> · </span>
         {minutes} min read
       </p>
@@ -105,14 +144,22 @@ const shareLinks = [
       }
     </header>
 
-    <img
-      src={coverImage}
-      alt={coverImageAlt}
-      width="1200"
-      height="675"
-      decoding="async"
-      class="mx-auto mt-8 aspect-video w-full max-w-3xl rounded-3xl border-2 border-cream-dark bg-white object-cover"
-    />
+    {
+      video ? (
+        <div class="mx-auto mt-8 max-w-3xl">
+          <YouTubeEmbed youtubeId={video.youtubeId} title={video.title} />
+        </div>
+      ) : (
+        <img
+          src={coverImage}
+          alt={coverImageAlt}
+          width="1200"
+          height="675"
+          decoding="async"
+          class="mx-auto mt-8 aspect-video w-full max-w-3xl rounded-3xl border-2 border-cream-dark bg-white object-cover"
+        />
+      )
+    }
 
     <div class="mx-auto mt-10 max-w-5xl xl:flex xl:max-w-[80rem] xl:items-start xl:gap-10">
     <div class="flex min-w-0 flex-1 flex-col gap-10 lg:flex-row">
@@ -141,9 +188,48 @@ const shareLinks = [
       }
 
       <div class="min-w-0 flex-1">
+        {
+          video && video.chapters.length > 0 && (
+            <section aria-labelledby="video-chapters" class="mb-10 rounded-3xl border-2 border-cream-dark bg-white p-6">
+              <h2 id="video-chapters" class="font-display text-2xl font-bold">Video chapters</h2>
+              <p class="mt-1 text-ink-soft">Jump straight to the part you need ({video.duration.replace('PT', '').replace('M', ' min ').replace('S', ' sec').trim()} in total).</p>
+              <ol class="mt-4 space-y-2">
+                {video.chapters.map((chapter) => (
+                  <li class="flex gap-3">
+                    <a
+                      href={`https://www.youtube.com/watch?v=${video.youtubeId}&t=${chapter.start}s`}
+                      class="w-12 shrink-0 font-display font-bold text-pink-deep underline-offset-4 hover:underline"
+                      rel="noopener"
+                    >
+                      {formatClock(chapter.start)}
+                    </a>
+                    <span>{chapter.name}</span>
+                  </li>
+                ))}
+              </ol>
+            </section>
+          )
+        }
+
         <div class="prose prose-lg max-w-none">
           <Content />
         </div>
+
+        {
+          faq.length > 0 && (
+            <section id="faq" aria-labelledby="faq-heading" class="mt-12">
+              <h2 id="faq-heading" class="font-display text-3xl font-bold">Frequently asked questions</h2>
+              <div class="mt-4 space-y-4">
+                {faq.map((item) => (
+                  <div class="rounded-3xl border-2 border-cream-dark bg-white p-5">
+                    <h3 class="font-display text-xl font-bold">{item.question}</h3>
+                    <p class="mt-2 text-lg">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
+          )
+        }
 
         {/* Share buttons */}
         <div class="mt-10 rounded-3xl bg-blush/50 p-6">
@@ -172,6 +258,18 @@ const shareLinks = [
 
     <RelatedNotes notes={relatedNotes} />
     </div>
+
+    {/* Related posts (internal links help readers and search engines find more) */}
+    {
+      relatedPosts.length > 0 && (
+        <section aria-labelledby="related-posts-heading" class="mx-auto mt-14 max-w-5xl">
+          <h2 id="related-posts-heading" class="font-display text-3xl font-bold">More from the Planning Nook 📓</h2>
+          <div class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {relatedPosts.map((related) => <BlogCard post={related} />)}
+          </div>
+        </section>
+      )
+    }
 
     {/* Previous / next navigation */}
     <nav aria-label="More posts" class="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2">

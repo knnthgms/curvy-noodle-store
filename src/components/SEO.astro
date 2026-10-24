@@ -11,9 +11,15 @@ interface Props {
   /** Open Graph image path (absolute or site-relative). */
   ogImage?: string;
   ogType?: 'website' | 'article' | 'product';
+  /** Alt text for the share-preview image. */
+  ogImageAlt?: string;
   /** Override the canonical URL (defaults to the current page). */
   canonical?: string;
   noindex?: boolean;
+  /** Article pages: publish and last-modified times, and topic tags. */
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  tags?: string[];
   /** JSON-LD objects to embed as structured data. */
   schemas?: Record<string, unknown>[];
 }
@@ -23,8 +29,12 @@ const {
   description = SITE.description,
   ogImage = SITE.defaultOgImage,
   ogType = 'website',
+  ogImageAlt,
   canonical,
   noindex = false,
+  publishedTime,
+  modifiedTime,
+  tags = [],
   schemas = [],
 } = Astro.props;
 
@@ -38,7 +48,14 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 <title>{fullTitle}</title>
 <meta name="description" content={description} />
 <link rel="canonical" href={canonicalUrl} />
-{noindex && <meta name="robots" content="noindex, nofollow" />}
+{
+  noindex ? (
+    <meta name="robots" content="noindex, nofollow" />
+  ) : (
+    // Lets search and AI answer engines show full snippets and large image previews.
+    <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1" />
+  )
+}
 
 <!-- Open Graph -->
 <meta property="og:site_name" content={SITE.name} />
@@ -47,15 +64,26 @@ const ogImageUrl = new URL(ogImage, Astro.site).href;
 <meta property="og:type" content={ogType === 'product' ? 'website' : ogType} />
 <meta property="og:url" content={canonicalUrl} />
 <meta property="og:image" content={ogImageUrl} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
+{ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+{
+  ogImage === SITE.defaultOgImage && (
+    <>
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+    </>
+  )
+}
 <meta property="og:locale" content="en_IN" />
+{publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
+{ogType === 'article' && tags.map((tag) => <meta property="article:tag" content={tag} />)}
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={ogImageUrl} />
+{ogImageAlt && <meta name="twitter:image:alt" content={ogImageAlt} />}
 
 {
   schemas.map((schema) => (

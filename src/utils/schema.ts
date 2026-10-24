@@ -78,12 +78,75 @@ export function productSchema(input: {
   };
 }
 
+export interface VideoInput {
+  youtubeId: string;
+  title: string;
+  description: string;
+  uploadDate: Date;
+  duration: string;
+  chapters: { name: string; start: number }[];
+}
+
+/** ISO 8601 duration (e.g. PT11M4S) in seconds. */
+function durationSeconds(duration: string): number | undefined {
+  const match = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?$/.exec(duration);
+  if (!match) return undefined;
+  return Number(match[1] ?? 0) * 3600 + Number(match[2] ?? 0) * 60 + Number(match[3] ?? 0);
+}
+
+/** VideoObject for a YouTube video, with chapters as Clip "key moments". */
+export function videoSchema(video: VideoInput, pageUrl: string): JsonLd {
+  const watchUrl = `https://www.youtube.com/watch?v=${video.youtubeId}`;
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'VideoObject',
+    name: video.title,
+    description: video.description,
+    thumbnailUrl: [`https://i.ytimg.com/vi/${video.youtubeId}/maxresdefault.jpg`],
+    uploadDate: video.uploadDate.toISOString(),
+    duration: video.duration,
+    embedUrl: `https://www.youtube.com/embed/${video.youtubeId}`,
+    contentUrl: watchUrl,
+    url: absolute(pageUrl),
+    publisher: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    ...(video.chapters.length > 0
+      ? {
+          hasPart: video.chapters.map((chapter, index) => ({
+            '@type': 'Clip',
+            name: chapter.name,
+            startOffset: chapter.start,
+            endOffset: video.chapters[index + 1]?.start ?? durationSeconds(video.duration),
+            url: `${watchUrl}&t=${chapter.start}s`,
+          })),
+        }
+      : {}),
+  };
+}
+
+/** FAQPage structured data. The same questions and answers must be visible on the page. */
+export function faqSchema(items: { question: string; answer: string }[]): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: items.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  };
+}
+
 export function blogPostingSchema(input: {
   title: string;
   description: string;
   date: Date;
+  /** Last meaningful update; defaults to the publish date. */
+  updated?: Date;
   url: string;
   image: string;
+  keywords?: string[];
+  wordCount?: number;
+  video?: VideoInput;
 }): JsonLd {
   return {
     '@context': 'https://schema.org',
@@ -91,8 +154,13 @@ export function blogPostingSchema(input: {
     headline: input.title,
     description: input.description,
     datePublished: input.date.toISOString(),
+    dateModified: (input.updated ?? input.date).toISOString(),
     url: absolute(input.url),
+    mainEntityOfPage: { '@type': 'WebPage', '@id': absolute(input.url) },
     image: absolute(input.image),
+    inLanguage: 'en',
+    ...(input.keywords && input.keywords.length > 0 ? { keywords: input.keywords.join(', ') } : {}),
+    ...(input.wordCount ? { wordCount: input.wordCount } : {}),
     author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
     publisher: {
       '@type': 'Organization',
@@ -102,5 +170,17 @@ export function blogPostingSchema(input: {
         url: absolute('/images/branding/logo.PNG'),
       },
     },
+    ...(input.video
+      ? {
+          video: {
+            '@type': 'VideoObject',
+            name: input.video.title,
+            description: input.video.description,
+            thumbnailUrl: `https://i.ytimg.com/vi/${input.video.youtubeId}/maxresdefault.jpg`,
+            uploadDate: input.video.uploadDate.toISOString(),
+            embedUrl: `https://www.youtube.com/embed/${input.video.youtubeId}`,
+          },
+        }
+      : {}),
   };
 }

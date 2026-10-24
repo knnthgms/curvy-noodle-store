@@ -80,6 +80,8 @@ Post body in Markdown here.
 **Images:** add photos to `public/images/blog/` and reference as `/images/blog/filename.jpg`.  
 Recommended size: 1200×675 px (16:9).
 
+**Optional SEO/AEO fields** (see the SEO & AEO standard below): `updated: 2026-11-02`, `faq:` (list of `question`/`answer`), and `video:` (`youtubeId`, `title`, `description`, `uploadDate`, `duration`, `chapters` as `name` + `start` seconds). A post with `video` shows the lazy YouTube player in place of the cover image, a chapters list, and `VideoObject` data.
+
 **Via Decap CMS:** go to `/admin` → Blog posts → New blog post.
 
 ---
@@ -149,6 +151,28 @@ Full product description in Markdown.
 
 ---
 
+## SEO & AEO standard (applies to ALL content, by default)
+
+Every new blog post, note, product and page must be optimised for **SEO** (search engines) and **AEO** (answer engines and AI assistants such as Google AI Overviews, ChatGPT, Perplexity). Do this without being asked. The owner has said it is a standing rule.
+
+**What the site already does automatically** (don't rebuild it, just feed it good frontmatter): canonical URL, Open Graph and Twitter tags (with image alt), `article:` publish/modified times and tags, a robots meta that allows large snippets, JSON-LD (`Organization`, `WebSite`, `BreadcrumbList`, `BlogPosting` with dateModified/keywords/wordCount, plus `FAQPage` from `faq` and `VideoObject` with chapter clips from `video`), sitemap, `/rss.xml`, an auto-generated `/llms.txt`, related-post links, and a visible "Updated" date when `updated` is set.
+
+**Checklist for a blog post**
+1. **Title**: about 60 characters or fewer, main topic words first, specific (a number or outcome helps). One H1 only (the title).
+2. **Description**: 120 to 160 characters, states the answer or benefit, includes the main keyword naturally.
+3. **Answer first (AEO)**: open with a 40 to 60 word direct answer to the main question, then a short "The short version" blockquote. Use question-style H2s ("What is...", "How do you...", "Is it...") and answer in the first sentence under each, then expand. Keep paragraphs short and use lists, steps and tables.
+4. **FAQ**: add 3 to 7 real reader questions to the `faq` frontmatter, plain-text answers of 1 to 3 sentences that start with the direct answer. The FAQ is shown on the page and sent as `FAQPage` data, so it must match.
+5. **Video posts**: when a post is about a YouTube video, fill `video` (id, title, description, upload date, ISO duration, chapters in seconds). Link chapter timestamps in the body.
+6. **Internal links**: at least 3 links to related posts, notes, products or collections (use lowercase paths exactly as built, e.g. `/blog/the-best-stationery-websites-in-india/`, because Cloudflare is case-sensitive). Link out to primary sources for facts.
+7. **Images**: every image has specific alt text; the cover is a **JPG or PNG, 16:9, at least 1200 px wide** (social platforms do not show SVG previews), with `coverImageAlt` describing it. Credit image sources honestly.
+8. **Tags** are the topic keywords (lowercase, 3 to 6). Set `updated` whenever an old post is meaningfully changed.
+9. **Facts**: verify every claim, price, size and link before publishing. Never invent details, results or quotes. Say plainly what is unknown.
+10. **Notes and products**: descriptive title, a first sentence that works as a standalone summary, alt text on all images, and (products) specific size, material and price details.
+
+After writing, build the site and check the rendered page: title and description length, one H1, JSON-LD present and matching visible content, working links.
+
+---
+
 ## Comments
 
 Anonymous comments (any name, no login) appear on blog posts, Noodle Notes and product pages.
@@ -199,6 +223,7 @@ src/
     Comments.astro       ← Anonymous comments section (blog, notes, products)
     NoteCard.astro       ← Noodle Notes card (snippet + Read more)
     RelatedNotes.astro   ← "From Noodle Notes" sidebar on blog posts
+    YouTubeEmbed.astro   ← Click-to-load YouTube player (youtube-nocookie) for video posts
     StickyWhatsApp.astro ← WhatsApp FAB (gap-0 at rest!)
     Footer.astro
   layouts/
@@ -209,7 +234,11 @@ src/
       config.yml.ts      ← Generates /admin/config.yml at build time
     notes/               ← Noodle Notes listing + detail pages
     blog/                ← Planning Nook listing + detail pages
+  pages/
+    rss.xml.ts           ← RSS feed of posts and notes
+    llms.txt.ts          ← Auto-generated site summary for AI assistants
   utils/
+    schema.ts            ← JSON-LD builders (BlogPosting, FAQPage, VideoObject...)
     whatsapp.ts          ← WhatsApp link helpers (always use these)
 
 functions/

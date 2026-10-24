@@ -58,6 +58,31 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     /** Show the comments section under the post. */
     comments: z.boolean().default(true),
+    /** Date of the last meaningful update (shown to search engines as dateModified). */
+    updated: z.coerce.date().optional(),
+    /**
+     * Questions and answers shown at the end of the post and sent to search and
+     * AI answer engines as FAQPage structured data. Plain text answers only,
+     * and they must match what a reader sees on the page.
+     */
+    faq: z
+      .array(z.object({ question: z.string(), answer: z.string() }))
+      .default([]),
+    /** A YouTube video this post is about: embedded, with VideoObject structured data. */
+    video: z
+      .object({
+        youtubeId: z.string(),
+        title: z.string(),
+        description: z.string(),
+        uploadDate: z.coerce.date(),
+        /** ISO 8601 duration, e.g. PT11M4S. */
+        duration: z.string(),
+        /** Chapters: name and start time in seconds. Become "key moments". */
+        chapters: z
+          .array(z.object({ name: z.string(), start: z.number().int().min(0) }))
+          .default([]),
+      })
+      .optional(),
   }),
 });
 

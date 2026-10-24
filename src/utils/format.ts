@@ -19,6 +19,13 @@ export function isoDate(date: Date): string {
   return date.toISOString().split('T')[0] ?? '';
 }
 
+/** Seconds as a clock time, e.g. 70 → "1:10". */
+export function formatClock(seconds: number): string {
+  const minutes = Math.floor(seconds / 60);
+  const rest = String(seconds % 60).padStart(2, '0');
+  return `${minutes}:${rest}`;
+}
+
 /**
  * Estimated reading time in whole minutes, assuming ~200 words per minute.
  * Always returns at least 1.
