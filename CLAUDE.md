@@ -119,6 +119,21 @@ The `/notes` page and the home page strip show only a short snippet (`noteExcerp
 
 ---
 
+### Reviews (post-it notes on the home page)
+
+Customer reviews live in `src/content/reviews/` as frontmatter-only `.md` files
+(`quote` = one short line, max 50 chars, shown on the post-it; `original` = the
+customer's full review, kept for reference and never shown; `name`, optional
+`location`, `date`, `draft`). Add them via `/admin` → Reviews. `ReviewNotes.astro`
+shows the newest 3 as tiny one-line post-its (theme colours) above "Featured
+stickers" and renders nothing when there are none. The `quote` must stay faithful to
+the `original`.
+**Only add real reviews with the customer's permission. Never invent, edit the meaning of,
+or paraphrase testimonials.** Don't add `Review`/`AggregateRating` structured data for the
+shop's own reviews (search engines treat self-serving review markup as spam).
+
+---
+
 ### Products
 
 Products live in `src/content/products/`. Each is a `.md` file.
@@ -218,12 +233,15 @@ src/
     blog/                ← Planning Nook posts
     products/            ← Product listings
     notes/               ← Noodle Notes
+    reviews/             ← Customer reviews (post-it notes)
   components/
     Header.astro         ← Nav (lg breakpoint), hamburger menu
     Comments.astro       ← Anonymous comments section (blog, notes, products)
     NoteCard.astro       ← Noodle Notes card (snippet + Read more)
+    ReviewNotes.astro    ← Customer reviews on post-it notes (home page)
     RelatedNotes.astro   ← "From Noodle Notes" sidebar on blog posts
     YouTubeEmbed.astro   ← Click-to-load YouTube player (youtube-nocookie) for video posts
+    YouTubeChannelCta.astro ← "Watch Curvy Noodle on YouTube" + View channel button, bottom of every blog post
     StickyWhatsApp.astro ← WhatsApp FAB (gap-0 at rest!)
     Footer.astro
   layouts/

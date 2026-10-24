@@ -5,7 +5,7 @@ import ProductCard from '@components/ProductCard.astro';
 import BlogCard from '@components/BlogCard.astro';
 import NoteCard from '@components/NoteCard.astro';
 import NewsletterSignup from '@components/NewsletterSignup.astro';
-import SocialProof from '@components/SocialProof.astro';
+import ReviewNotes from '@components/ReviewNotes.astro';
 import { getProducts, getPublishedNotes, getPublishedPosts } from '@utils/collections';
 import { CATEGORIES, SITE } from '@config';
 
@@ -13,10 +13,14 @@ const products = await getProducts();
 const featured = products.filter((p) => p.data.featured).slice(0, 4);
 const latestPosts = (await getPublishedPosts()).slice(0, 3);
 const latestNotes = (await getPublishedNotes()).slice(0, 3);
+const samplePack = products.find((product) => product.id === 'favourites-sample-stickers');
 ---
 
 <BaseLayout description={SITE.description}>
-  <Hero />
+  <Hero latestPost={latestPosts[0]} samplePack={samplePack} />
+
+  {/* Customer reviews on post-it notes (hidden until the first review is added) */}
+  <ReviewNotes />
 
   {/* Featured stickers */}
   <section class="mx-auto max-w-6xl px-4 py-12 sm:px-6" aria-labelledby="featured-heading">
@@ -109,9 +113,6 @@ const latestNotes = (await getPublishedNotes()).slice(0, 3);
       {latestPosts.map((post) => <BlogCard post={post} />)}
     </div>
   </section>
-
-  {/* Testimonials — hidden until enabled in src/config.ts */}
-  <SocialProof />
 
   <div class="py-12">
     <NewsletterSignup />

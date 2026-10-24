@@ -98,19 +98,3 @@ export const CURRENCY = {
   symbol: '₹',
 } as const;
 
-/**
- * Social proof / testimonials.
- * Set `showSocialProof` to true once you have a few real testimonials below.
- * The section is hidden automatically while the list is empty.
- */
-export const SOCIAL_PROOF = {
-  showSocialProof: false,
-  testimonials: [
-    // Example shape — replace with real customer quotes, then flip the flag:
-    // {
-    //   quote: 'These stickers made me actually stick with my planner!',
-    //   name: 'Aanya',
-    //   location: 'Bengaluru',
-    // },
-  ] as { quote: string; name: string; location?: string }[],
-} as const;

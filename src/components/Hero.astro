@@ -1,7 +1,25 @@
 ---
-import { SITE } from '@config';
+import { formatPrice } from '@utils/format';
+import { postPath, type Post, type Product } from '@utils/collections';
 
-/** Home page hero: full-width banner illustration with primary calls to action. */
+/**
+ * Home page hero: headline, short description and calls to action on the left,
+ * the big Curvy Noodle sticker face on the right. All text is real HTML (crisp
+ * on phones, indexable by search engines and AI assistants).
+ */
+interface Props {
+  /** Newest blog post, shown as a small "new" link under the buttons. */
+  latestPost?: Post;
+  /** A low-price sample pack for the secondary button. */
+  samplePack?: Product;
+}
+
+const { latestPost, samplePack } = Astro.props;
+
+const trustPoints = [
+  { icon: '🇮🇳', text: 'Handmade in India' },
+  { icon: '🚚', text: 'Free shipping over ₹500' },
+];
 ---
 
 <section class="relative overflow-hidden">
@@ -24,22 +42,119 @@ import { SITE } from '@config';
   </svg>
 
   <div class="relative mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-16">
-    {/* Accessible page heading for SEO; the banner carries the visible headline */}
-    <h1 class="sr-only">{SITE.name} — {SITE.tagline}</h1>
+    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[1.15fr_0.85fr] lg:gap-6">
+      {/* Words */}
+      <div class="min-w-0 text-center lg:text-left">
+        <p class="chip max-w-full bg-white text-center shadow-sm">Handmade planner stickers · Made in India 🇮🇳</p>
 
-    <img
-      src="/images/branding/homepage-banner.svg"
-      alt={`${SITE.name} — Stickers that get you. Real moods. Real days. Made for planners everywhere.`}
-      width="1600"
-      height="480"
-      class="mx-auto w-full rounded-3xl shadow-sm"
-      loading="eager"
-      decoding="async"
-    />
+        <h1 class="mt-5 font-display text-4xl font-bold leading-[1.05] min-[400px]:text-5xl sm:text-6xl lg:text-7xl">
+          Little stickers for
+          <span class="box-decoration-clone bg-[linear-gradient(transparent_58%,var(--color-pink)_58%)] px-1">big feelings.</span>
+        </h1>
 
-    <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
-      <a href="/shop" class="btn-primary">Browse the store</a>
-      <a href="/about" class="btn-secondary">My story</a>
+        <p class="mx-auto mt-5 max-w-xl text-lg text-ink-soft lg:mx-0">
+          Handmade planner stickers for bullet journals and daily planners: emotion
+          trackers, daily activity sheets and bundles, hand-illustrated in India.
+        </p>
+
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+          <a href="/shop" class="btn-primary">Shop planner stickers</a>
+          {
+            samplePack && (
+              <a href={`/shop/${samplePack.data.slug ?? samplePack.id}/`} class="btn-secondary">
+                Try a {formatPrice(samplePack.data.price)} sample pack
+              </a>
+            )
+          }
+        </div>
+
+        <ul class="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm font-semibold text-ink-soft lg:justify-start">
+          {
+            trustPoints.map((point) => (
+              <li class="flex items-center gap-1.5">
+                <span aria-hidden="true">{point.icon}</span>
+                {point.text}
+              </li>
+            ))
+          }
+        </ul>
+
+        {
+          latestPost && (
+            <a
+              href={postPath(latestPost)}
+              class="mt-6 inline-flex max-w-full items-center gap-2 rounded-full border-2 border-cream-dark bg-white px-4 py-2 text-sm font-semibold transition hover:border-pink-deep"
+            >
+              <span class="shrink-0 rounded-full bg-noodle px-2 py-0.5 text-xs font-bold text-noodle-deep">
+                {latestPost.data.video ? '▶ New video' : 'New post'}
+              </span>
+              <span class="min-w-0 truncate">{latestPost.data.title}</span>
+              <span aria-hidden="true" class="shrink-0">→</span>
+            </a>
+          )
+        }
+      </div>
+
+      {/* The big sticker face, with a few small stickers around it */}
+      <div class="relative order-first mx-auto w-full min-w-0 max-w-[16rem] sm:max-w-sm lg:order-none lg:max-w-none">
+        <div
+          class="absolute left-1/2 top-1/2 h-60 w-60 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/70 sm:h-80 sm:w-80 lg:h-[26rem] lg:w-[26rem]"
+          aria-hidden="true"
+        ></div>
+        <img
+          src="/images/branding/hero-sticker-face.png"
+          alt="The Curvy Noodle sticker character: a happy curly-haired face"
+          width="648"
+          height="844"
+          class="relative mx-auto w-36 rotate-2 drop-shadow-xl sm:w-64 lg:w-72"
+          loading="eager"
+          decoding="async"
+        />
+
+        {/* floating stickers (decorative) */}
+        <div
+          class="absolute right-2 top-0 flex h-20 w-20 rotate-12 items-center justify-center rounded-full bg-blush font-display text-xl text-ink shadow-sm sm:right-6 lg:right-0"
+          aria-hidden="true"
+        >
+          YAY
+        </div>
+        <svg
+          class="absolute left-1 top-10 h-16 w-16 -rotate-12 sm:left-6 lg:left-2"
+          viewBox="0 0 64 64"
+          aria-hidden="true"
+        >
+          <path
+            d="M32 54C8 36 8 16 22 12c6-1 10 2 10 6 0-4 4-7 10-6 14 4 14 24-10 42Z"
+            fill="#fad3e0"
+            stroke="#fff"
+            stroke-width="4"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+        <svg
+          class="absolute bottom-4 left-0 h-14 w-14 rotate-[8deg] sm:left-4 lg:left-0"
+          viewBox="0 0 64 64"
+          aria-hidden="true"
+        >
+          <circle cx="32" cy="32" r="28" fill="#cfe9d8" stroke="#fff" stroke-width="4"></circle>
+          <circle cx="23" cy="27" r="3.5" fill="#43382e"></circle>
+          <circle cx="41" cy="27" r="3.5" fill="#43382e"></circle>
+          <path d="M22 38q10 8 20 0" stroke="#43382e" stroke-width="3.5" fill="none" stroke-linecap="round"></path>
+        </svg>
+        <svg
+          class="absolute bottom-2 right-2 h-14 w-14 -rotate-6 sm:right-8 lg:right-2"
+          viewBox="0 0 64 64"
+          aria-hidden="true"
+        >
+          <path
+            d="m32 6 8.5 17.5 19 2.7-13.8 13.4 3.3 19L32 49.6 15 58.6l3.3-19L4.5 26.2l19-2.7Z"
+            fill="#fbe7a8"
+            stroke="#fff"
+            stroke-width="4"
+            stroke-linejoin="round"
+          ></path>
+        </svg>
+      </div>
     </div>
   </div>
 </section>

@@ -199,6 +199,51 @@ collections:
         widget: markdown
         hint: "Keep it short: one to three sentences is plenty."
 
+  # Customer reviews (post-it notes on the home page)
+  - name: reviews
+    label: Reviews
+    label_singular: Review
+    description: "Real customer words, shown as tiny post-it notes on the home page. Only add reviews with the customer's permission."
+    folder: src/content/reviews
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{name}}"
+    extension: md
+    format: frontmatter
+    summary: "{{name}}: {{quote}}"
+    fields:
+      - label: One short line for the sticky note
+        name: quote
+        widget: string
+        hint: "Max 50 characters, ideally one line. Use the customer's own words or a faithful short paraphrase. Only the newest 3 reviews show on the home page."
+        pattern: ['^.{1,50}$', "1 to 50 characters"]
+
+      - label: Their full original review (kept for reference, not shown)
+        name: original
+        widget: text
+        required: false
+        hint: "Paste what they actually wrote, so the short line can always be checked against it."
+
+      - label: Name
+        name: name
+        widget: string
+        hint: "First name, and an initial if you like. e.g. Aanya or Aanya S."
+
+      - label: City or country
+        name: location
+        widget: string
+        required: false
+
+      - label: Date
+        name: date
+        widget: date
+        format: YYYY-MM-DD
+        hint: "Newest reviews show first. Only the latest 3 appear on the home page."
+
+      - label: Draft — hide from website
+        name: draft
+        widget: boolean
+        default: false
+
   # Blog posts
   - name: blog
     label: Blog posts

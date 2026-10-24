@@ -106,4 +106,25 @@ const notes = defineCollection({
   }),
 });
 
-export const collections = { products, blog, notes };
+/**
+ * Customer reviews, shown as post-it notes on the home page. One Markdown file
+ * per review in `src/content/reviews/` (frontmatter only). Only add real words
+ * from real customers, with their permission.
+ */
+const reviews = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.md', base: './src/content/reviews' }),
+  schema: z.object({
+    /** One short line shown on the post-it (max 50 characters), taken from what they said. */
+    quote: z.string().max(50),
+    /** The customer's full original review. Kept for reference, never shown. */
+    original: z.string().optional(),
+    /** First name (and initial if you like). */
+    name: z.string(),
+    location: z.string().optional(),
+    /** Used for ordering: newest reviews show first. */
+    date: z.coerce.date(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { products, blog, notes, reviews };

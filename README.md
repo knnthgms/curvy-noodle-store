@@ -154,20 +154,15 @@ Open `src/config.ts` to change things that appear everywhere:
 - `email`, `socials.instagram`, `socials.youtube`.
 - `tagline` and `description`.
 
-### Turn on customer testimonials
+### Add customer reviews (post-it notes on the home page)
 
-When you have a few real quotes, open `src/config.ts`, find `SOCIAL_PROOF`, add
-them to the `testimonials` list, and set `showSocialProof: true`. The section
-stays hidden until both are done.
-
-```ts
-export const SOCIAL_PROOF = {
-  showSocialProof: true,
-  testimonials: [
-    { quote: 'These made me actually use my planner!', name: 'Aanya', location: 'Bengaluru' },
-  ],
-};
-```
+Open **/admin → Reviews → New Review**, write one short line for the sticky note
+(max 50 characters, in the customer's own words or a faithful short version),
+paste their full original review in the "kept for reference" box, add their name
+and optionally their city, and save. The newest three reviews appear as tiny
+post-it notes just above the featured stickers. The whole section stays hidden
+until you add the first review. Only add real words from real customers, and ask
+their permission first.
 
 ---
 
@@ -377,12 +372,12 @@ Requires Node.js 20+. Key locations:
 ```
 public/admin/index.html  # Admin UI — self-contained, talks to GitHub API
 src/
-├── config.ts            # Brand, nav, categories, socials, testimonials
+├── config.ts            # Brand, nav, categories, socials
 ├── content.config.ts    # Astro content schemas
 ├── content/{products,blog}/   # Markdown content (edited via Admin UI or directly)
 ├── layouts/BaseLayout.astro   # Page shell: SEO, header, footer, analytics, sticky CTA
 ├── components/          # Header, Footer, Hero, ProductCard, BlogCard,
-│                        # WhatsAppButton, StickyWhatsApp, SocialProof, SEO, …
+│                        # WhatsAppButton, StickyWhatsApp, ReviewNotes, SEO, …
 ├── pages/
 │   ├── index / about / contact / faq / 404 / privacy / terms
 │   ├── shop/index.astro + shop/[slug].astro     # listing + product detail

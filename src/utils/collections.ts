@@ -4,6 +4,7 @@ export type Product = CollectionEntry<'products'>;
 export type Post = CollectionEntry<'blog'>;
 
 export type Note = CollectionEntry<'notes'>;
+export type Review = CollectionEntry<'reviews'>;
 
 /** URL slug for a product (frontmatter override or filename). */
 export function productSlug(product: Product): string {
@@ -38,6 +39,14 @@ export async function getProductsByCategory(
 export async function getPublishedPosts(): Promise<Post[]> {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
   return posts.sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+}
+
+/** Published reviews, newest first. */
+export async function getReviews(): Promise<Review[]> {
+  const reviews = await getCollection('reviews', ({ data }) => !data.draft);
+  return reviews.sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf() || b.id.localeCompare(a.id),
+  );
 }
 
 /** Absolute path to a Noodle Note. */

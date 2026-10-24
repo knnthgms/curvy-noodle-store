@@ -6,6 +6,7 @@ import Comments from '@components/Comments.astro';
 import RelatedNotes from '@components/RelatedNotes.astro';
 import BlogCard from '@components/BlogCard.astro';
 import YouTubeEmbed from '@components/YouTubeEmbed.astro';
+import YouTubeChannelCta from '@components/YouTubeChannelCta.astro';
 import { SITE } from '@config';
 import { getPublishedNotes, getPublishedPosts, postPath, type Post } from '@utils/collections';
 import { formatClock, formatDate, isoDate, readingTime } from '@utils/format';
@@ -33,6 +34,11 @@ interface Props {
 const { post, newerPost, olderPost } = Astro.props;
 const { Content, headings } = await render(post);
 const { title, description, date, tags, coverImage, coverImageAlt, comments, updated, faq, video } = post.data;
+
+// Newest other post that has a YouTube video, featured in the channel block at the bottom.
+const latestVideoPost = (await getPublishedPosts())
+  .filter((other) => other.id !== post.id && other.data.video)
+  .sort((a, b) => b.data.video!.uploadDate.valueOf() - a.data.video!.uploadDate.valueOf())[0];
 
 // Related posts for internal linking: most shared tags first, then newest.
 const allPosts = await getPublishedPosts();
@@ -298,5 +304,8 @@ const shareLinks = [
         )
       }
     </nav>
+
+    {/* YouTube channel block (every post) */}
+    <YouTubeChannelCta latestVideoPost={latestVideoPost} />
   </article>
 </BaseLayout>
