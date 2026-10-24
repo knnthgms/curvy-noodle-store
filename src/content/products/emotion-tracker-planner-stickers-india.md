@@ -1,16 +1,17 @@
 ---
 title: "Emotion Tracker Planner Stickers – Happy, Sad, Angry & More"
+seoTitle: "Emotion Tracker Planner Stickers India"
 price: 99
 category: "emotion-mood"
 tags: ["emotion stickers", "planner stickers"]
 description: "Expressive characters for happiness, sadness, anxiety, anger and more — track your daily moods and build self-awareness, one sticker at a time."
 featured: true
-image: "/images/products/emotion-stickers.PNG"
+image: "/images/products/emotion-stickers.jpg"
 imageAlt: "expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza"
 gallery:
-  - src: /images/products/curvynoodle-emotion-stickers-watermarked-web.png
+  - src: /images/products/curvynoodle-emotion-stickers-watermarked-web.jpg
     alt: expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza
-  - src: /images/products/curvy-noodle-stickers-in-filofax.png
+  - src: /images/products/curvy-noodle-stickers-in-filofax.jpg
     alt: expressive emotion stickers for planners and journaling in india for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

@@ -1,14 +1,25 @@
 ---
 title: "Bullet Journal Setup for Beginners India — Everything You Need to Start"
+seoTitle: "Bullet Journal Setup for Beginners in India"
 description: "A no-fuss bullet journal starter guide for India — the notebook, pen and stickers you actually need, a simple first-week setup, and beginner mistakes to avoid."
 date: 2026-03-25
+updated: 2026-10-24
 tags: ["bullet journal", "beginners", "india", "planner stickers"]
-coverImage: "/images/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start.svg"
-coverImageAlt: "Placeholder cover for Bullet Journal Setup for Beginners India"
+coverImage: "/images/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start.png"
+coverImageAlt: "Illustrated cover for the beginner bullet journal setup guide for India"
 draft: false
+faq:
+  - question: "What do I need to start a bullet journal?"
+    answer: "A notebook, a pen and, if you like, sticker sheets. Any notebook works. A5 dot grid with at least 80gsm paper is a good choice because it stops ink bleeding through."
+  - question: "What is bullet journaling?"
+    answer: "It is a flexible notebook system created by designer Ryder Carroll. It uses an index, monthly and daily logs and a system of bullet symbols to tell tasks, events and notes apart. The layouts and artwork are optional extras."
+  - question: "How do I set up my first week?"
+    answer: "Leave pages 1 and 2 blank for the index, use pages 3 and 4 for the monthly log, and start the daily log from page 5 onwards."
+  - question: "What mistakes should beginners avoid?"
+    answer: "Trying to make it perfect from day one, copying complex layouts before learning the basics, buying too many supplies, and quitting after missing a few days. There is no catching up: just start fresh from today."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start.png (placeholder currently generated) -->
 
 ![bullet journal spreads that are simple and easy](/images/blog/easy-and-fun-bullet-journal-spread.jpg)
 
@@ -70,7 +81,7 @@ Once you have the basic structure, stickers slot in naturally:
 
 The stickers remove the need for drawing and hand-lettering, which means your spreads look intentional and consistent even on your lowest-effort days.
 
-![curvy noodle stickers in filofax personal great for planners using neorah or alica souza journals](/images/blog/workout-filofax.png)
+![curvy noodle stickers in filofax personal great for planners using neorah or alica souza journals](/images/blog/workout-filofax.jpg)
 
 ## Common Beginner Mistakes to Avoid
 

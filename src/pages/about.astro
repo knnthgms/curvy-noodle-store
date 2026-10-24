@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
-import { breadcrumbSchema } from '@utils/schema';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'About' }];
 
@@ -25,9 +25,17 @@ const processSteps = [
 ---
 
 <BaseLayout
-  title="About"
-  description="The story behind Curvy Noodle — handmade planner stickers, hand-illustrated by one independent creator in India for bullet journals and daily planners."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title="About Curvy Noodle: Handmade Planner Stickers"
+  description="The story behind Curvy Noodle: handmade planner stickers, hand-illustrated by one independent creator in India for bullet journals and daily planners."
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'AboutPage',
+      name: 'About Curvy Noodle',
+      description: 'The story behind Curvy Noodle, handmade planner stickers made in India.',
+      url: '/about/',
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
@@ -105,5 +113,13 @@ const processSteps = [
       </p>
       <a href="/shop" class="btn-primary mt-6">Browse the store</a>
     </section>
+
+    <p class="mx-auto mt-10 max-w-2xl text-center text-ink-soft">
+      Want planning ideas first? Read the
+      <a href="/blog" class="font-semibold text-pink-deep underline underline-offset-4">Planning Nook guides</a>,
+      browse the <a href="/collections" class="font-semibold text-pink-deep underline underline-offset-4">sticker collections</a>
+      or watch the plan with me videos on
+      <a href="https://www.youtube.com/@curvynoodle" target="_blank" rel="noopener" class="font-semibold text-pink-deep underline underline-offset-4">YouTube</a>.
+    </p>
   </div>
 </BaseLayout>

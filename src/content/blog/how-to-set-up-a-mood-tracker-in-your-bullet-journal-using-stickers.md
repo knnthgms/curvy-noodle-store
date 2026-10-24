@@ -1,14 +1,25 @@
 ---
 title: "How to Set Up a Mood Tracker in Your Bullet Journal Using Stickers"
+seoTitle: "Bullet Journal Mood Tracker with Stickers"
 description: "Three simple ways to set up a mood tracker in your bullet journal with emotion stickers — daily, weekly, and monthly methods that take seconds to maintain."
 date: 2026-03-22
+updated: 2026-10-24
 tags: ["mood tracker", "bullet journal", "planner stickers"]
-coverImage: "/images/blog/how-to-set-up-a-mood-tracker-in-your-bullet-journal-using-stickers.svg"
-coverImageAlt: "Placeholder cover for How to Set Up a Mood Tracker Using Stickers"
+coverImage: "/images/blog/how-to-set-up-a-mood-tracker-in-your-bullet-journal-using-stickers.png"
+coverImageAlt: "Illustrated cover for the guide to setting up a mood tracker with stickers"
 draft: false
+faq:
+  - question: "What is a mood tracker in a bullet journal?"
+    answer: "It is a section of your planner where you record your dominant emotion or energy level each day, creating a visual record of your emotional patterns over time."
+  - question: "How do I set up a mood tracker with stickers?"
+    answer: "There are three options: the daily sticker method (one emotion sticker on each day's page), a weekly mood strip of seven boxes, or a monthly mood grid with one cell per date."
+  - question: "When should I place the mood sticker?"
+    answer: "At the end of the day, so you record how the day actually went rather than how you hoped it would go."
+  - question: "What if I miss a day?"
+    answer: "Leave it blank and carry on from the next day. A partial record is still useful."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/how-to-set-up-a-mood-tracker-in-your-bullet-journal-using-stickers.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/how-to-set-up-a-mood-tracker-in-your-bullet-journal-using-stickers.png (placeholder currently generated) -->
 
 <!-- TODO: Add image: mood trackers by Archer and Olive (header image) -->
 

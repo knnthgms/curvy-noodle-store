@@ -1,12 +1,23 @@
 ---
 title: "What's the Difference Between a Bullet Journal and a Daily Planner?"
+seoTitle: "Bullet Journal vs Daily Planner: The Difference"
 description: "Bullet journal or daily planner? The honest breakdown of how each system works, the real difference between them, and how to choose the one that fits your brain."
 date: 2026-04-01
+updated: 2026-10-24
 tags: ["bullet journal", "daily planner", "beginners"]
-# TODO: Add cover image at public/images/blog/whats-the-difference-between-a-bullet-journal-and-a-daily-planner.svg
-coverImage: "/images/blog/whats-the-difference-between-a-bullet-journal-and-a-daily-planner.svg"
-coverImageAlt: "Placeholder cover for bullet journal vs daily planner comparison"
+# TODO: Add cover image at public/images/blog/whats-the-difference-between-a-bullet-journal-and-a-daily-planner.png
+coverImage: "/images/blog/whats-the-difference-between-a-bullet-journal-and-a-daily-planner.png"
+coverImageAlt: "Illustrated cover comparing a bullet journal and a daily planner"
 draft: false
+faq:
+  - question: "What is the difference between a bullet journal and a daily planner?"
+    answer: "A daily planner gives you a pre-printed structure to work within, while a bullet journal is a blank or dot grid notebook that you structure yourself. It comes down to structure versus flexibility."
+  - question: "Should I choose a bullet journal or a daily planner?"
+    answer: "If blank pages energise you and you need flexibility, choose a bullet journal. If blank pages stress you out and you want the same format every day, choose a daily planner. If you are unsure, start with a daily planner."
+  - question: "Do stickers work in both a bullet journal and a daily planner?"
+    answer: "Yes. In a daily planner they act as quick visual markers, and in a bullet journal they can replace hand-drawn icons and habit grids."
+  - question: "Can I use both?"
+    answer: "Yes, many people do: a structured planner for work and a bullet journal for personal tracking and reflection."
 ---
 
 <!-- TODO: Add cover image (placeholder currently generated) -->

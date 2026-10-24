@@ -1,14 +1,23 @@
 ---
 title: "What Makes for a Good Planner? (And a Good Recommendation)"
+seoTitle: "What Makes a Good Planner? What to Look For"
 description: "What to look for when buying your first planner — needs, size, and style — plus why the Atelier Neorah daily planner has been a three-year favourite."
 date: 2026-01-10
+updated: 2026-10-24
 tags: ["planners", "recommendations", "beginners"]
-coverImage: "/images/blog/what-makes-for-a-good-planner-and-a-good-recommendation.svg"
-coverImageAlt: "Placeholder cover for What Makes for a Good Planner?"
+coverImage: "/images/blog/what-makes-for-a-good-planner-and-a-good-recommendation.png"
+coverImageAlt: "Illustrated cover for the guide to what makes a good planner"
 draft: false
+faq:
+  - question: "What should I look for when buying a planner?"
+    answer: "Three things: whether it meets your needs (monthly grid, daily planner or bullet journal), the right size for where you will use it (A6 to A4, B6 to B5), and your style, plain or full of stickers and photos."
+  - question: "Which planner do you recommend for beginners?"
+    answer: "Atelier Neorah daily or weekly planners: they are customisable, come in several sizes, have yearly, monthly, weekly and daily views, have large daily pages, and come in hard and soft cover versions."
+  - question: "How long have you used the Atelier Neorah planner?"
+    answer: "For three years, always in the A6 size."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/what-makes-for-a-good-planner-and-a-good-recommendation.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/what-makes-for-a-good-planner-and-a-good-recommendation.png (placeholder currently generated) -->
 
 <!-- TODO: Add image: (header image — one of the best daily planners available in India in multiple sizes) -->
 

@@ -1,12 +1,23 @@
 ---
 title: "How to Use a Planner When You Have ADHD — Simple Systems That Actually Stick"
-description: "Most planning systems were built for neurotypical brains. Here's how to build a low-friction, visual planner system that works with an ADHD brain instead of against it."
+seoTitle: "How to Use a Planner With ADHD: Simple Systems"
+description: "Most planning systems suit neurotypical brains. Here's how to build a low-friction, visual planner system that works with an ADHD brain instead of against it."
 date: 2026-05-06
+updated: 2026-10-24
 tags: ["adhd", "planning systems", "habit tracking"]
-# TODO: Add cover image at public/images/blog/how-to-use-a-planner-when-you-have-adhd-simple-systems-that-actually-stick.svg
-coverImage: "/images/blog/how-to-use-a-planner-when-you-have-adhd-simple-systems-that-actually-stick.svg"
-coverImageAlt: "Placeholder cover for ADHD-friendly planner systems guide"
+# TODO: Add cover image at public/images/blog/how-to-use-a-planner-when-you-have-adhd-simple-systems-that-actually-stick.png
+coverImage: "/images/blog/how-to-use-a-planner-when-you-have-adhd-simple-systems-that-actually-stick.png"
+coverImageAlt: "Illustrated cover for the guide to using a planner with ADHD"
 draft: false
+faq:
+  - question: "Why do standard planners often fail for people with ADHD?"
+    answer: "This post's view is that it is a design problem, not a willpower problem. Many systems demand a lot of working memory, time perception and task initiation, so high-friction setups get dropped. This is general planning advice, not medical advice."
+  - question: "What makes a planner ADHD-friendly?"
+    answer: "The principles in this post are: visual over verbal, decide once instead of repeatedly, keep it low effort to maintain, and externalise everything by writing it down."
+  - question: "How many tasks should I plan per day?"
+    answer: "The post suggests a maximum of three tasks a day, to avoid over-scheduling and the paralysis that comes from a long list."
+  - question: "What should I do when I fall off the system?"
+    answer: "Do not try to catch up on missed days. Open to today and start from there, keep your stickers beside your planner, and remove any part of the system that keeps getting skipped."
 ---
 
 <!-- TODO: Add cover image (placeholder currently generated) -->

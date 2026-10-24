@@ -33,7 +33,7 @@ interface Props {
 
 const { post, newerPost, olderPost } = Astro.props;
 const { Content, headings } = await render(post);
-const { title, description, date, tags, coverImage, coverImageAlt, comments, updated, faq, video } = post.data;
+const { title, description, date, tags, coverImage, coverImageAlt, comments, updated, faq, video, seoTitle } = post.data;
 
 // Newest other post that has a YouTube video, featured in the channel block at the bottom.
 const latestVideoPost = (await getPublishedPosts())
@@ -108,7 +108,7 @@ const shareLinks = [
 ---
 
 <BaseLayout
-  title={title}
+  title={seoTitle ?? title}
   description={description}
   ogImage={coverImage}
   ogImageAlt={coverImageAlt}

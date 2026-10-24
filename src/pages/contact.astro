@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import WhatsAppButton from '@components/WhatsAppButton.astro';
 import { SITE } from '@config';
-import { breadcrumbSchema } from '@utils/schema';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Contact' }];
 
@@ -14,9 +14,17 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY as string | un
 ---
 
 <BaseLayout
-  title="Contact"
-  description="Questions about an order or a custom sticker idea? Reach Curvy Noodle on Instagram (@curvy_noodle), WhatsApp or email — I reply within 24–48 hours."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title="Contact Curvy Noodle"
+  description="Questions about an order or a custom sticker idea? Reach Curvy Noodle on Instagram (@curvy_noodle), WhatsApp or email. I reply within 24 to 48 hours."
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'ContactPage',
+      name: 'Contact Curvy Noodle',
+      description: 'How to reach Curvy Noodle about orders and custom sticker ideas.',
+      url: '/contact/',
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
@@ -147,6 +155,12 @@ const web3formsKey = import.meta.env.PUBLIC_WEB3FORMS_CONTACT_KEY as string | un
         </div>
       </div>
     </div>
+
+    <p class="mt-10 text-center text-ink-soft">
+      Looking for quick answers first? See the
+      <a href="/faq" class="font-semibold text-pink-deep underline underline-offset-4">FAQs</a>
+      or <a href="/shop" class="font-semibold text-pink-deep underline underline-offset-4">browse the store</a>.
+    </p>
   </div>
 </BaseLayout>
 

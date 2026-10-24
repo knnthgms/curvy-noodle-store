@@ -54,27 +54,70 @@ export function breadcrumbSchema(items: BreadcrumbItem[]): JsonLd {
 export function productSchema(input: {
   name: string;
   description: string;
-  image: string;
+  /** Main image first, then any gallery images. */
+  images: string[];
   price: number;
   url: string;
   material: string;
+  sku: string;
+  category: string;
 }): JsonLd {
   return {
     '@context': 'https://schema.org',
     '@type': 'Product',
     name: input.name,
     description: input.description,
-    image: absolute(input.image),
+    image: input.images.map((image) => absolute(image)),
     url: absolute(input.url),
+    sku: input.sku,
+    category: input.category,
     material: input.material,
     brand: { '@type': 'Brand', name: SITE.name },
     offers: {
       '@type': 'Offer',
       price: input.price,
       priceCurrency: CURRENCY.code,
+      itemCondition: 'https://schema.org/NewCondition',
       availability: 'https://schema.org/InStock',
       url: absolute(input.url),
+      seller: { '@type': 'Organization', name: SITE.name, url: SITE.url },
     },
+  };
+}
+
+/** A list of pages, e.g. the products in a collection or the posts on a blog page. */
+export function itemListSchema(items: { name: string; url: string }[]): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    numberOfItems: items.length,
+    itemListElement: items.map((item, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: item.name,
+      url: absolute(item.url),
+    })),
+  };
+}
+
+/** A page of a given schema.org type (AboutPage, ContactPage, CollectionPage, Blog...). */
+export function pageSchema(input: {
+  type: 'WebPage' | 'AboutPage' | 'ContactPage' | 'CollectionPage' | 'Blog';
+  name: string;
+  description: string;
+  url: string;
+  /** For list pages: the items on the page. */
+  items?: { name: string; url: string }[];
+}): JsonLd {
+  return {
+    '@context': 'https://schema.org',
+    '@type': input.type,
+    name: input.name,
+    description: input.description,
+    url: absolute(input.url),
+    inLanguage: 'en',
+    isPartOf: { '@type': 'WebSite', name: SITE.name, url: SITE.url },
+    ...(input.items && input.items.length > 0 ? { mainEntity: itemListSchema(input.items) } : {}),
   };
 }
 

@@ -1,14 +1,15 @@
 ---
 title: "Emotion Planner Stickers – Mixed Emotions Starter Bundle"
+seoTitle: "Emotion Planner Stickers Starter Bundle"
 price: 49
 category: "sample-stickers"
 tags: ["emotion stickers", "planner stickers"]
-description: "Expressive emotion characters in a small trial size"
+description: "A small trial size of Curvy Noodle's expressive emotion planner stickers: a starter bundle of mixed moods to try before you buy the full sheets."
 featured: true
-image: "/images/products/emotion-stickers-sample-pack.PNG"
+image: "/images/products/emotion-stickers-sample-pack.jpg"
 imageAlt: "a sample pack of all the emotion stickers at curvy noodle for planners using atelier neorah and alica souza journals"
 gallery:
-  - src: /images/products/emotion-stickers-sample.png
+  - src: /images/products/emotion-stickers-sample.jpg
     alt: a sample pack of all the emotion stickers - happy, sad, angry, teary, laughing, smug, sleeping at curvy noodle for planners using atelier neorah and alica souza journals
 dimensions: "Individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

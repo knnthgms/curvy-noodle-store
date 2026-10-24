@@ -1,14 +1,15 @@
 ---
 title: "Curvy Noodle Favourites Planner Stickers – All my Favourites Starter Bundle"
+seoTitle: "Planner Stickers Favourites Starter Bundle"
 price: 49
 category: "sample-stickers"
 tags: ["emotion stickers", "planner stickers"]
-description: "All our favourite stickers in a small trial size"
+description: "A starter bundle of Curvy Noodle favourites in a small trial size: moods like smug and crying, plus running errands, baking and laundry stickers."
 featured: true
-image: "/images/products/curvy-noodles-most-used-stickers-sample-pack.PNG"
+image: "/images/products/curvy-noodles-most-used-stickers-sample-pack.jpg"
 imageAlt: "a sample pack of all cuvry noodle stickers for planners using atelier neorah and alica souza journals"
 gallery:
-  - src: /images/products/favourites-stickers-sample.png
+  - src: /images/products/favourites-stickers-sample.jpg
     alt: a sample pack of all the favourtie stickers - smug, crying, running errands, baking, doing laundry at curvy noodle for planners using atelier neorah and alica souza journals
 dimensions: "Individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

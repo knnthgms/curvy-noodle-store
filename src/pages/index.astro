@@ -16,7 +16,10 @@ const latestNotes = (await getPublishedNotes()).slice(0, 3);
 const samplePack = products.find((product) => product.id === 'favourites-sample-stickers');
 ---
 
-<BaseLayout description={SITE.description}>
+<BaseLayout
+  title="Handmade Planner Stickers in India"
+  description="Handmade planner stickers for bullet journals and daily planners: emotion trackers, daily activity sheets and bundles, hand-illustrated and shipped across India."
+>
   <Hero latestPost={latestPosts[0]} samplePack={samplePack} />
 
   {/* Customer reviews on post-it notes (hidden until the first review is added) */}

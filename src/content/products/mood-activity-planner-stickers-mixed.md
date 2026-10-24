@@ -1,18 +1,19 @@
 ---
 title: "Mood & Activity Planner Stickers – Mixed Emotions & Daily Tasks"
+seoTitle: "Mood & Activity Planner Stickers Sheet"
 price: 99
 category: "planner-tracker"
 tags: ["emotion stickers", "planner stickers", "task stickers"]
 description: "Expressive emotion characters and everyday action icons on one combined sheet — log moods and track daily tasks in a fun way."
 featured: true
-image: "/images/products/mood-activity-stickers-2.PNG"
+image: "/images/products/mood-activity-stickers-2.jpg"
 imageAlt: "various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners"
 gallery:
-  - src: /images/products/curvynoodle-mood-activity-stickers-watermarked-web.png
+  - src: /images/products/curvynoodle-mood-activity-stickers-watermarked-web.jpg
     alt: various moods and chore stickers for planners in india that can be use with neorah and alicia souza planners
-  - src: /images/products/baking-filofax-stickers.png
+  - src: /images/products/baking-filofax-stickers.jpg
     alt: various moods and chore stickers like baking, meal prep, for planners in india that can be use with neorah and alicia souza planners
-  - src: /images/products/baking-cooking-swimming-groceries.png
+  - src: /images/products/baking-cooking-swimming-groceries.jpg
     alt: various moods and chore stickers like baking, meal prep, for planners in india that can be use with neorah and alicia souza planners
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

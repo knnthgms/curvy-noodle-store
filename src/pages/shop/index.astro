@@ -4,17 +4,26 @@ import Breadcrumbs from '@components/Breadcrumbs.astro';
 import ProductCard from '@components/ProductCard.astro';
 import SearchBar from '@components/SearchBar.astro';
 import { CATEGORIES } from '@config';
-import { getProducts } from '@utils/collections';
-import { breadcrumbSchema } from '@utils/schema';
+import { getProducts, productPath } from '@utils/collections';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 const products = await getProducts();
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Store' }];
 ---
 
 <BaseLayout
-  title="Planner Stickers Store"
-  description="Browse all Curvy Noodle planner stickers — handmade emotion trackers, daily activity sheets and bundles for bullet journals and daily planners. Order over WhatsApp."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title="Planner Stickers Store India"
+  description="Shop handmade planner stickers in India: emotion trackers, daily activity sheets and bundles for bullet journals and daily planners. Order over WhatsApp."
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'CollectionPage',
+      name: 'Planner Stickers Store',
+      description: 'All Curvy Noodle handmade planner stickers.',
+      url: '/shop/',
+      items: products.map((product) => ({ name: product.data.title, url: productPath(product) })),
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />

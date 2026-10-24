@@ -1,11 +1,22 @@
 ---
 title: "The Best Stationery Sites to Shop From in India"
-description: "Your guide to India's top online stationery retailers — from premium paper and custom journals to everyday notebooks, pens, and planning supplies, without the overseas shipping costs."
+seoTitle: "Best Online Stationery Shops in India"
+description: "India's top online stationery shops, from premium paper and custom journals to everyday notebooks and planning supplies, with no overseas shipping."
 date: 2026-08-08
+updated: 2026-10-24
 tags: ["stationery", "notebooks", "journaling", "online shopping", "India"]
-coverImage: "/images/blog/best-stationery-sites-india.svg"
-coverImageAlt: "Best Stationery Sites to Shop From in India"
+coverImage: "/images/blog/best-stationery-sites-india.png"
+coverImageAlt: "Illustrated cover for the guide to the best stationery sites in India"
 draft: false
+faq:
+  - question: "Which Indian stationery site is best for premium notebooks?"
+    answer: "AARCAI, for high-end journals and designer stationery with thick, high-quality paper."
+  - question: "Where can I buy stickers and PET tapes in India?"
+    answer: "Journal Carnival is the pick in this guide for stickers, washi and PET tapes and other planning supplies."
+  - question: "Where can I get affordable everyday notebooks and pens?"
+    answer: "Scooboo stocks a very wide range of notebooks and pens at budget prices, so it is a good place for a first journal."
+  - question: "How can I save money when shopping for stationery in India?"
+    answer: "Build one bundle of items to reach the free shipping threshold, which is around Rs. 500 at most Indian stationery sites, and watch for seasonal sales around festivals and back-to-school."
 ---
 
 Finding quality stationery in India doesn't mean waiting weeks for overseas shipping or paying hefty import duties. The online stationery landscape has exploded with home-grown retailers who stock everything from premium journals and specialty papers to everyday pens and planning accessories — often at better prices than international alternatives.
@@ -14,7 +25,7 @@ Here's where to actually shop when you want a new notebook, and why each site is
 
 ## AARCAI: Premium Journals & Luxury Paper
 
-![AARCAI stationery website products - travelers company notebooks and folder items](/images/blog/aarcai-travelers-company-products.png)
+![AARCAI stationery website products - travelers company notebooks and folder items](/images/blog/aarcai-travelers-company-products.jpg)
 
 **Best for:** High-end journals, specialty papers, and designer stationery
 
@@ -34,7 +45,7 @@ If you're after journals that feel like investments, [AARCAI](https://www.aarcaa
 
 ## Journal Carnival: The Planner & Bullet Journal Hub
 
-![Journal Carnival PET tapes and sticker sheets](/images/blog/journal-carnival-pet-tapes-and-stickers.png)
+![Journal Carnival PET tapes and sticker sheets](/images/blog/journal-carnival-pet-tapes-and-stickers.jpg)
 
 **Best for:** Bullet journals, planners, and planning supplies
 
@@ -53,7 +64,7 @@ If you're after journals that feel like investments, [AARCAI](https://www.aarcaa
 
 ## The Black Canvas: Artist & Creative Stationery
 
-![The Black Canvas leather covers for passport, a5, a6 notebooks](/images/blog/the-black-canvas-leather-journal-passport.png)
+![The Black Canvas leather covers for passport, a5, a6 notebooks](/images/blog/the-black-canvas-leather-journal-passport.jpg)
 
 **Best for:** Artists, sketchers, mixed-media work, and specialty papers
 
@@ -73,7 +84,7 @@ If your journaling involves drawing, lettering, or mixed media, The [Black Canva
 
 ## Scooboo: The Everything Store for Students & Everyday Users
 
-![Scooboo stationery for fountain pens, journals, and other stationery items](/images/blog/scooboo-fountain-pens-collection.png)
+![Scooboo stationery for fountain pens, journals, and other stationery items](/images/blog/scooboo-fountain-pens-collection.jpg)
 
 **Best for:** Budget-conscious shoppers, students, and everyday stationery needs
 

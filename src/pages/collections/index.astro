@@ -3,7 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import { CATEGORIES } from '@config';
 import { getProductsByCategory } from '@utils/collections';
-import { breadcrumbSchema } from '@utils/schema';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Collections' }];
 
@@ -18,9 +18,18 @@ const visible = collections.filter((c) => c.count > 0);
 ---
 
 <BaseLayout
-  title="Collections"
-  description="Browse Curvy Noodle planner stickers by collection — emotion & mood, daily activity, bundles, and planner & tracker sheets."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title="Planner Sticker Collections"
+  description="Browse Curvy Noodle planner stickers by collection: emotion and mood, daily activity, sticker bundles, planner and tracker sheets, and sample packs."
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'CollectionPage',
+      name: 'Planner Sticker Collections',
+      description: 'Browse Curvy Noodle planner stickers by collection.',
+      url: '/collections/',
+      items: visible.map((c) => ({ name: `${c.label} stickers`, url: `/collections/${c.slug}/` })),
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />

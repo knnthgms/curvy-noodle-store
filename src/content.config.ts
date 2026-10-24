@@ -39,6 +39,8 @@ const products = defineCollection({
     material: z.string(),
     /** Show the comments section on the product page. */
     comments: z.boolean().default(true),
+    /** Short title for Google (about 45 characters). Falls back to `title`. */
+    seoTitle: z.string().optional(),
   }),
 });
 
@@ -58,6 +60,8 @@ const blog = defineCollection({
     draft: z.boolean().default(false),
     /** Show the comments section under the post. */
     comments: z.boolean().default(true),
+    /** Short title for Google (about 45 characters). Falls back to `title`. */
+    seoTitle: z.string().optional(),
     /** Date of the last meaningful update (shown to search engines as dateModified). */
     updated: z.coerce.date().optional(),
     /**

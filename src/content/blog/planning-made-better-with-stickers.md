@@ -1,14 +1,22 @@
 ---
 title: "Planning Made Better With Stickers!"
-description: "How a lifelong love of stickers grew into adult planning joy — and why Curvy Noodle stickers exist."
+description: "How a lifelong love of stickers grew into adult planning joy, and the story of why Curvy Noodle stickers exist."
 date: 2025-12-28
+updated: 2026-10-24
 tags: ["planning", "stickers", "journaling"]
-coverImage: "/images/blog/planning-made-better-with-stickers.svg"
-coverImageAlt: "Placeholder cover for Planning Made Better With Stickers"
+coverImage: "/images/blog/planning-made-better-with-stickers.png"
+coverImageAlt: "Illustrated cover for the post on how stickers make planning better"
 draft: false
+faq:
+  - question: "Why did Curvy Noodle start making stickers?"
+    answer: "The creator has loved stickers since about the age of 8, still finds them a source of extreme happiness as an adult, and wanted others to enjoy the same joy in their planning."
+  - question: "What do you use stickers for in planning?"
+    answer: "To depict what is going on in life, important events and fun memories, and to add a bit of cheer to planner spreads."
+  - question: "Who makes Curvy Noodle stickers?"
+    answer: "They are hand-illustrated and handmade by one independent creator in India."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/planning-made-better-with-stickers.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/planning-made-better-with-stickers.png (placeholder currently generated) -->
 
 I've been using stickers since I can remember. I was probably 8 when I had my first sticker sheet and began collecting them.
 

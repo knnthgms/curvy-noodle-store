@@ -1,18 +1,19 @@
 ---
 title: "Daily Activity Planner Stickers – Sheet C (Fitness, Chores, Pets)"
+seoTitle: "Daily Activity Planner Stickers, Sheet C"
 price: 99
 category: "daily-activity"
 tags: ["planner stickers", "task stickers"]
 description: "This sticker sheet is for those who love tracking or planning chores and pet tasks (which is a chore in itself, I can testify)."
 featured: false
-image: "/images/products/daily-activity-pet-stickers.PNG"
+image: "/images/products/daily-activity-pet-stickers.jpg"
 imageAlt: "chore stickers and pet stickers for planners in india like neorah and alicia souza"
 gallery:
-  - src: /images/products/curvynoodle-daily-activity-pet-stickers-watermarked-web.png
+  - src: /images/products/curvynoodle-daily-activity-pet-stickers-watermarked-web.jpg
     alt: chore stickers and pet stickers for planners in india like neorah and alicia souza 
-  - src: /images/products/tea-swimming-pets.png
+  - src: /images/products/tea-swimming-pets.jpg
     alt: chore stickers and pet stickers for planners in india like neorah and alicia souza 
-  - src: /images/products/workout-filofax.png
+  - src: /images/products/workout-filofax.jpg
     alt: workout stickers and pet stickers for planners in india like neorah and alicia souza 
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

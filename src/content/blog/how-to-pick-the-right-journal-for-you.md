@@ -1,18 +1,28 @@
 ---
 title: "How to Pick the Right Journal for You"
-description: "A practical guide to choosing your next notebook — from A6 to A4 sizes, dot grid vs ruled vs graph paper, and the pens, stickers, and washi tape that complete your setup."
+description: "How to choose your next notebook: A6 to A4 sizes, dot grid vs ruled vs graph paper, and the pens, stickers and washi tape that complete your setup."
 date: 2026-08-03
+updated: 2026-10-24
 tags: ["journals", "notebooks", "stationery", "bullet journaling", "planners"]
-coverImage: "/images/blog/how-to-pick-the-right-journal-for-you.svg"
-coverImageAlt: "How to Pick the Right Journal for You - note taking and journaling"
+coverImage: "/images/blog/how-to-pick-the-right-journal-for-you.png"
+coverImageAlt: "Illustration of three notebooks, dot grid, graph and lined, with a magnifying glass over the graph one"
 draft: false
+faq:
+  - question: "What size journal should I buy?"
+    answer: "A5 is the safest first buy. A6 is pocket-sized, B5 gives extra writing room and A4 suits journals that live on a desk."
+  - question: "Should I choose dot grid, ruled or graph paper?"
+    answer: "Choose dot grid for bullet journaling and custom planners, ruled for plain writing, graph for diagrams and tables, and blank paper if you are an artist or doodler."
+  - question: "What paper weight should I look for?"
+    answer: "Paper around 70 to 80gsm is cheaper but can show ghosting or bleed with markers and fountain pens. If you use brush pens or highlighters, 100gsm or more is worth the extra cost."
+  - question: "What else do I need besides a journal?"
+    answer: "Pens, stickers and washi tape are the main extras, and page markers and a ruler help too. You do not need everything at once: start with a pen and a sticker sheet."
 ---
 
 Here's the thing about buying a notebook: it feels like a small, simple decision — until you're standing in the stationery aisle (or scrolling endlessly online) trying to figure out whether you want dot grid or ruled, A5 or A6, 80gsm or 100gsm. The truth is, the "right" journal isn't the prettiest one or the most expensive one. It's the one that actually fits how you plan to use it.
 
 This guide breaks down the three things that matter most — size, paper type, and the accessories that complete your setup — so you can pick with confidence and stay within your budget.
 
-![a flat lay of different notebook sizes and paper types](/images/blog/different-notebook-sizes.PNG)
+![a flat lay of different notebook sizes and paper types](/images/blog/different-notebook-sizes.jpg)
 
 ## Size Matters: From Pocket A6 to Spacious A4
 
@@ -36,7 +46,7 @@ Paper is where a lot of people go wrong, because they pick by look rather than b
 
 One budget tip that saves regret later: check the paper weight (GSM). Lighter paper (around 70–80gsm) is cheaper but can show ghosting or bleed with markers and fountain pens. If you plan to use brush pens or highlighters, spending a little more on 100gsm+ paper is worth it.
 
-![different paper types for note taking and journaling](/images/blog/different-notebook-papers.PNG)
+![different paper types for note taking and journaling](/images/blog/different-notebook-papers.jpg)
 
 ## The Perfect Accompaniments: Pens, Stickers & Washi Tape
 

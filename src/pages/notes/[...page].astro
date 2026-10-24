@@ -4,8 +4,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import NoteCard from '@components/NoteCard.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import Pagination from '@components/Pagination.astro';
-import { getPublishedNotes, type Note } from '@utils/collections';
-import { breadcrumbSchema } from '@utils/schema';
+import { getPublishedNotes, notePath, type Note } from '@utils/collections';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const notes = await getPublishedNotes();
@@ -22,9 +22,18 @@ const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Noodle Notes' }];
 ---
 
 <BaseLayout
-  title="Noodle Notes"
-  description="Noodle Notes — quick stationery updates, desk shots, new finds and what I'm planning with right now, from Curvy Noodle."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title={page.currentPage > 1 ? `Noodle Notes: Stationery Finds (Page ${page.currentPage})` : 'Noodle Notes: Stationery Finds and Updates'}
+  description="Quick stationery finds, desk shots and updates from Curvy Noodle: new notebooks, pens and planner bits I'm trying, and what I'm planning with right now."
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'CollectionPage',
+      name: 'Noodle Notes',
+      description: 'Quick stationery finds, desk shots and updates from Curvy Noodle.',
+      url: page.url.current || '/notes/',
+      items: page.data.map((note) => ({ name: note.data.title, url: notePath(note) })),
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />

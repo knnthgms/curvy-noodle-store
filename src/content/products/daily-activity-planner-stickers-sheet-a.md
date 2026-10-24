@@ -1,18 +1,19 @@
 ---
 title: "Daily Activity Planner Stickers – Sheet A (Running Errands, Swimming, Self-care)"
+seoTitle: "Daily Activity Planner Stickers, Sheet A"
 price: 99
 category: "daily-activity"
 tags: ["emotion stickers", "planner stickers"]
 description: "Hand-illustrated characters for everyday tasks — like running errands, self-care, swimming and more. The sheet that makes planning engaging."
 featured: true
-image: "/images/products/running-errands-stickers.PNG"
+image: "/images/products/running-errands-stickers.jpg"
 imageAlt: "running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza"
 gallery:
-  - src: /images/products/curvynoodle-stickers-watermarked-web.png
+  - src: /images/products/curvynoodle-stickers-watermarked-web.jpg
     alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
-  - src: /images/products/errands-workout-stickers.png
+  - src: /images/products/errands-workout-stickers.jpg
     alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
-  - src: /images/products/tea-swimming-pets.png
+  - src: /images/products/tea-swimming-pets.jpg
     alt: running errands, swimming, self-care stickers for planners in India and using Neorah and Alicia Souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

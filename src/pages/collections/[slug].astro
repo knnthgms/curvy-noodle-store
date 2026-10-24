@@ -4,7 +4,8 @@ import Breadcrumbs from '@components/Breadcrumbs.astro';
 import ProductCard from '@components/ProductCard.astro';
 import { CATEGORIES } from '@config';
 import { getProductsByCategory, type Product } from '@utils/collections';
-import { breadcrumbSchema } from '@utils/schema';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
+import { productPath } from '@utils/collections';
 
 export async function getStaticPaths() {
   return Promise.all(
@@ -33,9 +34,18 @@ const breadcrumbs = [
 ---
 
 <BaseLayout
-  title={`${category.label} Stickers`}
-  description={category.description}
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title={category.seoTitle}
+  description={category.seoDescription}
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'CollectionPage',
+      name: category.seoTitle,
+      description: category.seoDescription,
+      url: `/collections/${category.slug}/`,
+      items: products.map((product) => ({ name: product.data.title, url: productPath(product) })),
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
@@ -48,8 +58,17 @@ const breadcrumbs = [
       decoding="async"
       class="mt-4 aspect-[16/7] w-full rounded-3xl border-2 border-cream-dark bg-cream object-cover"
     />
-    <h1 class="mt-6 font-display text-4xl font-bold">{category.label}</h1>
-    <p class="mt-2 max-w-2xl text-lg text-ink-soft">{category.description}</p>
+    <h1 class="mt-6 font-display text-4xl font-bold">{category.seoTitle}</h1>
+    <p class="mt-2 max-w-3xl text-lg text-ink-soft">{category.intro}</p>
+    <ul class="mt-3 flex flex-wrap gap-x-6 gap-y-1 text-sm font-semibold">
+      {
+        category.guides.map((guide) => (
+          <li>
+            <a href={guide.href} class="text-pink-deep underline underline-offset-4">{guide.label} →</a>
+          </li>
+        ))
+      }
+    </ul>
 
     <div class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((product, index) => (

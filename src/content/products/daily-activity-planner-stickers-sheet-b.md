@@ -1,16 +1,17 @@
 ---
 title: "Daily Activity Planner Stickers – Sheet B (Work, Cooking, Chores)"
+seoTitle: "Daily Activity Planner Stickers, Sheet B"
 price: 99
 category: "daily-activity"
 tags: ["planner stickers", "task stickers"]
-description: "These stickers are perfect for those who love to cook (or hate, no judgement here) and want to stay on top of work too (for the strong, independent business women). Pairs seamlessly with Sheet A."
+description: "Hand-illustrated stickers for work, cooking and chores, for planners who love to cook (or hate it) and stay on top of work. Pairs with Sheet A."
 featured: false
-image: "/images/products/working-cooking-stickers.PNG"
+image: "/images/products/working-cooking-stickers.jpg"
 imageAlt: "working and cooking stickers for planners in India for planners like neorah and alicia souza"
 gallery:
-  - src: /images/products/curvynoodle-working-cooking-stickers-watermarked-web.png
+  - src: /images/products/curvynoodle-working-cooking-stickers-watermarked-web.jpg
     alt: working and cooking stickers for planners in India for planners like neorah and alicia souza
-  - src: /images/products/curvy-noodle-stickers-in-filofax.png
+  - src: /images/products/curvy-noodle-stickers-in-filofax.jpg
     alt: working and cooking stickers for planners in India for planners like neorah and alicia souza
 dimensions: "A5 sheet; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

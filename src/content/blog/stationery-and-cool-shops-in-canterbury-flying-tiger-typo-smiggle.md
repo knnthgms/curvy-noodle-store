@@ -1,11 +1,22 @@
 ---
 title: "Stationery & Cool Shops Worth Visiting in Canterbury: Flying Tiger, Typo and Smiggle"
-description: "A stationery lover's guide to three colourful shops in Canterbury's Whitefriars centre, with the cute finds I picked up: a pink pineapple purse, a mini album, wallets and a sling bag."
+seoTitle: "Stationery Shops in Canterbury Worth Visiting"
+description: "A stationery lover's guide to Flying Tiger, Typo and Smiggle in Canterbury's Whitefriars centre, plus the cute finds I picked up."
 date: 2026-10-18
+updated: 2026-10-24
 tags: ["canterbury", "uk", "stationery", "cool stationery finds", "shopping"]
-coverImage: "/images/blog/stationery-and-cool-shops-in-canterbury-flying-tiger-typo-smiggle.svg"
+coverImage: "/images/blog/stationery-and-cool-shops-in-canterbury-flying-tiger-typo-smiggle.png"
 coverImageAlt: "Three shop awnings with a pineapple purse, a mini photo album, a wallet and a sling bag"
 draft: false
+faq:
+  - question: "Where are Flying Tiger, Typo and Smiggle in Canterbury?"
+    answer: "All three are in the Whitefriars Shopping Centre: Flying Tiger at Unit 8, Whitefriars Square, Typo at 7 Gravel Walk and Smiggle at 21A Marlowe Arcade."
+  - question: "What are their opening hours?"
+    answer: "According to Whitefriars' website, Flying Tiger is open Monday to Saturday 9am to 6pm and Sunday 11am to 5pm, Typo Monday to Saturday 9am to 5.30pm and Sunday 11am to 5pm, and Smiggle Monday to Saturday 9am to 5.30pm and Sunday 10.30am to 4.30pm. Hours can change, so check before you go."
+  - question: "What did you buy in Canterbury?"
+    answer: "A pink pineapple coin purse keyring from Flying Tiger, a Mini Keychain Book, a Mode Zip Wallet and a Mode Zip Pocket from Typo, and a pink reversible sling bag from Smiggle."
+  - question: "Can I buy from Typo's UK website?"
+    answer: "Typo's UK online shop no longer appears to be available, and its old UK address redirects to the Australian site. Colours, prices and stock in the Canterbury shop may differ from the website."
 ---
 
 Canterbury is a gorgeous old city, but if you're a stationery lover there's another reason to go: three of the cutest, most colourful shops you can find on a UK high street are all in the same place. **Flying Tiger Copenhagen**, **Typo** and **Smiggle** are all inside the Whitefriars Shopping Centre, which makes it very easy to build a stationery crawl in one afternoon.

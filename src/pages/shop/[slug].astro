@@ -15,7 +15,7 @@ import {
   type Product,
 } from '@utils/collections';
 import { formatPrice } from '@utils/format';
-import { breadcrumbSchema, productSchema } from '@utils/schema';
+import { breadcrumbSchema, faqSchema, productSchema } from '@utils/schema';
 
 export async function getStaticPaths() {
   const products = await getProducts();
@@ -45,6 +45,7 @@ const {
   dimensions,
   material,
   comments,
+  seoTitle,
 } = product.data;
 
 const related = relatedProducts(product, products);
@@ -81,13 +82,51 @@ const breadcrumbs = [
   { label: title },
 ];
 
+// Questions shoppers ask (shown on the page and sent to search/AI as FAQPage data).
+// Policies match the FAQ page; size and material come from this product's details.
+const faq = [
+  {
+    question: 'How do I order?',
+    answer:
+      'Tap Order on WhatsApp on this page to open a chat with the sticker pre-filled, confirm your sheets and delivery address, then pay. There is no online checkout. Every order is hand-packed and posted across India.',
+  },
+  {
+    question: `What size are the stickers in ${title}?`,
+    answer: `${dimensions}. Sheets fit most standard planner formats, including A5 bullet journals, B6 daily planners and Hobonichi-style notebooks.`,
+  },
+  {
+    question: 'Can I write over these stickers?',
+    answer: `Yes. The matte finish accepts fine-liners, ballpoints and gel pens without smearing. Material: ${material}.`,
+  },
+  {
+    question: 'How long does delivery take?',
+    answer:
+      'Orders are dispatched within 2 to 3 business days and delivery across India takes 5 to 8 business days depending on your location, with tracking for every order. Shipping is free on orders above ₹500.',
+  },
+  {
+    question: 'What if my order arrives damaged or incorrect?',
+    answer:
+      'Damaged or incorrect orders qualify for a replacement or refund. Message me within 48 hours of delivery with a photo. Opened or used products cannot be returned because they are handmade.',
+  },
+];
+
 const schemas = [
   breadcrumbSchema(breadcrumbs),
-  productSchema({ name: title, description, image, price, url: path, material }),
+  productSchema({
+    name: title,
+    description,
+    images: [image, ...galleryImages.map((g) => g.src).filter((src) => src !== image)],
+    price,
+    url: path,
+    material,
+    sku: productSlug(product),
+    category: categoryLabel(category),
+  }),
+  faqSchema(faq),
 ];
 ---
 
-<BaseLayout title={title} description={description} ogImage={image} ogType="product" schemas={schemas}>
+<BaseLayout title={seoTitle ?? title} description={description} ogImage={image} ogImageAlt={imageAlt} ogType="product" schemas={schemas}>
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />
 
@@ -186,6 +225,24 @@ const schemas = [
         </p>
       </div>
     </div>
+
+    {/* Questions shoppers ask */}
+    <section class="mx-auto mt-16 max-w-3xl" aria-labelledby="product-faq-heading">
+      <h2 id="product-faq-heading" class="font-display text-3xl font-bold">Questions about this sticker sheet</h2>
+      <div class="mt-4 space-y-4">
+        {
+          faq.map((item) => (
+            <div class="rounded-3xl border-2 border-cream-dark bg-white p-5">
+              <h3 class="font-display text-xl font-bold">{item.question}</h3>
+              <p class="mt-2 text-lg text-ink-soft">{item.answer}</p>
+            </div>
+          ))
+        }
+      </div>
+      <p class="mt-4 text-ink-soft">
+        More answers are on the <a href="/faq" class="font-semibold text-pink-deep underline underline-offset-4">FAQ page</a>.
+      </p>
+    </section>
 
     {/* Comments */}
     {

@@ -1,14 +1,25 @@
 ---
 title: "10 Habit Tracker Ideas for Your Planner (With Stickers That Make It Easy)"
+seoTitle: "10 Habit Tracker Ideas for Your Planner"
 description: "Ten habit tracker ideas for your planner — water, sleep, mood, exercise, reading and more — with sticker pairings that make each one effortless to maintain."
 date: 2026-03-23
+updated: 2026-10-24
 tags: ["habit tracking", "planner stickers", "bullet journal"]
-coverImage: "/images/blog/10-habit-tracker-ideas-for-your-planner-with-stickers-that-make-it-easy.svg"
-coverImageAlt: "Placeholder cover for 10 Habit Tracker Ideas for Your Planner"
+coverImage: "/images/blog/10-habit-tracker-ideas-for-your-planner-with-stickers-that-make-it-easy.png"
+coverImageAlt: "Illustration of a habit tracker card with ticked circles and the number 10"
 draft: false
+faq:
+  - question: "What are good habit tracker ideas for a planner?"
+    answer: "Ten that work well are a daily water intake tracker, sleep, mood, exercise, reading, screen-free time, cooking at home, gratitude, study or focus sessions, and self-care."
+  - question: "Why do habit trackers get abandoned?"
+    answer: "Setup takes effort and maintenance takes consistency, so most hand-drawn tracker grids end up half-filled and forgotten by week three. Pre-made tracker stickers remove the drawing step, so all that is left is filling them in."
+  - question: "How quickly should a habit tracker be to update?"
+    answer: "In under 30 seconds. If it takes longer than that, it is unlikely to survive a busy day."
+  - question: "How can stickers help with habit tracking?"
+    answer: "Stickers do the hard part for you, drawing and labelling the tracker. Curvy Noodle's tracker sticker sheets have pre-formatted grids: place the sticker, then start filling it in."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/10-habit-tracker-ideas-for-your-planner-with-stickers-that-make-it-easy.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/10-habit-tracker-ideas-for-your-planner-with-stickers-that-make-it-easy.png (placeholder currently generated) -->
 
 Habit tracking is one of the most powerful tools in a planner — and one of the most commonly abandoned. The setup takes effort, the maintenance requires consistency, and most hand-drawn tracker grids end up half-filled and quietly forgotten by week three.
 
@@ -34,7 +45,7 @@ Place one emotion sticker each evening to record your dominant feeling for the d
 
 Mark each day you moved your body intentionally — a workout, a walk, yoga, swimming, anything counts. A simple month-grid where you place an exercise activity sticker on active days creates a satisfying visual streak. The gap on rest days is motivating rather than demoralising when you can see them in context of a broader active pattern.
 
-![Exercise tracker stickers by Curvy Noodle for planners in India](/images/blog/workout-filofax.png)
+![Exercise tracker stickers by Curvy Noodle for planners in India](/images/blog/workout-filofax.jpg)
 
 ## 5. Reading Tracker
 

@@ -1,12 +1,23 @@
 ---
 title: "Plan With Me: My Weekly Planner Setup Using Curvy Noodle Stickers"
-description: "A real weekly planner setup walkthrough — from blank spread to finished pages in about 20 minutes, using Curvy Noodle stickers throughout. No artistic skill required."
+seoTitle: "Plan With Me: Weekly Planner Stickers Setup"
+description: "A real weekly planner setup walkthrough, from blank spread to finished pages in about 20 minutes, using Curvy Noodle stickers. No art skills needed."
 date: 2026-04-04
+updated: 2026-10-24
 tags: ["plan with me", "weekly setup", "planner stickers"]
-# TODO: Add cover image at public/images/blog/plan-with-me-my-weekly-planner-setup-using-curvy-noodle-stickers.svg
-coverImage: "/images/blog/plan-with-me-my-weekly-planner-setup-using-curvy-noodle-stickers.svg"
-coverImageAlt: "Placeholder cover for weekly planner setup walkthrough"
+# TODO: Add cover image at public/images/blog/plan-with-me-my-weekly-planner-setup-using-curvy-noodle-stickers.png
+coverImage: "/images/blog/plan-with-me-my-weekly-planner-setup-using-curvy-noodle-stickers.png"
+coverImageAlt: "Illustrated cover for the plan with me weekly planner setup with Curvy Noodle stickers"
 draft: false
+faq:
+  - question: "How long does a weekly planner setup take?"
+    answer: "About 20 minutes in this walkthrough, from a blank spread to a finished week."
+  - question: "When is the best time to set up your week?"
+    answer: "Sunday evenings, between 8 and 9pm. Monday morning before the day starts works equally well. The key is to set up before the week begins."
+  - question: "What are the steps in this weekly setup?"
+    answer: "Set up the weekly spread (5 minutes), add activity stickers (5 minutes), fill in tasks and appointments (5 to 10 minutes), set up the habit tracker (3 minutes), and add an emotion sticker at the end of each day."
+  - question: "How many tasks should I plan per day?"
+    answer: "No more than five. Anything beyond five is usually optimism rather than planning."
 ---
 
 <!-- TODO: Add cover image (placeholder currently generated) -->

@@ -1,19 +1,20 @@
 ---
 title: "400+ Handmade Planner Stickers Bundle – Emotions, Activities & Daily Tasks"
+seoTitle: "400+ Planner Stickers Bundle India"
 price: 399
 compareAtPrice: 499
 category: "bundles"
 tags: ["organization stickers", "planner stickers", "stickers"]
 description: "400+ hand-illustrated emotion and activity stickers across multiple sheets — the complete Curvy Noodle collection in one bundle."
 featured: true
-image: "/images/products/bundle-stickers.PNG"
+image: "/images/products/bundle-stickers.jpg"
 imageAlt: "emotion and activity stickers by curvy noodle for planners in India"
 gallery:
-  - src: /images/products/bundle-stickers.PNG
+  - src: /images/products/bundle-stickers.jpg
     alt: emotion and activity stickers by curvy noodle for planners in India
-  - src: /images/products/the-bundle-stickers.png
+  - src: /images/products/the-bundle-stickers.jpg
     alt: emotion and activity stickers by curvy noodle for planners in India using atelier neorah planners or alicia souza planners
-  - src: /images/products/errands-workout-stickers.png
+  - src: /images/products/errands-workout-stickers.jpg
     alt: emotion and activity stickers by curvy noodle for planners in India using atelier neorah planners or alicia souza planners
 dimensions: "Multiple A5 sheets; individual stickers 1.5–2.5 cm"
 material: "Premium matte paper, handmade in India"

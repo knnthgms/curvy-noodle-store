@@ -1,5 +1,6 @@
 ---
 title: "Passport Traveler's Notebook Setup for 2027: 5 Easy Pages"
+seoTitle: "Passport Traveler's Notebook Setup for 2027"
 description: "Testing a passport size Traveler's notebook for 2027: monthly overview, content calendar, to-do dump, photo pocket and trackers. Watch the 11-minute setup."
 date: 2026-10-24
 tags: ["traveler's notebook", "passport notebook", "plan with me", "2027 planning", "bullet journal"]

@@ -1,14 +1,25 @@
 ---
 title: "How to Use Planner Stickers in Your Bullet Journal (A Beginner's Guide)"
+seoTitle: "How to Use Planner Stickers: Beginner's Guide"
 description: "A beginner's guide to using planner stickers in a bullet journal: sticker types, step-by-step placement, and which planners work best with stickers."
 date: 2026-03-04
+updated: 2026-10-24
 tags: ["bullet journal", "planner stickers", "beginners"]
-coverImage: "/images/blog/how-to-use-planner-stickers-in-your-bullet-journal-a-beginners-guide.svg"
-coverImageAlt: "Placeholder cover for How to Use Planner Stickers in Your Bullet Journal"
+coverImage: "/images/blog/how-to-use-planner-stickers-in-your-bullet-journal-a-beginners-guide.png"
+coverImageAlt: "Illustrated cover for the beginner guide to using planner stickers in a bullet journal"
 draft: false
+faq:
+  - question: "How do you use planner stickers in a bullet journal?"
+    answer: "Sketch your week lightly in pencil, place functional stickers (activity and tracker) first, write your tasks around them, add an emotion sticker at the end of each day, and review the spread at the end of the week."
+  - question: "What types of planner stickers are there?"
+    answer: "The main types are emotion stickers for tracking moods, activity and action stickers for daily tasks, and tracker stickers with pre-formatted boxes and grids for habits and goals."
+  - question: "Which planners work best with sticker sheets?"
+    answer: "Most planners work. Curvy Noodle's sheets fit A5 bullet journals and dot grid notebooks, B6 daily planners, standard weekly planners, Hobonichi Cousin and Weeks planners, and any planner with a daily box at least 2.5 cm wide."
+  - question: "Where can I buy planner stickers in India?"
+    answer: "Curvy Noodle designs and handmakes its sticker sheets in India, with free shipping on orders above Rs. 500."
 ---
 
-<!-- TODO: Add cover image at public/images/blog/how-to-use-planner-stickers-in-your-bullet-journal-a-beginners-guide.svg (placeholder currently generated) -->
+<!-- TODO: Add cover image at public/images/blog/how-to-use-planner-stickers-in-your-bullet-journal-a-beginners-guide.png (placeholder currently generated) -->
 
 If you've recently discovered the world of planner stickers, you're in for a treat. Stickers aren't just decorative — the right ones can make your entire planning system faster, clearer, and genuinely more enjoyable to use. In this guide, we're breaking down exactly how to use planner stickers in a bullet journal or daily planner, from a complete beginner to a confident sticker user.
 

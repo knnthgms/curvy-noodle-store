@@ -5,8 +5,8 @@ import BlogCard from '@components/BlogCard.astro';
 import Breadcrumbs from '@components/Breadcrumbs.astro';
 import Pagination from '@components/Pagination.astro';
 import SearchBar from '@components/SearchBar.astro';
-import { getPublishedPosts, type Post } from '@utils/collections';
-import { breadcrumbSchema } from '@utils/schema';
+import { getPublishedPosts, postPath, type Post } from '@utils/collections';
+import { breadcrumbSchema, pageSchema } from '@utils/schema';
 
 export const getStaticPaths = (async ({ paginate }) => {
   const posts = await getPublishedPosts();
@@ -24,12 +24,30 @@ const allPosts = await getPublishedPosts();
 const allTags = [...new Set(allPosts.flatMap((post) => post.data.tags))].sort();
 
 const breadcrumbs = [{ label: 'Home', href: '/' }, { label: 'Planning Nook' }];
+
+// Every page of the list gets its own title and description, so Google doesn't see duplicates.
+const pageSuffix = page.currentPage > 1 ? ` (Page ${page.currentPage})` : '';
+const seoTitle =
+  page.currentPage > 1 ? `Planning Nook Guides${pageSuffix}` : 'Planning Nook: Planner and Bullet Journal Guides';
+const seoDescription =
+  page.currentPage > 1
+    ? `More planner and bullet journal guides from the Curvy Noodle Planning Nook, page ${page.currentPage} of ${page.lastPage}: setups, habit trackers and honest planning advice.`
+    : 'Planner and bullet journal guides from Curvy Noodle: weekly setups, habit tracker ideas, notebook and stationery advice, and planning tips that actually stick.';
 ---
 
 <BaseLayout
-  title="Planning Nook"
-  description="The Planning Nook — bullet journal guides, planner setups, habit tracker ideas and honest planning advice from Curvy Noodle."
-  schemas={[breadcrumbSchema(breadcrumbs)]}
+  title={seoTitle}
+  description={seoDescription}
+  schemas={[
+    breadcrumbSchema(breadcrumbs),
+    pageSchema({
+      type: 'Blog',
+      name: seoTitle,
+      description: seoDescription,
+      url: page.url.current || '/blog/',
+      items: page.data.map((post) => ({ name: post.data.title, url: postPath(post) })),
+    }),
+  ]}
 >
   <div class="mx-auto max-w-6xl px-4 py-10 sm:px-6">
     <Breadcrumbs items={breadcrumbs} />

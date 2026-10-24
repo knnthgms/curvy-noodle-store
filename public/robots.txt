@@ -1,4 +1,9 @@
+# All search engines and AI assistants are welcome on the public site.
 User-agent: *
 Allow: /
+# Admin screens, the comments API and tracking redirects are not for search.
+Disallow: /admin/
+Disallow: /api/
+Disallow: /go/
 
 Sitemap: https://curvynoodle.com/sitemap-index.xml

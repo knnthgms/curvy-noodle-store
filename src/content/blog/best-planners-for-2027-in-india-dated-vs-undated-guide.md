@@ -1,11 +1,22 @@
 ---
 title: "Which Planner Should You Buy for 2027? A Dated vs Undated Guide for India"
-description: "Dated, undated or dot grid? Match your planning style to the right 2027 pick, with options from Alicia Souza, The Ink Bucket, Atelier Neorah, Paperclip Store and Hobonichi."
+seoTitle: "Best 2027 Planners in India: Dated vs Undated"
+description: "Dated, undated or dot grid? Match your planning style to the best 2027 planner in India, with picks from Alicia Souza, The Ink Bucket, Neorah and more."
 date: 2026-10-12
+updated: 2026-10-24
 tags: ["planners", "2027", "india", "undated planner", "dated planner", "bullet journal"]
-coverImage: "/images/blog/best-planners-for-2027-in-india-dated-vs-undated-guide.svg"
+coverImage: "/images/blog/best-planners-for-2027-in-india-dated-vs-undated-guide.png"
 coverImageAlt: "A dated planner, an undated planner and a dot grid notebook side by side with a 2027 badge"
 draft: false
+faq:
+  - question: "Should I buy a dated or undated planner for 2027?"
+    answer: "Choose dated if you used your last planner faithfully until it ran out. Choose undated if it went quiet by March, because you can start any month and skip weeks without wasting pages."
+  - question: "Which brands have 2027 planners in India?"
+    answer: "Atelier Neorah, Paperclip Store, Alicia Souza and The Ink Bucket have 2027 ranges, and Hobonichi's 2027 range is imported. Prices and stock change, so check each brand's own page."
+  - question: "What paper weight should a 2027 planner have?"
+    answer: "Look for 80 GSM or above, and test your usual pen if you can, because gel pens and markers show through thin pages."
+  - question: "What makes a planner good for stickers?"
+    answer: "Daily or weekly boxes at least 2 cm wide, paper of 80 GSM or thicker, lay-flat binding and some open space for the stickers."
 ---
 
 It's October, which means 2027 planners are landing in stationery shops and the same question comes up every year: do I buy a proper dated planner, or something flexible I can start whenever I like?
@@ -72,7 +83,7 @@ An undated planner is also the smart pick if your year runs on a different calen
 
 If you've ever felt boxed in by a printed planner, skip the printed pages altogether. A dot grid notebook is a blank canvas. You draw your own monthly spreads, weekly layouts and habit trackers, and change the system whenever it stops working.
 
-![A flat lay of different notebook sizes and paper types for journaling](/images/blog/different-notebook-sizes.PNG)
+![A flat lay of different notebook sizes and paper types for journaling](/images/blog/different-notebook-sizes.jpg)
 
 Popular choices in India include Lemome and Leuchtturm1917 (both easy to find online), and Atelier Neorah also makes notebooks. We covered what to look for in our [guide to picking the right journal](/blog/how-to-pick-the-right-journal-for-you/), and if you're new to the format, start with our [bullet journal setup guide for beginners](/blog/bullet-journal-setup-for-beginners-india-everything-you-need-to-start/).
 
